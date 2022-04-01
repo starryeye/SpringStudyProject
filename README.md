@@ -1,10 +1,23 @@
 # SpringStudyProject
 
-독학으로 마스터해보자..
+좋은 백엔드 개발자가 되는 순간까지 계속 공부 하자!
+
+History : commit 참조
 
 ---
 
-Spring 기초 학습
+# 일주일 공부 시스템
+
+매일(Default) : 스프링 공부, leetcode 한문제
+
+주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
+
+짬짬이 : 독서할 목록 
+(객체지향의 사실과 오해, 자바의 정석, effective java, 가상면접 사례로 배우는 대규모 시스템 설계 기초, clean code, clean architecture)
+
+---
+
+# Spring 기초 학습
 
 코드 : hello-spring
 
@@ -12,7 +25,7 @@ Spring 기초 학습
 
 ---
 
-Spring 기본 학습
+# Spring 기본 학습
 
 코드 : core
 
@@ -20,19 +33,19 @@ Spring 기본 학습
 
 ---
 
-TCP/IP & HTTP 학습 
+# TCP/IP & HTTP 학습 
 
 학습 정리 : TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 
 ---
 
-Spring boot + JPA 기초 학습
+# Spring boot + JPA 기초 학습
 
 코드 : jpashop
 
 ---
 
-Spring MVC 학습 
+# Spring MVC 학습 
 
 코드 : servlet (코드 독학 중)
 
