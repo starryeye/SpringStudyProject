@@ -6,7 +6,7 @@ History : commit 참조
 
 ---
 
-# 일주일 공부 시스템
+# 공부 시스템
 
 매일(Default) : 스프링 공부, leetcode 한문제
 
@@ -14,6 +14,8 @@ History : commit 참조
 
 짬짬이 : 독서할 목록 
 (객체지향의 사실과 오해, 자바의 정석, effective java, 가상면접 사례로 배우는 대규모 시스템 설계 기초, clean code, clean architecture)
+
+기술블로그(to be continue)
 
 ---
 
