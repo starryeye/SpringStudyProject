@@ -12,10 +12,14 @@ History : commit 참조
 
 주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
 
-짬짬이 : 독서할 목록 
+독서할 목록 
 (객체지향의 사실과 오해, 자바의 정석, effective java, 가상면접 사례로 배우는 대규모 시스템 설계 기초, clean code, clean architecture)
 
-기술블로그(to be continue)
+기술블로그(to be continue : https://starryeye.tistory.com/)
+
+lettcode : https://github.com/starryeye/leetcode
+
+백준 : https://solved.ac/profile/victory79
 
 ---
 
