@@ -8,7 +8,7 @@ History : commit 참조
 
 # 공부 시스템
 
-매일(Default) : 스프링 공부, leetcode 한문제
+매일(Default) : 스프링 공부, leetcode 한문제(이직용)
 
 주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
 
