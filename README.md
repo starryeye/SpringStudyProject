@@ -15,7 +15,7 @@ History : commit 참조
 독서할 목록 
 (객체지향의 사실과 오해, 자바의 정석, effective java, 가상면접 사례로 배우는 대규모 시스템 설계 기초, clean code, clean architecture)
 
-기술블로그(to be continue : https://starryeye.tistory.com/)
+기술블로그(https://starryeye.tistory.com/)
 
 lettcode : https://github.com/starryeye/leetcode
 
