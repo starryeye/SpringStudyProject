@@ -55,4 +55,6 @@ lettcode : https://github.com/starryeye/leetcode
 
 코드 : servlet (코드 독학 중)
 
+코드 외 학습 정리 : Web_Application_학습정리노트 (추가 정리 중)
+
 ---
