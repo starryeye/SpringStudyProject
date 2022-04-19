@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class RequestBodyJsonController {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+
 
     @PostMapping("/request-body-json-v1")
     public void requestBodyJsonV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -33,6 +33,8 @@ public class RequestBodyJsonController {
 
         response.getWriter().write("ok");
     }
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @ResponseBody
     @PostMapping("/request-body-json-v2")
@@ -47,7 +49,7 @@ public class RequestBodyJsonController {
 
     @ResponseBody
     @PostMapping("/request-body-json-v3")
-    public String requestBodyJsonV3(@RequestBody HelloData helloData) throws IOException {
+    public String requestBodyJsonV3(@RequestBody HelloData helloData) {
 
         log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
 
@@ -56,7 +58,7 @@ public class RequestBodyJsonController {
 
     @ResponseBody
     @PostMapping("/request-body-json-v4")
-    public String requestBodyJsonV4(HttpEntity<HelloData> httpEntity) throws IOException {
+    public String requestBodyJsonV4(HttpEntity<HelloData> httpEntity) {
 
         HelloData data = httpEntity.getBody();
         log.info("username={}, age={}", data.getUsername(), data.getAge());
@@ -66,7 +68,7 @@ public class RequestBodyJsonController {
 
     @ResponseBody
     @PostMapping("/request-body-json-v5")
-    public HelloData requestBodyJsonV5(@RequestBody HelloData data) throws IOException {
+    public HelloData requestBodyJsonV5(@RequestBody HelloData data) {
 
 
         log.info("username={}, age={}", data.getUsername(), data.getAge());
