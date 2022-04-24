@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class RequestBodyJsonController {
 
-
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping("/request-body-json-v1")
     public void requestBodyJsonV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -33,8 +33,6 @@ public class RequestBodyJsonController {
 
         response.getWriter().write("ok");
     }
-
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     @ResponseBody
     @PostMapping("/request-body-json-v2")
