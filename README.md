@@ -8,7 +8,7 @@ History : commit 참조
 
 # 공부 시스템
 
-매일(Default) : 스프링 공부 or leetcode solve
+매일(Default) : 스프링 공부 or leetcode solve op programmers solve
 
 주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
 
@@ -20,6 +20,8 @@ History : commit 참조
 lettcode : https://github.com/starryeye/leetcode
 
 백준 : https://solved.ac/profile/victory79
+
+프로그래머스 : https://github.com/starryeye/programmers
 
 ---
 
