@@ -8,7 +8,7 @@ History : commit 참조
 
 # 공부 시스템
 
-매일(Default) : 스프링 공부 or leetcode solve op programmers solve
+매일(Default) : 스프링 공부 or leetcode solve or programmers solve
 
 주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
 
@@ -57,6 +57,6 @@ lettcode : https://github.com/starryeye/leetcode
 
 코드 : ... 학습 중
 
-코드 외 학습 정리 : Web_Application_학습정리노트 (추가 정리 중) // MVC 부터는 기술블로그에서 계속
+코드 외 학습 정리 : Web_Application_학습정리노트 (추가 정리 중) // DispatcherServlet 부터는 기술블로그에서 계속
 
 ---
