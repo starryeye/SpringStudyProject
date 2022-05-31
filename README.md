@@ -57,6 +57,6 @@ lettcode : https://github.com/starryeye/leetcode
 
 코드 : ... 학습 중
 
-코드 외 학습 정리 : Web_Application_학습정리노트 (추가 정리 중) // MVC 부터는 기술블로그에서 계속
+코드 외 학습 정리 : Web_Application_학습정리노트 (추가 정리 중) // DispatcherServlet 부터는 기술블로그에서 계속
 
 ---
