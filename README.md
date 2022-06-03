@@ -26,6 +26,12 @@ lettcode : https://github.com/starryeye/leetcode
 
 ---
 
+학습 정리노트 기술 블로그로 이동 필요
+
+파일 형태로 그대로 옮길지... 재구성하여 포스팅 할지 검토 필요..
+
+---
+
 # Spring 코어 학습
 
 Spring_학습정리노트1 (hello-spring)
