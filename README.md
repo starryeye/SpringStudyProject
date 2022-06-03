@@ -36,7 +36,7 @@ Spring_학습정리노트2 (core)
 
 # TCP/IP & HTTP 학습 
 
-학습 정리 : TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
+TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 
 ---
 
