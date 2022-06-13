@@ -44,6 +44,8 @@ Spring_학습정리노트2 (core)
 
 TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 
+-> 운영체제, HTTP, TCP 더 깊이 있게 학습 필요
+
 ---
 
 # Spring boot + JPA 기초 학습
