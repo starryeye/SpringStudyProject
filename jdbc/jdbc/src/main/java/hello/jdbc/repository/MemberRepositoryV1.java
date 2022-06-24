@@ -58,7 +58,7 @@ public class MemberRepositoryV1 {
             rs = pstmt.executeQuery();
             if(rs.next()) {
                 Member member = new Member();
-                member.setMemberId(rs.getString("member_di"));
+                member.setMemberId(rs.getString("member_id"));
                 member.setMoney(rs.getInt("money"));
                 return member;
             } else {
