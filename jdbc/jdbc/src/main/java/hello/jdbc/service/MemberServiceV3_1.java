@@ -55,17 +55,6 @@ public class MemberServiceV3_1 {
         memberRepository.update(toId, toMember.getMoney() + money);
     }
 
-    private void release(Connection con) {
-        if(con != null) {
-            try {
-                con.close();
-                con.setAutoCommit(true);
-            } catch (Exception e) {
-                log.info("error", e);
-            }
-        }
-    }
-
     //예외가 발생하는 것을 알아보기 위한 ...
     private void validation(Member toMember) {
         if(toMember.getMemberId().equals("ex")) {
