@@ -1,6 +1,6 @@
 # SpringStudyProject
 
-좋은 백엔드 개발자가 되는 순간까지 계속 공부 하자!
+좋은 개발자가 되는 순간까지 계속 공부 하자!
 
 History : commit 참조
 
