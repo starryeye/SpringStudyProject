@@ -99,7 +99,6 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
             param.add(maxPrice);
         }
         log.info("sql={}", sql);
-        
         return template.query(sql, itemRowMapper(), param.toArray());
 
     }
