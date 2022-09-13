@@ -110,4 +110,23 @@ class MemberServiceTest {
         Assertions.assertTrue(memberRepository.find(username).isEmpty());
         Assertions.assertTrue(logRepository.find(username).isEmpty());
     }
+
+    /***
+     * memberService        @Transactional:ON
+     * memberRepository     @Transactional:ON
+     * logRepository        @Transactional:ON, Exception
+     */
+    @Test
+    void recoverException_fail() {
+        //given
+        String username = "로그예외_recoverException_fail";
+
+        //when
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> memberService.joinV2(username))
+                .isInstanceOf(RuntimeException.class);
+
+        //then: 예외를 잡았지만.. 모든 데이터가 롤백
+        Assertions.assertTrue(memberRepository.find(username).isEmpty());
+        Assertions.assertTrue(logRepository.find(username).isEmpty());
+    }
 }
