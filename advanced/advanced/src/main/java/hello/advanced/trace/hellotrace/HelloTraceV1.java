@@ -5,6 +5,13 @@ import hello.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * HelloTraceV1 클래스는..
+ * TraceStatus를 다루기 위한 메서드 집합체이다. (Status객체를 맴버로 가지지 않음.
+ * TraceStatus를 생성 후 반환
+ * TraceStatus를 종료
+ */
+
 @Slf4j
 @Component
 public class HelloTraceV1 {
