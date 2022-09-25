@@ -17,7 +17,7 @@ public class OrderRepositoryV3 {
 
         try{
             //로그추적기-시작
-            status = trace.begin("OrderRepositoryV1.save()");
+            status = trace.begin("OrderRepositoryV3.save()");
 
             //비즈니스
             //저장 로직

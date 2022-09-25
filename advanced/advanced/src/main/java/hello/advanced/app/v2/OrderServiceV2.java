@@ -20,7 +20,7 @@ public class OrderServiceV2 {
 
         try{
             //로그추적기-시작
-            status = trace.beginSync(traceId,"OrderServiceV1.orderItem()");
+            status = trace.beginSync(traceId,"OrderServiceV2.orderItem()");
 
             //비즈니스
             orderRepository.save(status.getTraceId(), itemId);

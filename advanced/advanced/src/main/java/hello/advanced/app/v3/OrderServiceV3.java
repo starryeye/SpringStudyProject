@@ -18,7 +18,7 @@ public class OrderServiceV3 {
 
         try{
             //로그추적기-시작
-            status = trace.begin("OrderServiceV1.orderItem()");
+            status = trace.begin("OrderServiceV3.orderItem()");
 
             //비즈니스
             orderRepository.save(itemId);
