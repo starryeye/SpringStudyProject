@@ -2,8 +2,6 @@
 
 좋은 개발자가 되는 순간까지 계속 공부 하자!
 
-History : commit 참조
-
 ---
 
 # 공부 시스템
@@ -34,13 +32,21 @@ lettcode : https://github.com/starryeye/leetcode
 
 # Spring 코어 학습
 
+내용 : 스프링 컨테이너(Ioc, DI), 스프링 빈(생성 주기, 스코프) 등
+
+자료 :
+
 Spring_학습정리노트1 (hello-spring)
 
 Spring_학습정리노트2 (core)
 
 ---
 
-# TCP/IP & HTTP 학습 
+# TCP/IP & HTTP 학습
+
+내용 : 웹 요청/응답 흐름, TCP/IP, HTTP, TLS 등
+
+자료 :
 
 TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 
@@ -57,5 +63,7 @@ TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 # Spring MVC 학습 
 
 Web_Application_학습정리노트 (추가 정리 중) // DispatcherServlet 부터는 기술블로그에서 계속
+
+기술 블로그 : https://starryeye.tistory.com/
 
 ---
