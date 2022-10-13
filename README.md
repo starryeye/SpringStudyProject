@@ -48,7 +48,7 @@ Spring_학습정리노트2 (core)
 
 자료 :
 
-TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
+TCP_IP_HTTP_학습정리노트
 
 -> 운영체제, HTTP, TCP 더 깊이 있게 학습 필요
 
@@ -62,7 +62,7 @@ TCP_IP_HTTP_학습정리노트 (추가 정리 및 독학 중)
 
 # Spring MVC 학습 
 
-Web_Application_학습정리노트 (추가 정리 중) // DispatcherServlet 부터는 기술블로그에서 계속
+Web_Application_학습정리노트 // DispatcherServlet 부터는 기술블로그에서 계속
 
 기술 블로그 : https://starryeye.tistory.com/
 
