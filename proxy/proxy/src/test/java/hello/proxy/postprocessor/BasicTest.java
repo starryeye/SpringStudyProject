@@ -26,7 +26,7 @@ public class BasicTest {
 
     @Configuration
     static class BasicConfig {
-        
+
         @Bean(name = "beanA")
         public A a() {
             return new A();
