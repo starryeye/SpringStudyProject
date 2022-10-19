@@ -29,7 +29,7 @@ public class ThreadLocalServiceTest {
         threadB.setName("thread-B");
 
         threadA.start();
-        sleep(2000); // 2초동안 쉬기 때문에 동시성 문제 발생 하지 않음
+        sleep(100); // ThreadLocal 을 사용했기 때문에 동시성 문제 발생하지 않음.
         threadB.start();
 
         sleep(3000);
