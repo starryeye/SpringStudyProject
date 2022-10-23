@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.*;
 @Slf4j
 @Aspect
 public class AspectV6Advice {
-    
+
     //hello.aop.order 패키지와 하위 패키지 이면서 클래스 이름 패턴이 *Service인 것.
     @Around("hello.aop.order.aop.Pointcuts.orderAndService()")
     public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
