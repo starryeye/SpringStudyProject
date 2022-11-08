@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class CallLogAspect {
 
-    @Before("execution(* hello.aop.internalcall..*.*(..)")
+    @Before("execution(* hello.aop.internalcall..*.*(..))")
     public void doLog(JoinPoint joinPoint) {
         log.info("aop={}", joinPoint.getSignature());
     }
