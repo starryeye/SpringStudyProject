@@ -16,11 +16,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setId(1L);
-            member.setName("HelloA");
 
-            entityManager.persist(member);
+            Member member1 = entityManager.find(Member.class, 150L);
+
+            member1.setName("ZZZZZZZ");
+
 
             tx.commit();
         } catch (Exception e) {
