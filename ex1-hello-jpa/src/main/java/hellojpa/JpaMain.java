@@ -22,7 +22,7 @@ public class JpaMain {
 
             member1.setName("AAAA");
 
-            entityManager.detach(member1);
+
 
 
             tx.commit();
