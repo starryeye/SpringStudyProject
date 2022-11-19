@@ -5,12 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MM<")
 public class Member {
 
     @Id
     private Long id;
     private String name;
+    private int age;
 
     public Member() {} //jpa는 기본생성자 필요
 
