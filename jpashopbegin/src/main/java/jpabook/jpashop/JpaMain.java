@@ -21,7 +21,7 @@ public class JpaMain {
         try {
 
             entityManager.find(Order.class, 1L);
-            
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
