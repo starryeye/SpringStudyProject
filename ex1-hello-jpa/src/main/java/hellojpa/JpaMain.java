@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
 
@@ -26,11 +27,16 @@ public class JpaMain {
             member.setTeam(team);
             entityManager.persist(member);
 
+            entityManager.flush();//이게..
+            entityManager.clear();//이게.. 있어야.. 깔끔하게 가져온데..
+
             Member findMember = entityManager.find(Member.class, member.getId());
 
-            Team findTeam = findMember.getTeam();
+            List<Member> members = findMember.getTeam().getMembers();
 
-            System.out.println("findTeam = " + findTeam.getName());
+            for(Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
 
             tx.commit();
         } catch (Exception e) {
