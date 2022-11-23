@@ -18,22 +18,17 @@ public class JpaMain {
 
         try {
 
-            Team team = new Team();
-            team.setName("TeamA");
-            entityManager.persist(team);
-
             Member member = new Member();
             member.setUsername("member1");
-            member.changeTeam(team);
+
             entityManager.persist(member);
+
+            Team team = new Team();
+            team.setName("teamA");
 
             team.getMembers().add(member);
 
-            entityManager.flush();//이게..
-            entityManager.clear();//이게.. 있어야.. 깔끔하게 가져온데..
-
-            Team findTeam = entityManager.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
+            entityManager.persist(team);
 
 
             tx.commit();
