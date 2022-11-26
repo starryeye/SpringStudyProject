@@ -9,6 +9,7 @@ import java.util.List;
 public class JpaMain {
 
     public static void main(String[] args) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
         EntityManager entityManager = emf.createEntityManager();
@@ -18,21 +19,23 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
+            Movie movie = new Movie();
+            movie.setDirector("AAA");
+            movie.setActor("BBB");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            entityManager.persist(member);
+            entityManager.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
+            entityManager.flush();
+            entityManager.clear();
 
-            team.getMembers().add(member);
-
-            entityManager.persist(team);
-
+            Movie findMovie = entityManager.find(Movie.class, movie.getId());
+            System.out.println("find= " + findMovie.getId());
 
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         } finally {
             entityManager.close();
