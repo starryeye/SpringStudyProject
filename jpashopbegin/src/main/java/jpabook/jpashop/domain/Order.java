@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ORDERS") //ORDER는.. DB 예약어 이므로, DB Table 명은.. ORDERS, 객체 이름은 Order
-public class Order {
+public class Order extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "ORDER_ID")
