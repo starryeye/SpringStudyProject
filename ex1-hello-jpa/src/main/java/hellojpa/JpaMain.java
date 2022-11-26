@@ -19,19 +19,39 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            entityManager.persist(team);
+
             Member member = new Member();
             member.setUsername("hello");
+            member.setTeam(team);
 
             entityManager.persist(member);
+
 
             entityManager.flush();
             entityManager.clear();
 
-//            Member findMember = entityManager.find(Member.class, member.getId());
-            Member findMember = entityManager.getReference(Member.class, member.getId());
-            System.out.println("findMember = " + findMember.getClass());
-            System.out.println("findMember.id = " + findMember.getId());
-            System.out.println("findMember.username = " + findMember.getUsername());
+            Member m = entityManager.getReference(Member.class, member.getId()); //member Proxy, team Proxy
+
+
+            System.out.println("=======1=======");
+            m.getUsername();
+            System.out.println("=======2=======");
+            m.getTeam().getName();
+            System.out.println("=======3=======");
+
+            entityManager.flush();
+            entityManager.clear();
+
+            m = entityManager.find(Member.class, member.getId()); //member Entity, team proxy
+
+            System.out.println("m = " + m.getTeam().getClass());
+
+            System.out.println("=======4=======");
+            m.getTeam().getName();
+            System.out.println("=======5=======");
 
             tx.commit();
         } catch (Exception e) {
