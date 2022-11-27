@@ -19,39 +19,22 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            entityManager.persist(team);
 
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setTeam(team);
+            Parent parent = new Parent();
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            entityManager.persist(member);
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-
-            entityManager.flush();
-            entityManager.clear();
-
-            Member m = entityManager.getReference(Member.class, member.getId()); //member Proxy, team Proxy
-
-
-            System.out.println("=======1=======");
-            m.getUsername();
-            System.out.println("=======2=======");
-            m.getTeam().getName();
-            System.out.println("=======3=======");
+            entityManager.persist(parent); //cascade에 의해 child도 영속성 컨텍스트로 관리가 되도록 한다.
 
             entityManager.flush();
             entityManager.clear();
 
-            m = entityManager.find(Member.class, member.getId()); //member Entity, team proxy
+            Parent findParent = entityManager.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
-            System.out.println("m = " + m.getTeam().getClass());
-
-            System.out.println("=======4=======");
-            m.getTeam().getName();
-            System.out.println("=======5=======");
 
             tx.commit();
         } catch (Exception e) {
