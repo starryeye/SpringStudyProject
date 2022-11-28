@@ -20,20 +20,12 @@ public class JpaMain {
 
         try {
 
-            Parent parent = new Parent();
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city", "street", "10000"));
+            member.setWorkPeriod(new Period());
 
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            entityManager.persist(parent); //cascade에 의해 child도 영속성 컨텍스트로 관리가 되도록 한다.
-
-            entityManager.flush();
-            entityManager.clear();
-
-            Parent findParent = entityManager.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
+            entityManager.persist(member);
 
 
             tx.commit();
@@ -45,18 +37,5 @@ public class JpaMain {
         }
 
         emf.close();
-    }
-
-    private static void printMember(Member member) {
-        System.out.println("member = " + member.getUsername());
-    }
-
-    private static void printMemberAndTeam(Member member) {
-
-        String username = member.getUsername();
-        System.out.println("username = " + username);
-
-        Team team = member.getTeam();
-        System.out.println("team = " + team.getName());
     }
 }
