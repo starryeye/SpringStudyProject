@@ -27,15 +27,10 @@ public class JpaMain {
             member1.setHomeAddress(address);
             entityManager.persist(member1);
 
-            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            Address newAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setHomeAddress(copyAddress);
-            entityManager.persist(member2);
+            member1.setHomeAddress(newAddress);
 
-            //위험
-            member1.getHomeAddress().setCity("newCity");
 
 
             tx.commit();
