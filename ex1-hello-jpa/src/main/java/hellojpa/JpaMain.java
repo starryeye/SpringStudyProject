@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -20,17 +21,35 @@ public class JpaMain {
 
         try {
 
-            Address address = new Address("city", "street", "10000");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("city1", "street1", "10000"));
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            entityManager.persist(member1);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
-            Address newAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            member.getAddressHistory().add(new Address("old1", "street", "10001"));
+            member.getAddressHistory().add(new Address("old1", "street", "10001"));
 
-            member1.setHomeAddress(newAddress);
 
+            entityManager.persist(member);
+
+            entityManager.flush();
+            entityManager.clear();
+
+            System.out.println("================= Start ====================");
+            Member findMember = entityManager.find(Member.class, member.getId());
+
+            List<Address> addressHistory = findMember.getAddressHistory();
+            for(Address address : addressHistory) {
+                System.out.println("address = " + address.getCity());
+            }
+
+            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+            for(String favoriteFood : favoriteFoods) {
+                System.out.println("favoriteFood = " + favoriteFood);
+            }
 
 
             tx.commit();
