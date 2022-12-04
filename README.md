@@ -54,12 +54,6 @@ TCP_IP_HTTP_학습정리노트
 
 ---
 
-# Spring boot + JPA 기초 학습
-
-코드 : jpashop
-
----
-
 # Spring MVC 학습 
 
 Web_Application_학습정리노트 // DispatcherServlet 부터는 기술블로그에서 계속
