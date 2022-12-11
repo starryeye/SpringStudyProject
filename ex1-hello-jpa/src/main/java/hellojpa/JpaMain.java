@@ -30,7 +30,7 @@ public class JpaMain {
             member.getFavoriteFoods().add("피자");
 
             member.getAddressHistory().add(new Address("old1", "street", "10001"));
-            member.getAddressHistory().add(new Address("old1", "street", "10001"));
+            member.getAddressHistory().add(new Address("old2", "street", "10002"));
 
 
             entityManager.persist(member);
@@ -41,15 +41,20 @@ public class JpaMain {
             System.out.println("================= Start ====================");
             Member findMember = entityManager.find(Member.class, member.getId());
 
-            List<Address> addressHistory = findMember.getAddressHistory();
-            for(Address address : addressHistory) {
-                System.out.println("address = " + address.getCity());
-            }
+            //homeCity -> newCity
+//            Address a = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
 
-            Set<String> favoriteFoods = findMember.getFavoriteFoods();
-            for(String favoriteFood : favoriteFoods) {
-                System.out.println("favoriteFood = " + favoriteFood);
-            }
+            //치킨을 한식으로
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("한식");
+
+            //이미 존재하는 old1을 지우고 싶을땐
+            //equals를 기본으로 동작한다..
+            //쿼리가 update로 되지 않고 delete, insert(2회, 컬랙션에 저장될 모든 요소) 각각 나간다.
+            //쓰지말자..
+            findMember.getAddressHistory().remove(new Address("old1", "street", "10001"));
+            findMember.getAddressHistory().add(new Address("newCity1", "street", "10001"));
 
 
             tx.commit();
