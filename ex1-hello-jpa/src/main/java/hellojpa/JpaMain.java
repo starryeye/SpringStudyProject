@@ -29,8 +29,8 @@ public class JpaMain {
             member.getFavoriteFoods().add("족발");
             member.getFavoriteFoods().add("피자");
 
-            member.getAddressHistory().add(new Address("old1", "street", "10001"));
-            member.getAddressHistory().add(new Address("old2", "street", "10002"));
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "10001"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "10002"));
 
 
             entityManager.persist(member);
@@ -53,8 +53,8 @@ public class JpaMain {
             //equals를 기본으로 동작한다..
             //쿼리가 update로 되지 않고 delete, insert(2회, 컬랙션에 저장될 모든 요소) 각각 나간다.
             //쓰지말자..
-            findMember.getAddressHistory().remove(new Address("old1", "street", "10001"));
-            findMember.getAddressHistory().add(new Address("newCity1", "street", "10001"));
+            //findMember.getAddressHistory().remove(new Address("old1", "street", "10001"));
+            //findMember.getAddressHistory().add(new Address("newCity1", "street", "10001"));
 
 
             tx.commit();
