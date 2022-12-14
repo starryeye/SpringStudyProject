@@ -20,21 +20,30 @@ public class JpaMain {
             member.setAge(10);
             entityManager.persist(member);
 
-            TypedQuery<Member> query = entityManager.createQuery("select m From Member m", Member.class);
-            Query query2 = entityManager.createQuery("select m.username, m.age From Member m");
+            entityManager.flush();
+            entityManager.clear();
 
-            List<Member> resultList = query.getResultList();
+            List<Member> result = entityManager.createQuery("select m From Member m", Member.class)
+                    .getResultList();
 
-            for (Member member1 : resultList) {
-                System.out.println("member1 = " + member1);
+            Member findMember = result.get(0);
+            findMember.setAge(20);
+
+            List resultList = entityManager.createQuery("select m.username, m.age from Member m")
+                            .getResultList();
+
+            for (Object o : resultList) {
+                Object[] r = (Object[]) o;
+                System.out.println("result = " + r[0]);
+                System.out.println("result = " + r[1]);
             }
 
+            List<MemberDTO> resultNEW = entityManager.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+                    .getResultList();
 
-            TypedQuery<Member> query3 = entityManager.createQuery("select m From Member m where m.username =:username", Member.class);
-            query3.setParameter("username", "member1");
-            Member singleResult = query3.getSingleResult();
-            System.out.println("singleResult = " + singleResult);
-
+            MemberDTO memberDTO = resultNEW.get(0);
+            System.out.println("memberDTO = " + memberDTO.getUsername());
+            System.out.println("memberDTO = " + memberDTO.getAge());
 
             tx.commit();
         } catch (Exception e) {
