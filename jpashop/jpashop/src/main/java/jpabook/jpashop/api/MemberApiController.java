@@ -33,6 +33,7 @@ public class MemberApiController {
         return new CreateMemberResponse(id);
     }
 
+    //원래 부분 수정은 Patch or Post 가 REST 스타일에 맞긴하다..
     @PutMapping("/api/v2/members/{id}")
     public UpdateMemberResponse updateMemberResponse(
             @PathVariable("id") Long id,
