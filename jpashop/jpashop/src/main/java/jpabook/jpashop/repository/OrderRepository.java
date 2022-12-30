@@ -2,9 +2,7 @@ package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -96,6 +94,23 @@ public class OrderRepository {
                 "select o from Order o" +
                         " join fetch o.member m" +
                         " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        //o에 OrderSimpleQueryDto 가 매핑 될 수 없다..
+        //o는 Entity나 Value Object여야 한다.
+//        return em.createQuery(
+//                "select o from Order o" +
+//                        " join o.member m" +
+//                        " join o.delivery d", OrderSimpleQueryDto.class
+//        ).getResultList();
+
+        return em.createQuery(
+                "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
+                        " from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d", OrderSimpleQueryDto.class
         ).getResultList();
     }
 }
