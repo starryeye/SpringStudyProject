@@ -79,4 +79,16 @@ class MemberRepositoryTest {
         //sql 확인
         List<Member> helloBy = memberRepository.findHelloBy();
     }
+
+    @Test
+    public void testNamedQuery() {
+        Member m1 = new Member(10, "AAA");
+        Member m2 = new Member(20, "BBB");
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsername("AAA");
+        Member findMember = result.get(0);
+        Assertions.assertThat(findMember).isEqualTo(m1);
+    }
 }
