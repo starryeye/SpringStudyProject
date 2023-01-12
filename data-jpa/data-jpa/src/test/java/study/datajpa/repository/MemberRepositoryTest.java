@@ -10,6 +10,7 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -133,6 +134,20 @@ class MemberRepositoryTest {
         List<MemberDto> memberDto = memberRepository.findMemberDto();
         for (MemberDto dto : memberDto) {
             System.out.println("dto = " + dto);
+        }
+    }
+
+    @Test
+    public void findByNames() {
+
+        Member m1 = new Member(10, "AAA");
+        Member m2 = new Member(20, "BBB");
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> usernameList = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
+        for (Member member : usernameList) {
+            System.out.println("member = " + member);
         }
     }
 }
