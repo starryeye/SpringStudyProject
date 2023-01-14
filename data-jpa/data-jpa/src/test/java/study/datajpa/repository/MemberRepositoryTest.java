@@ -4,6 +4,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
@@ -162,5 +165,34 @@ class MemberRepositoryTest {
         //List<Member> aaa = memberRepository.findListByUsername("AAA");
         //Member aaa = memberRepository.findMemberByUsername("AAA");
         Optional<Member> aaa = memberRepository.findOptionalByUsername("AAA");
+    }
+
+    @Test
+    public void paging() {
+        //given
+        memberRepository.save(new Member(10, "member1"));
+        memberRepository.save(new Member(10, "member2"));
+        memberRepository.save(new Member(10, "member3"));
+        memberRepository.save(new Member(10, "member4"));
+        memberRepository.save(new Member(10, "member5"));
+
+        int age = 10;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        //when
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+
+        Page<MemberDto> toMap = page.map(member -> new MemberDto(member.getId(), member.getUsername(), null));
+
+
+        //then
+        List<Member> content = page.getContent();
+
+        Assertions.assertThat(content.size()).isEqualTo(3);
+        Assertions.assertThat(page.getTotalElements()).isEqualTo(5);
+        Assertions.assertThat(page.getNumber()).isEqualTo(0);
+        Assertions.assertThat(page.getTotalPages()).isEqualTo(2);
+        Assertions.assertThat(page.isFirst()).isTrue();
+        Assertions.assertThat(page.hasNext()).isTrue();
     }
 }
