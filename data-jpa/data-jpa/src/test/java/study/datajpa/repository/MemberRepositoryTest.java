@@ -12,6 +12,7 @@ import study.datajpa.entity.Team;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -149,5 +150,17 @@ class MemberRepositoryTest {
         for (Member member : usernameList) {
             System.out.println("member = " + member);
         }
+    }
+
+    @Test
+    public void returnType() {
+        Member m1 = new Member(10, "AAA");
+        Member m2 = new Member(20, "BBB");
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        //List<Member> aaa = memberRepository.findListByUsername("AAA");
+        //Member aaa = memberRepository.findMemberByUsername("AAA");
+        Optional<Member> aaa = memberRepository.findOptionalByUsername("AAA");
     }
 }
