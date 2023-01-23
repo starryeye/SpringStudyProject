@@ -6,13 +6,17 @@
 
 # 공부 시스템
 
-매일(Default) : 스프링 공부 or leetcode solve or programmers solve
+매일(Default) : 스프링/JPA 공부 or leetcode solve or programmers solve
 
-주말 : 공부한 것을 바탕으로 스프링 학습 정리 노트 생성 및 복습 
+---
 
-독서할 목록...
+# 읽고 있는 책
+객체지향의 사실과 오해
+가상 면접 사례로 배우는 대규모 시스템 설계 기초
+자바 ORM 표준 JPA 프로그래밍
+오브젝트
 
-(객체지향의 사실과 오해, 자바의 정석, effective java, 가상면접 사례로 배우는 대규모 시스템 설계 기초, clean code, clean architecture)
+---
 
 기술블로그(https://starryeye.tistory.com/)
 
