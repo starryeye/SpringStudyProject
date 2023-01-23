@@ -8,7 +8,7 @@
 
 # 공부 시스템
 
-매일(Default) : 스프링/JPA 공부 or leetcode solve or programmers solve
+매일(Default) : Spring/JPA study or Leetcode/Programmers solve
 
 ---
 
