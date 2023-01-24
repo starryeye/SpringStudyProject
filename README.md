@@ -24,7 +24,7 @@
 
 ---
 
-기술블로그(https://starryeye.tistory.com/)
+기술블로그 : https://starryeye.tistory.com
 
 lettcode : https://github.com/starryeye/leetcode
 
