@@ -33,7 +33,7 @@ public class User {
 
     //User 객체, Authority 객체의 다대다 관계는
     //user, user_authority, authority table 3개로 일대다, 다대일로 푼 연관관계로 매핑하겠다.
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
