@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo() {
-        return ResponseEntity.ok(new UserDto(userService.getMyUserWithAuthorities().get()));
+        return ResponseEntity.ok(new UserDto(userService.getMyUserWithAuthorities()));
     }
 
     /**
@@ -48,6 +48,6 @@ public class UserController {
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(new UserDto(userService.getUserWithAuthorities(username).get()));
+        return ResponseEntity.ok(new UserDto(userService.getUserWithAuthorities(username)));
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import study.jwttutorial.dto.UserDto;
 import study.jwttutorial.entity.Authority;
 import study.jwttutorial.entity.User;
+import study.jwttutorial.exception.DuplicateMemberException;
+import study.jwttutorial.exception.NotFoundMemberException;
 import study.jwttutorial.repository.UserRepository;
 import study.jwttutorial.util.SecurityUtil;
 
@@ -31,7 +33,7 @@ public class UserService {
 
         //username 이 DB 에 존재하는지 확인
         if(userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
+            throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
 
         //username 이 DB 에 존재 하지 않으면, 권한 정보 생성
@@ -56,8 +58,9 @@ public class UserService {
      * username 을 기반으로 DB 에서, user 엔티티와 authority 엔티티를 조인해서 가져옴
      */
     @Transactional(readOnly = true)
-    public Optional<User> getUserWithAuthorities(String username) {
-        return userRepository.findOneWithAuthoritiesByUsername(username);
+    public User getUserWithAuthorities(String username) {
+        return userRepository.findOneWithAuthoritiesByUsername(username)
+                .orElseThrow(() -> new NotFoundMemberException("회원을 찾을 수 없습니다."));
     }
 
     /**
@@ -65,7 +68,8 @@ public class UserService {
      * user 엔티티와 authority 엔티티를 조인하여 user 엔티티를 가져온다.
      */
     @Transactional(readOnly = true)
-    public Optional<User> getMyUserWithAuthorities() {
-        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+    public User getMyUserWithAuthorities() {
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername)
+                .orElseThrow(() -> new NotFoundMemberException("회원을 찾을 수 없습니다."));
     }
 }
