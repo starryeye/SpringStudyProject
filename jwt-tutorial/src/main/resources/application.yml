@@ -26,6 +26,6 @@ jwt:
   # ??? ????
   token-validity-in-seconds: 86400
 
-#logging:
-#  level:
-#    root: debug
+logging:
+  level:
+    root: debug

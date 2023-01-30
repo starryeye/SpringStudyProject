@@ -1,5 +1,6 @@
 package study.jwttutorial.jwt;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -8,13 +9,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * TokenProvider, JwtFilter 를 SecurityConfig 에 적용하기 위한 클래스
  */
+@RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    private TokenProvider tokenProvider;
-
-    public JwtSecurityConfig(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
+    private final TokenProvider tokenProvider;
 
     /**
      * SecurityConfigurerAdapter 를 extends 하고 Configure 메서드를 오버라이딩

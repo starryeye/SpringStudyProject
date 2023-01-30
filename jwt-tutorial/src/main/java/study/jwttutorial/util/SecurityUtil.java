@@ -1,5 +1,6 @@
 package study.jwttutorial.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -11,12 +12,8 @@ import java.util.Optional;
 /**
  * 간단한 유틸리티 메서드 모음
  */
+@Slf4j
 public class SecurityUtil {
-
-    private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
-
-    private SecurityUtil() {
-    }
 
     /**
      * Security Context 의 Authentication 객체를 이용해 username 을 리턴해주는 역할
@@ -29,7 +26,7 @@ public class SecurityUtil {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication == null) {
-            logger.debug("Security Context 에 인증 정보가 없습니다.");
+            log.debug("Security Context 에 인증 정보가 없습니다.");
             return Optional.empty();
         }
 

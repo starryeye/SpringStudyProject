@@ -1,5 +1,7 @@
 package study.jwttutorial.jwt;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -18,17 +20,13 @@ import java.io.IOException;
  * JWT 를 위한 커스텀 필터
  * GenericFilterBean 을 상속 받아서 doFilter Override, 실제 필터링 로직은 doFilter 내부에 작성
  */
+@Slf4j
+@RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
-
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(JwtFilter.class);
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private TokenProvider tokenProvider;
-
-    public JwtFilter(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
+    private final TokenProvider tokenProvider;
 
     /**
      * JWT 토큰의 인증 정보를 현재 실행 중인 SecurityContext 에 저장하는 역할 수행
@@ -46,9 +44,9 @@ public class JwtFilter extends GenericFilterBean {
         if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            logger.debug("security context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
+            log.debug("security context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
         }else {
-            logger.debug("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
+            log.debug("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
         }
 
         chain.doFilter(request, response);
