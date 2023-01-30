@@ -2,9 +2,12 @@ package study.jwttutorial.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import study.jwttutorial.entity.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 회원 가입 시, 사용 할 UserDto 클래스
@@ -36,4 +39,14 @@ public class UserDto {
     @NotNull
     @Size(min = 3, max = 50)
     private String nickname;
+
+    private Set<AuthorityDto> authorityDtoset;
+
+    public UserDto(User user) {
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.authorityDtoset = user.getAuthorities().stream()
+                .map(authority -> new AuthorityDto(authority.getAuthorityName()))
+                .collect(Collectors.toSet());
+    }
 }

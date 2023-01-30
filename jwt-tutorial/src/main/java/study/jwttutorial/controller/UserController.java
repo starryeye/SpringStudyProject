@@ -27,8 +27,8 @@ public class UserController {
      * UserDto 를 받아서 UserService 의 signup 메서드 호출
      */
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@Valid @RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.signup(userDto));
+    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
+        return ResponseEntity.ok(new UserDto(userService.signup(userDto)));
     }
 
     /**
@@ -38,8 +38,8 @@ public class UserController {
      */
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<User> getMyUserInfo() {
-        return ResponseEntity.ok(userService.getMyUserWithAuthorities().get());
+    public ResponseEntity<UserDto> getMyUserInfo() {
+        return ResponseEntity.ok(new UserDto(userService.getMyUserWithAuthorities().get()));
     }
 
     /**
@@ -49,7 +49,7 @@ public class UserController {
      */
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<User> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserWithAuthorities(username).get());
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(new UserDto(userService.getUserWithAuthorities(username).get()));
     }
 }
