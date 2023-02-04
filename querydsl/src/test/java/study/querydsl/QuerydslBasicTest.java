@@ -13,6 +13,8 @@ import study.querydsl.entity.Team;
 
 import javax.persistence.EntityManager;
 
+import static study.querydsl.entity.QMember.member;
+
 @SpringBootTest
 @Transactional
 public class QuerydslBasicTest {
@@ -55,12 +57,24 @@ public class QuerydslBasicTest {
     @Test
     public void startQuerydsl() {
 
-        QMember m = QMember.member;
+        QMember m = member;
 
         Member findMember = queryFactory
                 .select(m)
                 .from(m)
                 .where(m.username.eq("member1"))
+                .fetchOne();
+
+        Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    @Test
+    public void startQuerydslStaticImport() {
+
+        Member findMember = queryFactory
+                .select(member)
+                .from(member)
+                .where(member.username.eq("member1"))
                 .fetchOne();
 
         Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
