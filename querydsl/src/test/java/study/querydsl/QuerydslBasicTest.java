@@ -15,6 +15,8 @@ import study.querydsl.entity.QTeam;
 import study.querydsl.entity.Team;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 import java.util.List;
 
@@ -307,4 +309,82 @@ public class QuerydslBasicTest {
             System.out.println("tuple = " + tuple);
         }
     }
+
+    @PersistenceUnit
+    EntityManagerFactory emf;
+
+    @Test
+    public void fetchJoinNoUse() {
+        em.flush();
+        em.clear();
+
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .where(member.username.eq("member1"))
+                .fetchOne();
+
+        boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());
+
+        Assertions.assertThat(loaded).as("페치 조인 미적용").isFalse();
+
+    }
+
+    @Test
+    public void fetchJoinUse() {
+        em.flush();
+        em.clear();
+
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .join(member.team, team).fetchJoin()
+                .where(member.username.eq("member1"))
+                .fetchOne();
+
+        boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());
+
+        Assertions.assertThat(loaded).as("페치 조인 적용").isTrue();
+
+    }
+
+    /**
+     * SQL상 inner join, fetch join 이 아니라서 역시.. member 만 가져온다.
+     * 기본서 P369, P379 참조
+     */
+    @Test
+    public void useJoin_JPQL() {
+        em.flush();
+        em.clear();
+
+        List<Member> resultList = em.createQuery("select m from Member m join m.team t where t.name = :teamName", Member.class)
+                .setParameter("teamName", "teamA")
+                .getResultList();
+
+        for (Member member1 : resultList) {
+            System.out.println("-------------------11---------------------");
+            System.out.println("member1.team = " + member1.getTeam().getName());
+            System.out.println("-------------------22---------------------");
+        }
+    }
+
+    /**
+     * SQL상 cross join, fetch join 이 아니라서 역시.. member 만 가져온다.
+     * 기본서 P369, P379 참조
+     */
+    @Test
+    public void noUseJoin_JPQL() {
+
+        em.flush();
+        em.clear();
+
+        List<Member> resultList = em.createQuery("select m from Member m where m.team.name = :teamName", Member.class)
+                .setParameter("teamName", "teamA")
+                .getResultList();
+
+        for (Member member1 : resultList) {
+            System.out.println("-------------------11---------------------");
+            System.out.println("member1.team = " + member1.getTeam().getName());
+            System.out.println("-------------------22---------------------");
+        }
+    }
+
 }
