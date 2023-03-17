@@ -30,6 +30,11 @@ public class EmbedTomcatSpringMain {
 
         //디스패처 서블릿 등록
         Context context = tomcat.addContext("", "/");
+
+        //window
+        //String docBase = Files.createTempDirectory("tomcat-basedir").toString();
+        //Context context = tomcat.addContext("", docBase);
+
         tomcat.addServlet("", "dispatcher", dispatcher);
         context.addServletMappingDecoded("/", "dispatcher");
 

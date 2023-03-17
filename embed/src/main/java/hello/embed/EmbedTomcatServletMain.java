@@ -19,6 +19,11 @@ public class EmbedTomcatServletMain {
 
         //서블릿 등록
         Context context = tomcat.addContext("", "/");
+
+        //window
+        //String docBase = Files.createTempDirectory("tomcat-basedir").toString();
+        //Context context = tomcat.addContext("", docBase);
+
         tomcat.addServlet("", "helloServlet", new HelloServlet());
         context.addServletMappingDecoded("/hello-servlet", "helloServlet");
         tomcat.start();
