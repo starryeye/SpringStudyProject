@@ -6,6 +6,8 @@ management:
       enabled: true
     env:
       enabled: true
+  server:
+    port: 9292
   endpoint:
     shutdown:
       enabled: true
@@ -16,6 +18,7 @@ management:
     web:
       exposure:
         include: "*"
+#      base-path: "/manage"
 info:
   app:
     name: hello-actuator
