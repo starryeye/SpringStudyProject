@@ -2,13 +2,11 @@
 
 좋은 개발자가 되는 순간까지 계속 공부 하자!
 
-다루는 기술 : Spring, JPA 등
-
 ---
 
 # 공부 시스템
 
-매일(Default) : Spring/JPA study or Leetcode/Programmers solve
+매일(Default) : Spring/JPA/Architecture study or Leetcode/Programmers solve
 
 ---
 
