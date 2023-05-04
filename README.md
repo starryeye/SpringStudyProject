@@ -15,7 +15,7 @@ subject
 - Mustache
 
 
-## 스프링 & DB
+## 스프링 DB 연동
   
 subject  
 - Jdbc
