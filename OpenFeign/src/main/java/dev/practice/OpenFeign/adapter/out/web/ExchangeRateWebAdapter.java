@@ -22,13 +22,13 @@ class ExchangeRateWebAdapter implements RequestExchangeRatePort {
                 latest.result(),
                 latest.provider(),
                 latest.documentation(),
-                latest.terms_of_use(),
-                latest.time_last_update_unix(),
-                latest.time_last_update_utc(),
-                latest.time_next_update_unix(),
-                latest.time_next_update_utc(),
-                latest.time_eol_unix(),
-                latest.base_code(),
+                latest.termsOfUse(),
+                latest.timeLastUpdateUnix(),
+                latest.timeLastUpdateUtc(),
+                latest.timeNextUpdateUnix(),
+                latest.timeNextUpdateUtc(),
+                latest.timeEolUnix(),
+                latest.baseCode(),
                 Collections.unmodifiableMap(latest.rates())
         );
     }

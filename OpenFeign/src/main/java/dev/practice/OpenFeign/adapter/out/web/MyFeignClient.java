@@ -8,4 +8,5 @@ interface MyFeignClient {
 
     @GetMapping("/latest")
     ResponseExchangeRates getLatest(); //파라미터에 @RequestHeader, @RequestParam, @PathVariable 등을 사용할 수 있다.
+    //Map<String, Object> 로 리턴 받아도 됨. 대신 필드명을 알아야하겠지?
 }
