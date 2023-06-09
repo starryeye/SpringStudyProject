@@ -15,7 +15,7 @@ public class SpringAsyncConfig implements AsyncConfigurer {
 
     /**
      * @Async 어노테이션이 메서드에 적용되면, 해당 메서드는 별도의 스레드에서 실행된다.
-     * 별도의 스레드는 개발자가 설정한 스레드 풀에서 관리가 되게 된다.
+     * 별도의 스레드는 이 메서드처럼 개발자가 설정한 스레드 풀에서 관리가 된다.
      *
      * 스프링에서 @Async 어노테이션을 지원하기 위해 내부적으로 TaskExecutor 인터페이스를 사용한다.
      * TaskExecutor 는 Java 의 Executor 인터페이스를 기반으로 스프링에서 확장한 것이다.
@@ -30,9 +30,9 @@ public class SpringAsyncConfig implements AsyncConfigurer {
      *
      * 따라서 일반적으로는 스프링의 @EnableAsync 어노테이션과 함께 AsyncConfigurer 를 구현하여 적절한 TaskExecutor 를 설정한다.
      */
-
     @Override
     public Executor getAsyncExecutor() {
+        //TTL 설정도 있다.
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(5);

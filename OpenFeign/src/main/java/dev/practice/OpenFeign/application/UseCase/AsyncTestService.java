@@ -6,6 +6,8 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Service
@@ -67,10 +69,31 @@ class AsyncTestService implements AsyncTestPort {
     public CompletableFuture<String> asyncMethodWithCompletableFuture() {
 
         /**
-         * supplyAsync() 메서드는
-         * 작업 스레드에서 수행할 작업을 Supplier 로 제공하면(여기선 람다),
-         * 작업을 비동기적으로 실행하고 결과를 CompletableFuture 로 반환한다.
+         * asyncMethodWithCompletableFuture 메서드는 총 3개의 스레드가 맞물려 동작하게 된다.
+         * - asyncMethodWithCompletableFuture 를 호출한 '호출 스레드'
+         * - @Async 에 의해 TaskExecutor 의 '@Async 스레드'
+         * - CompletableFuture.supplyAsync 에 전달된 Executor 에 의한 'supplyAsync 스레드'
+         *
+         * 동작 과정은 다음과 같다.
+         * 1. 호출 스레드가 asyncMethodWithCompletableFuture 메서드를 호출
+         * 2. 호출 스레드는 메서드 실행을 @Async 스레드에 위임하고 즉시 CompletableFuture 을 가지고 반환된다. (비동기)
+         * -> 호출 스레드 역할 끝
+         * 3. @Async 스레드는 CompletableFuture.supplyAsync 메서드를 호출
+         * 4. @Async 스레드는 메서드 실행을 supplyAsync 스레드에 위임하고 즉시 CompletableFuture 을 가지고 반환된다. (비동기)
+         * -> @Async 스레드 역할 끝
+         * 5. supplyAsync 스레드는 5초간 스레드를 재우고, 문자열을 반환한다.
+         * 6. supplyAsync 스레드가 작업이 완료되면 반환된 값은 CompletableFuture 에 넣는다.
+         * -> supplyAsync 스레드 역할 끝
+         *
+         * 사실..
+         * 이 메서드에서 @Async 는 필요없다.
+         * -> 호출 스레드와 supplyAsync 두개로 이미 비동기 동작이다.
+         * 또한, 특별한 스레드 설정을 하지 않고 있기 때문에..
+         * Executor executor = Executors.newSingleThreadExecutor(); 이 코드도 필요없다.
+         * -> 그냥 "기본 스레드" 를 사용하는 것으로 하면 된다.
          */
+        Executor executor = Executors.newSingleThreadExecutor();
+
         return CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(5000);
@@ -80,21 +103,25 @@ class AsyncTestService implements AsyncTestPort {
             }
 
             return "Async task finished";
-        });
+        }, executor);
     }
     /**
      * asyncMethodWithCompletableFuture 메서드에 대한 추가 설명을 하겠다..
      *
      * 현재 asyncMethodWithCompletableFuture 메서드는 @Async 어노테이션이 적용되어있다.
-     * 이는 별도의 스레드 풀에서 스레드를 할당하여 비동기로 처리하겠다는 의미인데..
-     * @Async 어노테이션을 빼도 비동기 처리가 된다.
-     * -> CompletableFuture 는 비동기 작업의 결과를 처리하는 기능도 있지만, 그 자체로 비동기를 수행하는 기능도 있다.
-     * 하지만, 할당되는 스레드 풀에 차이가 있다.
+     * 이는 별도의 스레드 풀에서 스레드를 할당하여 비동기로 처리하겠다는 의미이다.
      *
-     * @Async 어노테이션을 빼면 두가지 케이스로 나뉜다.
+     * 주의>
+     * @Async 어노테이션에 의한 비동기 처리 외에도
+     * Completable.supplyAcync 에 의한 비동기 처리도 함께 이루어지고 있다.
+     * -> @Async 에 의한 비동기는 TaskExecutor, CompletableFuture 에 의한 비동기는 CompletableFuture 가 관리하는 스레드
+     *
+     * 참고>
+     * CompletableFuture.supplyAsync 메서드는 2개의 메서드로 오버로딩 되어있다.
      *
      * 첫번째..
-     * 아래와 같이 직접 스레드 풀을 만들어서 비동기 작업을 수행하는 케이스가 있다.
+     * 아래와 같이 직접 스레드 풀을 만들고 그 Executor 를 인자로 전달하여
+     * 만든 스레드 풀로 비동기 작업을 수행하는 케이스가 있다.
      * 참고로 아래 로직은 최대 10개의 스레드가 동시 작업을 가능케하는 스레드 풀을 만들고
      * 해당 스레드 풀에서 하나의 스레드가 할당되어 그 스레드에서 한번의 비동기 작업을 수행한다.
      * Executor executor = Executors.newFixedThreadPool(10);
@@ -107,20 +134,5 @@ class AsyncTestService implements AsyncTestPort {
      * CompletableFuture 는 기본적으로 ForkJoinPool.commonPool() 을 사용하여 비동기 작업을 수행한다.
      * ForkJoinPool.commonPool() 은 JVM 당 하나만 존재하는 스레드 풀로 "기본 스레드"라 불린다.
      * 이렇게 되면 스레드 풀에 대한 세밀한 제어가 불가능해진 것이다.
-     *
-     * 따라서..
-     * @Async 어노테이션을 사용하면서,
-     * 스프링의 TaskExecutor 인터페이스를 구현한 Executor 빈을 통해 별도의 스레드 풀 설정을 하여..
-     * 스레드 풀의 관리와 성능 튜닝에 대한 더욱 세밀한 제어를 할 수 있도록 하자.
-     *
-     * 참고>
-     * @Async 도 적용하고 supplyAsync 메소드에 Executor 인자를 전달하면,
-     * @Async 가 무시되고 전달한 Executor 로 비동기 작업이 수행된다.
-     *
-     * 참고>
-     * @Async 어노테이션을 사용하면서,
-     * 스프링의 TaskExecutor 인터페이스를 구현한 Executor 빈을 통해 별도의 스레드 풀 설정
-     * 방식을 따르면..
-     * TTL 설정을 못한다. 그래서, 첫번째 방법을 사용해야한다.
      */
 }

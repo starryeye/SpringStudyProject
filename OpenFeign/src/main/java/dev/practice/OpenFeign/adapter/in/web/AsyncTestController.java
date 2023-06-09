@@ -83,6 +83,19 @@ public class AsyncTestController {
          * thenApply, thenCompose, thenCombine 등의 메서드를 제공한다.
          * 이 메서드들은 각각 결과 변환, 비동기 작업 연결, 두 비동기 작업의 결과 결합 등의 용도로 사용된다.
          *
+         * 4. CompletableFuture 는 supplyAsync 라는 메서드도 제공한다.
+         * 2가지 큰 기능을 제공한다.
+         * -> 비동기적으로 작업을 실행하는 역할이다.
+         * -> 해당 비동기 작업이 끝나면 그 결과를 포함하는 CompletableFuture 객체를 반환한다.
+         * 또한,supplyAsync 는 2가지 형태로 오버로드 되어있다.
+         * -> CompletableFuture.supplyAsync(Supplier<U> supplier):
+         * -> -> 여기서 Supplier<U>는 결과를 반환하는 함수형 인터페이스이다.
+         * -> -> 이 메소드는 작업을 ForkJoinPool.commonPool()에서 비동기적으로 실행하고,
+         * -> -> 그 결과를 가진 CompletableFuture를 반환한다.
+         * -> CompletableFuture.supplyAsync(Supplier<U> supplier, Executor executor):
+         * -> -> 이 메소드는 첫 번째 메소드와 동일하지만, 두 번째 인자로 Executor를 받아서,
+         * -> -> 해당 Executor에서 작업을 비동기적으로 실행하도록 합니다.
+         *
          *
          * 결국, completableFuture 를 사용하면.. 콜백을 사용할 수 있는 것이다.
          *
