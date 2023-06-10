@@ -11,6 +11,7 @@ subject
 - Spring Validation
 - Spring Transaction
 - Spring AOP
+- Spring Cloud OpenFeign
 - Thymeleaf
 - Mustache
 
