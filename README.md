@@ -33,4 +33,11 @@ subject
 - Grafana
 
 
-세부 항목 추후 정리 필요..
+## Projects
+코드와 공부한 주제를 매핑한다.  
+다음 복습에서는 더욱 구체적인 키워드로 적어보자.  
+  
+- core
+  - Spring Framwork
+    - OCP, DIP 를 만족하는 스프링(IOC, DI) 컨테이너
+    - 스프링 빈
