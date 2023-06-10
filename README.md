@@ -41,3 +41,8 @@ subject
   - Spring Framwork
     - OCP, DIP 를 만족하는 스프링(IOC, DI) 컨테이너
     - 스프링 빈
+- servlet
+  - Spring MVC
+    - 서블릿, 서블릿 컨테이너
+    - SpringMVC 구조 (DispatcherServlet, HandlerMapping, HandlerAdapter, viewResolver ...)
+    - Controller
