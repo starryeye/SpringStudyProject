@@ -30,7 +30,7 @@ public class AsyncTestController {
     public String asyncTestWithFuture() throws ExecutionException, InterruptedException {
 
         /**
-         * asyncMethodWithFuture() 메서드를 호출하여 즉시 Future를 얻는다.
+         * asyncMethodWithFuture() 메서드를 호출하여 즉시 Future 를 얻는다.
          * 그런 다음 다른 작업을 계속 수행한다(// Do other things...).
          * 비동기 작업이 완료될 때까지 기다릴 필요가 없으므로 이 시간 동안 다른 유용한 작업을 수행할 수 있다.
          *
@@ -94,7 +94,7 @@ public class AsyncTestController {
          * -> -> 그 결과를 가진 CompletableFuture를 반환한다.
          * -> CompletableFuture.supplyAsync(Supplier<U> supplier, Executor executor):
          * -> -> 이 메소드는 첫 번째 메소드와 동일하지만, 두 번째 인자로 Executor를 받아서,
-         * -> -> 해당 Executor에서 작업을 비동기적으로 실행하도록 합니다.
+         * -> -> 해당 Executor에서 작업을 비동기적으로 실행하도록 한다.
          *
          *
          * 결국, completableFuture 를 사용하면.. 콜백을 사용할 수 있는 것이다.
