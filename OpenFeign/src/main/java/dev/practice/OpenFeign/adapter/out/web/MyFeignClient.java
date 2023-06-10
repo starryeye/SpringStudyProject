@@ -4,7 +4,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Feign 내부 HTTP 클라이언트는 기본적으로 블로킹 I/O 모델을 사용한다.
@@ -70,15 +69,12 @@ import java.util.concurrent.CompletableFuture;
  * 그러나, 여기서 "블로킹"과 "논블로킹"에 대한 논의를 넓혀서 볼 때,
  * 이는 일반적으로 I/O 작업에 대해 적용되는 개념이다.
  * 즉, 네트워크 요청과 같은 I/O 작업이 발생할 때,
- * 해당 작업을 수행하는 스레드(이 경우에는 별도의 I/O 스레드)가 작업이 완료될 때까지 기다리느냐(블로킹),
+ * 해당 작업을 수행하는 스레드가 작업이 완료될 때까지 기다리느냐(블로킹),
  * 아니면 작업의 완료를 기다리지 않고 즉시 반환하느냐(논블로킹)에 대한 차이이다.
  *
- * 위에서 언급한 별도의 I/O 스레드가 사용하는 HTTP 클라이언트 라이브러리가 블로킹 방식을 사용하는 경우,
- * 이 I/O 스레드는 외부 시스템의 응답을 기다리는 동안 블로킹 될 것이다.
- *
- * 따라서, 전체 시스템의 동작을 논-블로킹 방식으로 만들기 위해서는,
+ * 따라서, 전체 시스템의 동작을 논블로킹 방식으로 만들기 위해서는,
  * 비동기 작업 스레드가 위임하는 I/O 작업 또한 논블로킹 방식으로 동작해야 한다.
- * 이를 위해 Spring WebFlux와 같은 논-블로킹 I/O를 지원하는 라이브러리를 사용하게 된다.
+ * 이를 위해 Spring WebFlux와 같은 논블로킹 I/O를 지원하는 라이브러리를 사용하게 된다.
  */
 @FeignClient(name = "ExchangeRateFeign", url = "https://open.er-api.com/v6")
 interface MyFeignClient {
@@ -88,36 +84,21 @@ interface MyFeignClient {
     //Map<String, Object> 로 리턴 받아도 됨. 대신 필드명을 알아야하겠지?
 
     /**
-     * 비동기
-     *
-     * 호출 스레드:
-     * 호출 스레드가 아래 메서드를 호출하면,
-     * 아래 메서드가 Feign Client 인터페이스 메서드 이므로 Feign 이 처리한다.
-     *
-     * 작업 스레드:
-     * Feign 은 내부적으로 새로운 작업 스레드를 생성하거나 작업 스레드 풀에서 작업 스레드를 가져와서
-     * 작업 스레드에서 HTTP 요청을 실행한다.
-     * HTTP 요청의 결과는 CompletableFuture 에 담겨진다.
-     * -> CompletableFuture 객체가 두 스레드간에 공유되는 것이다.
-     *
-     * 즉, 호출 스레드가 AsyncClient.getResponseAsync() 를 호출하면 아래 두 작업이 동시에 일어난다.
-     * 1. 호출 스레드는 즉시 CompletableFuture 로 반환하여 다음 로직을 수행한다.
-     * 2. 작업 스레드는 HTTP 요청을 실행하고 응답 받으면 CompletableFuture 에 담는다.
+     * OpenFeign 은 요청 인터페이스에 리턴 타입으로 CompletableFuture 가 지원되지 않는다..
+     * 즉, 메서드를 호출한 스레드로 동기, 블로킹 방식으로 외부 api 요청/응답 처리가 이루어진다.
      */
     @GetMapping("/latest")
-    CompletableFuture<Map<String, Object>> getLatest2();
+    Map<String, Object> getLatest2();
     //보일러플레이트 코드를 없애고 기능 위주의 코드 가독성을 위해 Dto 객체는 사용하지 않겠다.
 }
 
 /**
  * OpenFeign 자체는 스레드 풀을 관리하지 않는다.
  * OpenFeign 은 단순히 HTTP 요청을 생성하고, 처리하고, 네트워크로 전송하는 역할을 한다.
- * 이를 위해 내부적으로는 HTTP 클라이언트 라이브러리를 사용하며,
- * 이 라이브러리는 일반적으로 별도의 I/O 스레드를 이용해 비동기, 블로킹 방식으로 네트워크 I/O를 처리한다.
  *
- * 그러나 OpenFeign 자체는 비동기 API 를 제공하지 않으므로,
+ * 그래서.. OpenFeign 자체는 비동기 API 를 제공하지 않으므로,
  * OpenFeign 을 비동기적으로 호출하려면 별도의 비동기 메커니즘이 필요하다.
- * 여기서 Spring 의 @Async 가 그 역할을 한다.
+ * 여기서 Spring 의 @Async 가 그 역할을 해줄수있다.
  * @Async 가 붙은 메서드는 호출 시점에 Spring 이 별도의 스레드 풀에서 실행하도록 스케줄링하게 된다.
  *
  * 따라서, OpenFeign 을 @Async 와 함께 사용하게 되면,
@@ -137,11 +118,6 @@ interface MyFeignClient {
  * OpenFeign은 HTTP 요청과 응답을 처리하는 라이브러리인데, 내부적으로는 HTTP 클라이언트 라이브러리를 사용한다.
  * 이 HTTP 클라이언트 라이브러리는 네트워크 통신과 관련된 I/O 작업을 처리하는 역할을 한다.
  *
- * HTTP 클라이언트 라이브러리는 네트워크 요청을 보내고, 서버로부터 응답을 받는 등의 작업을 수행하는데,
- * 이 작업들은 일반적으로 별도의 I/O 스레드에서 실행된다.
- * 이렇게 별도의 I/O 스레드를 사용하면 네트워크 I/O 작업이 주 스레드를 차단하지 않고 비동기적으로 수행될 수 있다.
- * 이것이 "별도의 I/O 스레드를 이용해 비동기 네트워크 I/O를 처리한다"는 말의 의미이다.
- *
  * <참고>
  * I/O 스레드는 블로킹과 논블로킹 두 가지 방식 모두 가능하다.
  *
@@ -155,6 +131,6 @@ interface MyFeignClient {
  * 일부 라이브러리는 블로킹 I/O를, 다른 일부 라이브러리는 논블로킹 I/O를 사용할 수 있다.
  *
  * 그러나 OpenFeign에서 내부적으로 사용하는 HTTP 클라이언트 라이브러리는 기본적으로 블로킹 I/O 방식을 사용한다.
- * 따라서 비록 별도의 스레드에서 동작하긴 하지만, 요청이 수행되는 동안에는 해당 I/O 스레드가 차단된다.
+ * 그래서 요청이 수행되는 동안에는 해당 I/O 스레드가 차단된다.
  * 이는 Spring WebFlux와 같은 논블로킹 I/O 방식과는 차이가 있다.
  */

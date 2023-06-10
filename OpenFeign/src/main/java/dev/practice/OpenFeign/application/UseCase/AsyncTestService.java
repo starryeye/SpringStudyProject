@@ -77,9 +77,9 @@ class AsyncTestService implements AsyncTestPort {
          * 동작 과정은 다음과 같다.
          * 1. 호출 스레드가 asyncMethodWithCompletableFuture 메서드를 호출
          * 2. 호출 스레드는 메서드 실행을 @Async 스레드에 위임하고 즉시 CompletableFuture 을 가지고 반환된다. (비동기)
-         * -> 호출 스레드 역할 끝
+         * -> 호출 스레드 역할 끝, CompletableFuture 는 결과를 처리하기 위해서 쓰레드간 공유되는 객체라 보자..
          * 3. @Async 스레드는 CompletableFuture.supplyAsync 메서드를 호출
-         * 4. @Async 스레드는 메서드 실행을 supplyAsync 스레드에 위임하고 즉시 CompletableFuture 을 가지고 반환된다. (비동기)
+         * 4. @Async 스레드는 메서드 실행을 supplyAsync 스레드에 위임한다.
          * -> @Async 스레드 역할 끝
          * 5. supplyAsync 스레드는 5초간 스레드를 재우고, 문자열을 반환한다.
          * 6. supplyAsync 스레드가 작업이 완료되면 반환된 값은 CompletableFuture 에 넣는다.
