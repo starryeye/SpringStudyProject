@@ -73,3 +73,6 @@ subject
     - TransactionTemplate
     - Transaction AOP
     - SQLExceptionTranslator, DataAccessException
+- itemservice-db
+  - JdbcTemplate, MyBatis, JPA, Spring Data JPA, QueryDsl
+  
