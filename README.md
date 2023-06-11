@@ -55,7 +55,7 @@ subject
     - Bean Validation
 - login
   - Spring MVC
-    - HttpSession, Filter, Interceptor
+    - HttpSession, Filter, HandlerInterceptor
     - preHandle, HandlerAdapter, postHandle, afterCompletion
     - ArgumentResolver
 - exception
