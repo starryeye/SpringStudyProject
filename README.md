@@ -66,3 +66,10 @@ subject
   - Spring Framwork
     - Converter, ConversionService
     - Formatter
+- jdbc
+  - Jdbc
+    - DataManager, DataSource, HikariDataSource, DriverManagerDataSource
+    - PlatformTransactionManager
+    - TransactionTemplate
+    - Transaction AOP
+    - SQLExceptionTranslator, DataAccessException
