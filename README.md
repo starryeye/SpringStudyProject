@@ -48,3 +48,21 @@ subject
       - DispatcherServlet, HandlerMapping, HandlerAdapter, viewResolver
       - ArgumentResolver, ReturnValueHandler, HttpMessageConverter
     - Controller
+- validation
+  - Spring MVC
+    - BindingResult, MessageCodesResolver
+    - validator, WebDataBinder
+    - Bean Validation
+- login
+  - Spring MVC
+    - HttpSession, Filter, Interceptor
+    - preHandle, HandlerAdapter, postHandle, afterCompletion
+    - ArgumentResolver
+- exception
+  - Spring MVC
+    - HandlerExceptionResolver
+    - ControllerAdvice
+- typeconverter
+  - Spring Framwork
+    - Converter, ConversionService
+    - Formatter
