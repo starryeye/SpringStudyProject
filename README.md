@@ -67,12 +67,14 @@ subject
     - Converter, ConversionService
     - Formatter
 - jdbc
-  - Jdbc
+  - Jdbc, Spring Framework
     - DataManager, DataSource, HikariDataSource, DriverManagerDataSource
     - PlatformTransactionManager
     - TransactionTemplate
     - Transaction AOP
-    - SQLExceptionTranslator, DataAccessException
+    - ExceptionTranslator, DataAccessException
 - itemservice-db
   - JdbcTemplate, MyBatis, JPA, Spring Data JPA, QueryDsl
-  
+- springtx
+  - Spring Framwork
+    - Transaction AOP
