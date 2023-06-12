@@ -69,7 +69,7 @@ subject
 - jdbc
   - Jdbc, Spring Framework
     - DataManager, DataSource, HikariDataSource, DriverManagerDataSource
-    - PlatformTransactionManager
+    - PlatformTransactionManager, TransactionSynchronizationManager
     - TransactionTemplate
     - Transaction AOP
     - ExceptionTranslator, DataAccessException
@@ -78,3 +78,8 @@ subject
 - springtx
   - Spring Framwork
     - Transaction AOP
+    - Transaction Propagation
+- advanced, proxy, aop
+  - Spring AOP
+    - point cut, advice, advisor, BeanPostProcessor
+    - Jdk dynamic proxy, CGLIB
