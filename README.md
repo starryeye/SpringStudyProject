@@ -83,3 +83,5 @@ subject
   - Spring AOP
     - point cut, advice, advisor, BeanPostProcessor
     - Jdk dynamic proxy, CGLIB
+- jpashopbegin, jpashop, data-jpa, querydsl
+  - Jpa, Spring Data Jpa, QueryDsl
