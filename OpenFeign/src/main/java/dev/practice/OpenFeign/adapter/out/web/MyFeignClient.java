@@ -76,7 +76,7 @@ import java.util.Map;
  * 비동기 작업 스레드가 위임하는 I/O 작업 또한 논블로킹 방식으로 동작해야 한다.
  * 이를 위해 Spring WebFlux와 같은 논블로킹 I/O를 지원하는 라이브러리를 사용하게 된다.
  */
-@FeignClient(name = "ExchangeRateFeign", url = "https://open.er-api.com/v6")
+@FeignClient(name = "ExchangeRateFeign", url = "https://open.er-api.com/v6", configuration = MyFeignClientConfig.class)
 interface MyFeignClient {
 
     @GetMapping("/latest")
