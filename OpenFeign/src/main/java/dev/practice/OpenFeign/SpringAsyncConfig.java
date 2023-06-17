@@ -2,6 +2,7 @@ package dev.practice.OpenFeign;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -56,7 +57,7 @@ public class SpringAsyncConfig implements AsyncConfigurer {
      *
      * 비동기 작업 스레드: @Async 어노테이션이 붙은 메서드의 비즈니스 로직을 처리하는 역할을 담당한다.
      * - 외부 시스템에 비동기 요청을 보내는 작업을 수행한다면(webClient), 이 요청의 처리를 별도의 I/O 스레드에게 위임한다.
-     * - 외부 시스템에 동기 요청을 보내는 작업을 수행한다면(openFeign), 해당 스레드에서 처리한다.
+     * - 외부 시스템에 동기 요청을 보내는 작업을 수행한다면(openFeign), 해당 스레드에서 처리한다.ㅅ
      *
      * 별도의 I/O 스레드: 비동기 HTTP 클라이언트 라이브러리가 내부적으로 관리하는 스레드로,
      * 네트워크 I/O 작업을 비동기적으로 처리하는 역할을 담당한다.
@@ -77,4 +78,15 @@ public class SpringAsyncConfig implements AsyncConfigurer {
      * 별도의 I/O 스레드는 대개 네트워크 I/O 작업에 최적화된 이벤트 기반 모델을 사용하므로, 실제 스레드 수는 그다지 많지 않아도 된다.
      * webflux 에 해당한다. (webClient)
      */
+
+    @Bean(name = "customExecutor")
+    public Executor customExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(5);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("Custom-Async-");
+        executor.initialize();
+        return executor;
+    }
 }

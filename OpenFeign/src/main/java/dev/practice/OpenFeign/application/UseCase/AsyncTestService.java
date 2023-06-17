@@ -49,9 +49,11 @@ class AsyncTestService implements AsyncTestPort {
      * 이렇게 하면 무거운 작업을 수행하는 동안 메인 스레드를 차단하지 않고 다른 작업을 계속 처리할 수 있다.
      */
 
-    @Async //비동기로 작업 스레드에서 동작
+    @Async("customExecutor") //비동기로 작업 스레드에서 동작
     @Override
     public void asyncMethod() {
+
+        String name = Thread.currentThread().getName();
 
         try {
             Thread.sleep(5000);
@@ -60,7 +62,7 @@ class AsyncTestService implements AsyncTestPort {
             throw new RuntimeException();
         }
 
-        System.out.println("Async task finished");
+        System.out.println("[" + name + "] Async task finished");
     }
 
     @Async //비동기로 작업 스레드에서 동작
