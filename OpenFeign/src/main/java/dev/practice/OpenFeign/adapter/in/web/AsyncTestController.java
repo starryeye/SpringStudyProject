@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -110,5 +111,10 @@ public class AsyncTestController {
                 .thenAccept(result -> System.out.println(result));
 
         return "Request finished"; //역시.. thenAccept() 은 5초 뒤 수행되므로 thenAccept() 보다 응답을 내려주는게 더 빠르다.
+    }
+
+    @GetMapping("/async-test/completable-future-result")
+    public CompletableFuture<String> asyncTestWithCompletableFutureResult() {
+        return asyncTestPort.asyncMethodWithCompletableFuture();
     }
 }
