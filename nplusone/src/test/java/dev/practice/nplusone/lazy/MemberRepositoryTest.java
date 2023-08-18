@@ -57,4 +57,31 @@ class MemberRepositoryTest {
 
         System.out.println("result.size() : " + result.size() + ", N : " + teams.size());
     }
+
+    @DisplayName("Entity Graph 를 사용하면 fetch join 으로.. N + 1 문제를 해결할 수 있다.")
+    @Test
+    void findEntityGraphByIdIn_And_N_Plus_One_Problem_Solved() {
+
+        // given
+        PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
+
+        // when
+        System.out.println("===============when, 쿼리===============");
+        List<Member> result = memberRepository.findEntityGraphByIdIn(List.of(1L, 2L, 3L));
+        System.out.println("===============when, 쿼리===============");
+
+        // then
+        result.forEach(
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isTrue()
+        );
+
+        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+
+        result.forEach(
+                member -> {
+                    member.getTeam().getName(); // 프록시 초기화
+                });
+
+        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+    }
 }
