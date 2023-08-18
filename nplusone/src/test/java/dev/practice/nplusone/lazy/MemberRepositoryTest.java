@@ -33,9 +33,9 @@ class MemberRepositoryTest {
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
 
         // when
-        System.out.println("===============when 쿼리===============");
+        System.out.println("===============when, 쿼리===============");
         List<Member> result = memberRepository.findAll();
-        System.out.println("===============when 쿼리===============");
+        System.out.println("===============when, 쿼리===============");
 
         // then
         result.forEach(
@@ -43,7 +43,7 @@ class MemberRepositoryTest {
         );
 
 
-        System.out.println("===============Lazy Loading 으로 인한 추가 쿼리===============");
+        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
 
         Set<Team> teams = new HashSet<>();
 
@@ -53,7 +53,7 @@ class MemberRepositoryTest {
                     teams.add(member.getTeam());
                 });
 
-        System.out.println("===============Lazy Loading 으로 인한 추가 쿼리===============");
+        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
 
         System.out.println("result.size() : " + result.size() + ", N : " + teams.size());
     }
