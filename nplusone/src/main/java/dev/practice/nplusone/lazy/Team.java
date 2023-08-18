@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,11 +22,12 @@ public class Team {
     private String introduction;
 
     @OneToMany(mappedBy = "team")
-    private List<Member> members;
+    private List<Member> members = new ArrayList<>();
 
     @Builder
-    private Team(String name, String introduction) {
+    private Team(String name, String introduction, List<Member> members) {
         this.name = name;
         this.introduction = introduction;
+        this.members = members;
     }
 }

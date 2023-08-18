@@ -18,12 +18,13 @@ public class Member {
     private String name;
     private Integer age;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 
     @Builder
-    private Member(String name, Integer age) {
+    private Member(String name, Integer age, Team team) {
         this.name = name;
         this.age = age;
+        this.team = team;
     }
 }
