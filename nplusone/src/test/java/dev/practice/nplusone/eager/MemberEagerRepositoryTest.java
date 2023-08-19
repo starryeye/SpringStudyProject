@@ -44,7 +44,7 @@ class MemberEagerRepositoryTest {
         );
 
         /**
-         * 3 건의 쿼리가 나감
+         * 추가 쿼리 없음 (N + 1 문제 해결, Eager 전략)
          */
         System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
 
@@ -61,14 +61,14 @@ class MemberEagerRepositoryTest {
 
     @DisplayName("Eager 전략에서 JPQL 을 사용하여 조회 시 N + 1 추가 쿼리가 발생할 수 있다.")
     @Test
-    void findMemberEagerBy() {
+    void findMemberEagerBy_And_N_Plus_One_Problem() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
 
         // when
         /**
-         * 2 건의 쿼리가 나간다!!
+         * 2 건의 쿼리가 나간다!! (N + 1 문제, Eager 전략이지만 fetch join 없는 JPQL)
          *
          * "select m from MemberEager m where m.id = :id"
          * 위 JPQL 을 우선적으로 수행하고.. 이후 Eager 전략이므로 추가 쿼리가 수행된다.
@@ -86,5 +86,14 @@ class MemberEagerRepositoryTest {
          * 여기서는 위에서 이미 조회가 다 이루어 져서 프록시 초기화가 되어있는 결과가 나옴
          */
         assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue();
+    }
+
+    @DisplayName("")
+    @Test
+    void test() {
+
+        // given
+        // when
+        // then
     }
 }

@@ -37,11 +37,16 @@ class MemberRepositoryTest {
         System.out.println("===============when, 쿼리===============");
 
         // then
+        /**
+         * 1 건의 쿼리가 나감
+         */
         result.forEach(
                 member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse()
         );
 
-
+        /**
+         * 3 건의 쿼리가 나감 (N + 1 문제, Lazy Loading)
+         */
         System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
 
         Set<Team> teams = new HashSet<>();
@@ -65,6 +70,9 @@ class MemberRepositoryTest {
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
 
         // when
+        /**
+         * 1 건의 쿼리가 나감
+         */
         System.out.println("===============when, 쿼리===============");
         List<Member> result = memberRepository.findEntityGraphByIdIn(List.of(1L, 2L, 3L));
         System.out.println("===============when, 쿼리===============");
@@ -74,6 +82,9 @@ class MemberRepositoryTest {
                 member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isTrue()
         );
 
+        /**
+         * 추가 쿼리 없음 (N + 1 해결, EntityGraph)
+         */
         System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
 
         result.forEach(
