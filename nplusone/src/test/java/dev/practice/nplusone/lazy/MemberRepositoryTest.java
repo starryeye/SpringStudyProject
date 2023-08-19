@@ -47,7 +47,7 @@ class MemberRepositoryTest {
         /**
          * 3 건의 쿼리가 나감 (N + 1 문제, Lazy Loading)
          */
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
 
         Set<Team> teams = new HashSet<>();
 
@@ -57,7 +57,7 @@ class MemberRepositoryTest {
                     teams.add(member.getTeam());
                 });
 
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
 
         System.out.println("result.size() : " + result.size() + ", N : " + teams.size());
     }
@@ -85,13 +85,13 @@ class MemberRepositoryTest {
         /**
          * 추가 쿼리 없음 (N + 1 해결, EntityGraph)
          */
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
 
         result.forEach(
                 member -> {
                     member.getTeam().getName(); // 프록시 초기화
                 });
 
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
     }
 }

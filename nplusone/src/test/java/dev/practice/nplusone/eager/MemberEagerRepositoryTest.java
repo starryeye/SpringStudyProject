@@ -1,5 +1,6 @@
 package dev.practice.nplusone.eager;
 
+import dev.practice.nplusone.lazy.Member;
 import dev.practice.nplusone.lazy.Team;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitUtil;
@@ -46,7 +47,7 @@ class MemberEagerRepositoryTest {
         /**
          * 추가 쿼리 없음 (N + 1 문제 해결, Eager 전략)
          */
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
 
         Set<TeamEager> teams = new HashSet<>();
 
@@ -56,7 +57,7 @@ class MemberEagerRepositoryTest {
                     teams.add(member.getTeamEager());
                 });
 
-        System.out.println("===============then, Lazy Loading 으로 인한 추가 쿼리 확인===============");
+        System.out.println("===============then, 추가 쿼리 확인===============");
     }
 
     @DisplayName("Eager 전략에서 JPQL 을 사용하여 조회 시 N + 1 추가 쿼리가 발생할 수 있다.")
@@ -86,14 +87,79 @@ class MemberEagerRepositoryTest {
          * 여기서는 위에서 이미 조회가 다 이루어 져서 프록시 초기화가 되어있는 결과가 나옴
          */
         assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue();
+
+        System.out.println("===============then, 추가 쿼리 확인===============");
+        member.getTeamEager().getName();
+        System.out.println("===============then, 추가 쿼리 확인===============");
     }
 
-    @DisplayName("")
+    @DisplayName("Eager 전략인데 메서드 이름 조회를 하면... N + 1 문제가 나타난다.")
     @Test
-    void test() {
+    void findByIdIn_And_N_Plus_One_Problem() {
 
         // given
+        PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
+
         // when
+        /**
+         * 쿼리 2 건 나감 (N + 1 문제)
+         *
+         * 메서드 이름 조회를 하면..
+         * 그에 따른 JPQL 이 만들어져서 조회가 된다.
+         * Eager 전략이므로 추가 쿼리가 나간다. (한방 쿼리가 만들어지는것은 아닌것을 알 수 있다.)
+         */
+        System.out.println("===============when, 쿼리===============");
+        List<MemberEager> result = memberEagerRepository.findByIdIn(List.of(1L, 2L, 3L));
+        System.out.println("===============when, 쿼리===============");
+
         // then
+        /**
+         * 여기서는 위에서 이미 조회가 다 이루어 져서 프록시 초기화가 되어있는 결과가 나옴
+         */
+        result.forEach(
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue()
+        );
+
+        System.out.println("===============then, 추가 쿼리 확인===============");
+
+        result.forEach(
+                member -> {
+                    member.getTeamEager().getName(); // 프록시 초기화
+                });
+
+        System.out.println("===============then, 추가 쿼리 확인===============");
+    }
+
+    @DisplayName("Eager 전략인데 메서드 이름 조회를 하면... N + 1 문제가 나타나지만 Entity Graph 로 해결했다.")
+    @Test
+    void findEntityGraphByIdIn_And_N_Plus_One_Problem() {
+
+        // given
+        PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
+
+        // when
+        /**
+         * 쿼리 1 건 나감 (N + 1 문제해결, Entity Graph)
+         */
+        System.out.println("===============when, 쿼리===============");
+        List<MemberEager> result = memberEagerRepository.findEntityGraphByIdIn(List.of(1L, 2L, 3L));
+        System.out.println("===============when, 쿼리===============");
+
+        // then
+        /**
+         * 추가 쿼리 없음
+         */
+        result.forEach(
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue()
+        );
+
+        System.out.println("===============then, 추가 쿼리 확인===============");
+
+        result.forEach(
+                member -> {
+                    member.getTeamEager().getName(); // 프록시 초기화
+                });
+
+        System.out.println("===============then, 추가 쿼리 확인===============");
     }
 }

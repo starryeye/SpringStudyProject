@@ -14,4 +14,6 @@ public interface MemberEagerRepository extends JpaRepository<MemberEager, Long> 
 
     @EntityGraph(attributePaths = {"teamEager"})
     List<MemberEager> findEntityGraphByIdIn(List<Long> ids);
+
+    List<MemberEager> findByIdIn(List<Long> ids);
 }
