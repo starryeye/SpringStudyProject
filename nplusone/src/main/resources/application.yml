@@ -1,5 +1,7 @@
-
 spring:
+  profiles:
+    default: local
+
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -31,3 +33,14 @@ logging:
           jdbc:
             bind: trace
             extract: trace
+
+---
+spring:
+  config:
+    activate:
+      on-profile: batch
+
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 500

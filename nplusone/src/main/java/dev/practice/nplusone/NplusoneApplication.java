@@ -15,9 +15,7 @@ public class NplusoneApplication {
 	 *
 	 * DB 는 FK 하나로 양방향 접근(조인)이 가능하다.
 	 *
-	 *
-	 * @BatchSize 원리.. 쿼리 어떻게 나가는지 꼭 보기..
-	 * profile 로 조절할 것..
+	 * N + 1 문제의 모든 케이스 정리해보기
 	 */
 
 }
