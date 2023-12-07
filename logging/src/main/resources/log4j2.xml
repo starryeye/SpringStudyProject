@@ -15,7 +15,8 @@
         <!--로그 파일, JsonLayout 으로 출력-->
         <RollingFile name="file" fileName="${BASE_DIR}/logs.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.logs.zip">
             <JsonLayout complete="false" compact="true" objectMessageAsJsonObject="true">
-                <KeyValuePair key="~~~" value="~~~"/>
+                <KeyValuePair key="additionalField1" value="constant value"/>
+                <KeyValuePair key="additionalField2" value="$${ctx:logId:-}"/>
             </JsonLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 매일(yyyy-MM-dd) log zip파일 생성 -->

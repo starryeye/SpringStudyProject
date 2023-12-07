@@ -15,6 +15,8 @@ public class LogInterceptor implements HandlerInterceptor {
 
     public static final String LOG_ID = "logId";
 
+    //todo, JsonTemplateLayout, log4j2 가변변수 사용해보기(System Date, logId)
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
