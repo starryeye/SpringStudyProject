@@ -3,7 +3,9 @@ package dev.practice.logging;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +15,7 @@ import java.util.UUID;
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
+    // look at log4j2.xml
     public static final String LOG_ID = "logId";
 
     //todo, JsonTemplateLayout, log4j2 가변변수 사용해보기(System Date, logId)
@@ -34,6 +37,7 @@ public class LogInterceptor implements HandlerInterceptor {
         }
 
         log.info("REQUEST [{}][{}][{}]", uuid, requestURI, handler);
+
         return true;
     }
 

@@ -4,6 +4,7 @@
     <Properties>
         <Property name="BASE_DIR">./logs</Property> <!--로그 파일 경로-->
         <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%level][%file:%line] %msg%n</Property><!--로그 출력 형태-->
+        <Property name="SYSTEM_DATE">$${date:yyyy-MM-dd}</Property>
     </Properties>
 
     <Appenders>
@@ -14,9 +15,10 @@
 
         <!--로그 파일, JsonLayout 으로 출력-->
         <RollingFile name="file" fileName="${BASE_DIR}/logs.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.logs.zip">
-            <JsonLayout complete="false" compact="true" objectMessageAsJsonObject="true">
+            <JsonLayout complete="false" compact="false" objectMessageAsJsonObject="true">
                 <KeyValuePair key="additionalField1" value="constant value"/>
-                <KeyValuePair key="additionalField2" value="$${ctx:logId:-}"/>
+                <KeyValuePair key="additionalField2" value="${SYSTEM_DATE}"/>
+                <KeyValuePair key="additionalField3" value="$${ctx:logId:-}"/>
             </JsonLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 매일(yyyy-MM-dd) log zip파일 생성 -->
