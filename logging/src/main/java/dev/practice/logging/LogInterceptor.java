@@ -16,9 +16,6 @@ public class LogInterceptor implements HandlerInterceptor {
     // look at log4j2.xml
     public static final String LOG_ID = "logId";
 
-    //todo, JsonTemplateLayout
-    // https://logging.apache.org/log4j/2.x/manual/layouts.html#JSONLayout
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 

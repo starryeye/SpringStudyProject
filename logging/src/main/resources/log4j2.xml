@@ -9,8 +9,13 @@
 
     <Appenders>
         <!--콘솔 로그, 특정 패턴으로 출력-->
+<!--        <Console name="console" target="SYSTEM_OUT" follow="true">-->
+<!--            <PatternLayout pattern="${LOG_FORMAT}"/>-->
+<!--        </Console>-->
+
+        <!--콘솔 로그, custom json layout 으로 출력-->
         <Console name="console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <JsonTemplateLayout eventTemplateUri="classpath:JsonTemplateLayoutForLog.json"/>
         </Console>
 
         <!--로그 파일, JsonLayout 으로 출력-->

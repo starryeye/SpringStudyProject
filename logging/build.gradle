@@ -31,6 +31,9 @@ dependencies {
     //add log4j2 dependency
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
+    //add log4j JsonTemplateLayout dependency
+    implementation 'org.apache.logging.log4j:log4j-layout-template-json:2.22.0'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
