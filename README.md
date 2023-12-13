@@ -85,3 +85,8 @@ subject
     - Jdk dynamic proxy, CGLIB
 - jpashopbegin, jpashop, data-jpa, querydsl
   - Jpa, Spring Data Jpa, QueryDsl
+
+## sub projects
+- logging
+  - spring boot + log4j2
+  - Pattern Layout, Json Layout, JsonTemplate Layout 
