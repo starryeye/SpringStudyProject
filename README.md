@@ -92,3 +92,5 @@ subject
   - Pattern Layout, Json Layout, JsonTemplate Layout
 - nplusone
   - JPA N+1 problem
+- OpenFeign
+  - openfeign client
