@@ -89,4 +89,6 @@ subject
 ## sub projects
 - logging
   - spring boot + log4j2
-  - Pattern Layout, Json Layout, JsonTemplate Layout 
+  - Pattern Layout, Json Layout, JsonTemplate Layout
+- nplusone
+  - JPA N+1 problem
