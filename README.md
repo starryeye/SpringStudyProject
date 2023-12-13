@@ -94,3 +94,5 @@ subject
   - JPA N+1 problem
 - OpenFeign
   - openfeign client
+- restclients
+  - spring 6 client
