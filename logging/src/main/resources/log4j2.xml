@@ -2,46 +2,20 @@
 <Configuration status="info" monitorInterval="30">
     <!--변수 설정-->
     <Properties>
-        <Property name="BASE_DIR">./logs</Property> <!--로그 파일 경로-->
-        <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%level][%file:%line] %msg%n</Property><!--로그 출력 형태-->
-        <Property name="SYSTEM_DATE">$${date:yyyy-MM-dd}</Property>
+        <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%-5p][%level][%file:%line][%.9equals{%X{logId}}{}{requestId}] %-40.40logger{39} : %highlight{%msg}{}%n</Property><!--로그 출력 형태-->
     </Properties>
 
     <Appenders>
         <!--콘솔 로그, 특정 패턴으로 출력-->
-<!--        <Console name="console" target="SYSTEM_OUT" follow="true">-->
-<!--            <PatternLayout pattern="${LOG_FORMAT}"/>-->
-<!--        </Console>-->
-
-        <!--콘솔 로그, custom json layout 으로 출력-->
         <Console name="console" target="SYSTEM_OUT" follow="true">
-            <JsonTemplateLayout eventTemplateUri="classpath:JsonTemplateLayoutForLog.json"/>
+            <PatternLayout pattern="${LOG_FORMAT}"/>
         </Console>
 
-        <!--로그 파일, JsonLayout 으로 출력-->
-        <RollingFile name="file" fileName="${BASE_DIR}/logs.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.logs.zip">
-            <JsonLayout complete="false" compact="false" objectMessageAsJsonObject="true">
-                <KeyValuePair key="additionalField1" value="constant value"/>
-                <KeyValuePair key="additionalField2" value="${SYSTEM_DATE}"/>
-                <KeyValuePair key="additionalField3" value="$${ctx:logId:-}"/>
-            </JsonLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 매일(yyyy-MM-dd) log zip파일 생성 -->
-            </Policies>
-            <DefaultRolloverStrategy>
-                <Delete basePath="${BASE_DIR}">
-                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제-->
-                    <!-- <IfFileName glob="*.log"/> --> <!-- 삭제할 파일명 -->
-                    <!-- <IfLastModified age="3d"/> --> <!-- 마지막 로그가 찍히고 3일 이상된 log 파일 삭제 -->
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="console"/>
-            <AppenderRef ref="file"/>
         </Root>
     </Loggers>
 </Configuration>
