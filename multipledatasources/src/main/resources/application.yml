@@ -1,1 +1,27 @@
 
+spring:
+  datasource:
+
+    memos:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:mem:memos
+      username: sa
+      password:
+      hikari:
+        connection-timeout: 55555
+
+    todos:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:mem:todos
+      username: sa
+      password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        highlight_sql: true
+        format_sql: true
+        use_sql_comments: true
