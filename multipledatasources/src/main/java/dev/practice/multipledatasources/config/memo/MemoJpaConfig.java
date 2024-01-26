@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,13 +18,14 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( // JPA repository 빈을 등록하도록 하는 어노테이션
-        basePackages = "dev.practice.multipledatasources.repository.memo", // 스캔범위
+        basePackageClasses = MemoEntity.class, // JpaRepository 스캔 시작 범위
         entityManagerFactoryRef = "memosEntityManagerFactory",
         transactionManagerRef = "memosTransactionManager"
 )
 public class MemoJpaConfig {
 
     @Bean
+    @Primary
     public LocalContainerEntityManagerFactoryBean memosEntityManagerFactory(
             @Qualifier("memosDataSource") DataSource dataSource,
             EntityManagerFactoryBuilder entityManagerFactoryBuilder

@@ -17,7 +17,7 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( // JPA repository 빈을 등록하도록 하는 어노테이션
-        basePackages = "dev.practice.multipledatasources.repository.todo", // 스캔범위
+        basePackageClasses = TodoEntity.class, // JpaRepository 스캔 시작 범위
         entityManagerFactoryRef = "todosEntityManagerFactory",
         transactionManagerRef = "todosTransactionManager"
 )
