@@ -1,32 +1,27 @@
 
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
   datasource:
 
-    memos:
-      driver-class-name: org.h2.Driver
-      url: jdbc:h2:mem:memos
-      username: sa
-      password:
+    memo-datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/memo
+      username: root
+      password: 1234
       hikari:
         connection-timeout: 55555
 
-    todos:
-      driver-class-name: org.h2.Driver
-      url: jdbc:h2:mem:todos
-      username: sa
-      password:
+    todo-datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3307/todo
+      username: root
+      password: 1234
 
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        highlight_sql: true
-        format_sql: true
-        use_sql_comments: true
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        highlight_sql: true
+#        format_sql: true
+#        use_sql_comments: true

@@ -12,18 +12,18 @@ import javax.sql.DataSource;
 public class MemoDataSourceConfig {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.memos")
-    public DataSourceProperties memosDataSourceProperties() {
+    @ConfigurationProperties("spring.datasource.memo-datasource")
+    public DataSourceProperties memoDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean
     @Primary
-    @ConfigurationProperties("spring.datasource.memos.hikari")
-    public DataSource memosDataSource() {
+    @ConfigurationProperties("spring.datasource.memo-datasource.hikari")
+    public DataSource memoDataSource() {
 
         // memo 전용 datasource 생성
-        return memosDataSourceProperties()
+        return memoDataSourceProperties()
                 .initializeDataSourceBuilder()
                 .build();
     }

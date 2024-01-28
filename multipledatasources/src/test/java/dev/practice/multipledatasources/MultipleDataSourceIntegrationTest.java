@@ -5,16 +5,17 @@ import dev.practice.multipledatasources.repository.memo.MemoRepository;
 import dev.practice.multipledatasources.repository.todo.TodoEntity;
 import dev.practice.multipledatasources.repository.todo.TodoRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-@DataJpaTest
+@SpringBootTest
 public class MultipleDataSourceIntegrationTest {
 
     @Autowired
@@ -23,17 +24,18 @@ public class MultipleDataSourceIntegrationTest {
     @Autowired
     private TodoRepository todoRepository;
 
-    @Autowired
-    private EntityManager memosEntityManager;
+    @PersistenceContext(unitName = "memoEntityManager")
+    private EntityManager memoEntityManager;
 
-    @Autowired
-    private EntityManager todosEntityManager;
+    @PersistenceContext(unitName = "todoEntityManager")
+    private EntityManager todoEntityManager;
 
     @Test
     void contextLoad() {
 
-        log.info("memosEntityManager = {}", memosEntityManager.toString());
-        log.info("todosEntityManager = {}", todosEntityManager.toString());
+        // todo, 왜 @DataJpaTest 로 하면 에러가 나지..
+        log.info("memosEntityManager = {}", memoEntityManager.toString());
+        log.info("todosEntityManager = {}", todoEntityManager.toString());
     }
 
     @DisplayName("memo 저장이 되어야한다.")
@@ -45,7 +47,7 @@ public class MultipleDataSourceIntegrationTest {
 
         // when
         MemoEntity saved = memoRepository.save(memo);
-        memosEntityManager.clear();
+        memoEntityManager.clear();
         MemoEntity result = memoRepository.findById(saved.getId()).orElseThrow();
 
         // then
@@ -65,7 +67,7 @@ public class MultipleDataSourceIntegrationTest {
 
         // when
         TodoEntity saved = todoRepository.save(todo);
-        todosEntityManager.clear();
+        todoEntityManager.clear();
         TodoEntity result = todoRepository.findById(saved.getId()).orElseThrow();
 
         // then
