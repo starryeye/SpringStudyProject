@@ -99,4 +99,4 @@ subject
 - multipledatasources
   - N 개의 DB 와 1 개의 application 간 connect
 - xmlresponse
-  - xml format 을 default 로 응답하는 application
+  - default 로, xml format 으로 응답하는 application
