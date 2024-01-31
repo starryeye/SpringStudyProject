@@ -1,6 +1,8 @@
 package dev.practice.xmlresponse;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +13,14 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private final String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * https://www.baeldung.com/spring-boot-customize-jackson-objectmapper
@@ -27,7 +32,11 @@ public class WebConfig implements WebMvcConfigurer {
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
             Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder // 스프링은 원래 얘를 가지고 만든다. 그래서 옵션을 그대로 이어받을 수 있음
     ) {
-        jackson2ObjectMapperBuilder.featuresToEnable(SerializationFeature.WRAP_ROOT_VALUE); // 사용자가 원하는 옵션 추가
+        // 사용자가 원하는 옵션 추가
+        jackson2ObjectMapperBuilder
+                .featuresToEnable(SerializationFeature.WRAP_ROOT_VALUE)
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_FORMAT)));
 
         return new MappingJackson2HttpMessageConverter(jackson2ObjectMapperBuilder.build());
     }
