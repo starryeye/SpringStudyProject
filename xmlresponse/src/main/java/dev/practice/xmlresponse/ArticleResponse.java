@@ -13,6 +13,7 @@ public class ArticleResponse {
     private final String title;
     private final String content;
     private final LocalDateTime createdAt;
+    private final String nullProperty = null;
 
     @Builder
     private ArticleResponse(String title, String content, LocalDateTime createdAt) {
