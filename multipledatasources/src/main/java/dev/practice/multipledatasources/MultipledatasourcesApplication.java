@@ -21,18 +21,18 @@ public class MultipledatasourcesApplication {
 		SpringApplication.run(MultipledatasourcesApplication.class, args);
 	}
 
-	@Bean
-	public ApplicationRunner runner() {
-		return args -> {
-
-			MemoEntity memo = MemoEntity.create("memo title", "memo content");
-			memoRepository.save(memo);
-
-			TodoEntity todo = TodoEntity.create("todo title", Boolean.TRUE);
-			todoRepository.save(todo);
-
-			Integer end = 0;
-		};
-	}
+//	@Bean
+//	public ApplicationRunner runner() {
+//		return args -> {
+//
+//			MemoEntity memo = MemoEntity.create("memo title", "memo content");
+//			memoRepository.save(memo);
+//
+//			TodoEntity todo = TodoEntity.create("todo title", Boolean.TRUE);
+//			todoRepository.save(todo);
+//
+//			Integer end = 0;
+//		};
+//	}
 
 }

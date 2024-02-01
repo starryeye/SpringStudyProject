@@ -7,6 +7,7 @@ import dev.practice.multipledatasources.repository.todo.TodoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class MultipleDataSourceIntegrationTest {
 
     @PersistenceContext(unitName = "todoEntityManager")
     private EntityManager todoEntityManager;
+
+    @AfterEach
+    void tearDown() {
+        memoRepository.deleteAllInBatch();
+        todoRepository.deleteAllInBatch();
+    }
 
     @Test
     void contextLoad() {
