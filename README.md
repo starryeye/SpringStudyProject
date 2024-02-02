@@ -95,10 +95,9 @@ subject
 - OpenFeign
   - openfeign client
 - restclients
-  - spring 6 client
-    - Http interface, WebClient, RestTemplate
-    - todo, RestClient
+  - spring 6 Rest client 4가지
+    - Http interface, WebClient, RestTemplate, RestClient
 - multipledatasources
-  - N 개의 DB 와 1 개의 application 간 connect
+  - N 개의 DB 와 1 개의 application 간 connection
 - xmlresponse
   - default 로, xml format 으로 응답하는 application
