@@ -101,3 +101,5 @@ subject
   - N 개의 DB 와 1 개의 application 간 connection
 - xmlresponse
   - default 로, xml format 으로 응답하는 application
+- compositekey
+  - JPA 복합키
