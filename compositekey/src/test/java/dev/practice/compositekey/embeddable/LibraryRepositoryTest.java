@@ -18,7 +18,7 @@ class LibraryRepositoryTest {
     @Autowired
     private LibraryRepository libraryRepository;
 
-    @DisplayName("복합키로 구성된 entity 를 다루어본다.")
+    @DisplayName("Embeddable 복합키로 구성된 entity 를 다루어본다.")
     @Test
     void insert_and_select() {
 
@@ -26,10 +26,14 @@ class LibraryRepositoryTest {
         Library library = Library.create("1", "national central library", LocalDate.now());
 
         // when
+        log.info("----------------------before when----------------------");
         libraryRepository.save(library); // todo, insert 전.. DB 에 복합키 유무를 따지기 위해 select 가 먼저한번 나가버림..
+        log.info("----------------------after when----------------------");
 
         // then
+        log.info("----------------------before then----------------------");
         Library result = libraryRepository.findById(library.getId()).orElseThrow();
+        log.info("----------------------after then----------------------");
 
         assertThat(result.getId().getRegionNumber())
                 .isEqualTo(library.getId().getRegionNumber());

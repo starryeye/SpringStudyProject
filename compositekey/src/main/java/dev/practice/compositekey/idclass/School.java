@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @Entity
 @IdClass(SchoolId.class)
@@ -19,16 +21,21 @@ public class School {
     @Id
     private String name;
 
+    private LocalDate establishmentDate;
+
     @Builder
-    private School(String regionNumber, String name) {
+    private School(String regionNumber, String name, LocalDate establishmentDate) {
         this.regionNumber = regionNumber;
         this.name = name;
+        this.establishmentDate = establishmentDate;
     }
 
-    public static School create(String regionNumber, String name) {
+    public static School create(String regionNumber, String name, LocalDate establishmentDate) {
+
         return School.builder()
                 .regionNumber(regionNumber)
                 .name(name)
+                .establishmentDate(establishmentDate)
                 .build();
     }
 }
