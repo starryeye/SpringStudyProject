@@ -58,7 +58,7 @@ class ArticleControllerTest {
                 .andExpect(xpath("/article/content").string("content"))
                 .andExpect(xpath("/article/createdAt").string("2024-01-31T21:11:00"))
                 .andExpect(xpath("/article/nullProperty").exists()) // json 처럼 이거 없애려면 MappingJackson2XmlHttpMessageConverter 를 커스텀 해주면된다. 어쩌면 XmlMapper 도..
-                .andExpect(content().xml("<article><title>title</title><content>content</content><createdAt>2024-01-31T21:11:00</createdAt><nullProperty/></article>"));
+                .andExpect(content().xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><article><title>title</title><content>content</content><createdAt>2024-01-31T21:11:00</createdAt><nullProperty/></article>"));
 
     }
 }

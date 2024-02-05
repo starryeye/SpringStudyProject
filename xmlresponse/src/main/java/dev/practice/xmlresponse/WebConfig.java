@@ -1,7 +1,11 @@
 package dev.practice.xmlresponse;
 
+import com.ctc.wstx.api.WstxOutputProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +29,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * https://www.baeldung.com/spring-boot-customize-jackson-objectmapper
-     *
+     * <p>
      * 기본 제공되는 MappingJackson2HttpMessageConverter 말고 사용자가 직접 만들어준다.
-     *
      */
-    @Bean
+    @Bean // Json
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
             Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder // 스프링은 원래 얘를 가지고 만든다. 그래서 옵션을 그대로 이어받을 수 있음
     ) {
@@ -42,12 +45,25 @@ public class WebConfig implements WebMvcConfigurer {
         return new MappingJackson2HttpMessageConverter(jackson2ObjectMapperBuilder.build());
     }
 
-    @Bean
+    @Bean // Xml
     public MappingJackson2XmlHttpMessageConverter mappingJackson2XmlHttpMessageConverter(
-
+            Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder
     ) {
 
-        return new MappingJackson2XmlHttpMessageConverter();
+        // Json 에서의 Jackson2ObjectMapperBuilder 와는 관련이 없다.
+//        jackson2ObjectMapperBuilder
+//                .serializationInclusion(JsonInclude.Include.NON_NULL);
+//                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(LOCAL_DATE_TIME_FORMAT)));
+
+        XmlMapper xmlMapper = jackson2ObjectMapperBuilder.createXmlMapper(true)
+                .build();
+
+        xmlMapper.enable(ToXmlGenerator.Feature.WRITE_XML_DECLARATION); // xml 선언부 표기
+//        xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        xmlMapper.getFactory().getXMLOutputFactory().setProperty(WstxOutputProperties.P_USE_DOUBLE_QUOTES_IN_XML_DECL, true); // 쌍따옴표 사용
+
+        return new MappingJackson2XmlHttpMessageConverter(xmlMapper);
     }
 
     /**
@@ -55,7 +71,7 @@ public class WebConfig implements WebMvcConfigurer {
      * 1. (Deprecated) Using URL suffixes (extensions) in the request (eg .xml/.json)
      * 2. Using URL Query parameter in the request (eg ?format=json)
      * 3. Using Accept header in the request
-     *
+     * <p>
      * 아래는 HttpMessageConverter 의 우선 순위와 상관 없이 정책을 정하는 방법인듯..
      */
     @Override
