@@ -28,6 +28,7 @@ class LibraryRepositoryTest {
         // when
         log.info("----------------------before when----------------------");
         libraryRepository.save(library); // todo, insert 전.. DB 에 복합키 유무를 따지기 위해 select 가 먼저한번 나가버림..
+        // insert_and_select 에 @Transactional 을 걸면, 쓰기 지연이 적용되나.. 복합키 유무 select 는 여전히 before, after when 사이에 이루어진다.
         log.info("----------------------after when----------------------");
 
         // then
