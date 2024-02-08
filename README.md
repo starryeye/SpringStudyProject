@@ -103,3 +103,5 @@ subject
   - default 로, xml format 으로 응답하는 application
 - compositekey
   - JPA 복합키
+- eagerandlazy
+  - JPA 즉시로딩, 지연로딩
