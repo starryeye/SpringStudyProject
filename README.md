@@ -105,3 +105,5 @@ subject
   - JPA 복합키
 - eagerandlazy
   - JPA 즉시로딩, 지연로딩
+- cascadeandorphan
+  - JPA 영속성 전이, 고아 객체 삭제
