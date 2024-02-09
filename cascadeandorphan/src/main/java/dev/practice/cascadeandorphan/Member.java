@@ -19,7 +19,7 @@ public class Member {
 
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(nullable = false)
-    private Team team;
+    private Team team; // 연관 관계 주인
 
     @Builder
     private Member(Long id, String name, Team team) {
