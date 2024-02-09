@@ -38,4 +38,8 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
 }
