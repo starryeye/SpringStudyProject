@@ -60,4 +60,27 @@ class TeamRepositoryTest {
                 );
     }
 
+    @DisplayName("영속성 전이는 collection add 메서드로 추가 하지 않으면 동작하지 않는다.")
+    @Test
+    void test2() {
+
+        // given
+        Team team = Team.create("T1");
+
+        Member member1 = Member.create("Alice");
+        Member member2 = Member.create("Bob");
+        Member member3 = Member.create("Claire");
+
+        member1.setTeam(team);
+        member2.setTeam(team);
+        member3.setTeam(team);
+
+        // when
+        teamRepository.save(team);
+
+        // then
+        List<Member> result = memberRepository.findAll();
+
+        assertThat(result).isEmpty();
+    }
 }
