@@ -103,6 +103,13 @@ class TeamRepositoryTest {
         log.info("-----------------------before when-----------------------------");
         /**
          * 영속성 전이로 인해 team 만 삭제시켜도 연관된 member 까지 삭제된다.
+         *
+         * 참고
+         * 삭제 순서는.. 당연히..
+         * 외래키 제약 조건으로 인해 member 먼저 삭제하고 team 을 삭제한다.
+         *
+         * cascade 설정을 하지 않고 team 만 삭제하면, member 의 FK 대상이 사라진 격으로
+         * DB 에서 외래키 무결성 예외가 발생한다.
          */
         teamRepository.deleteById(team.getId());
         log.info("-----------------------after when-----------------------------");
