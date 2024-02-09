@@ -21,7 +21,7 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members = new ArrayList<>();
 
     @Builder
@@ -44,10 +44,22 @@ public class Team {
         if(Objects.nonNull(members)) {
             members.forEach(
                     member -> {
-                        this.members.add(member); // cascade 를 이용하려면 add 를 해줘야한다. (persist2 코드 확인)
+                        this.members.add(member); // cascade 를 이용하려면 add 를 해줘야한다. (CascadeTest, persist2 코드 확인)
                         member.setTeam(this);
                     }
             );
+        }
+    }
+
+    public void removeMemberByMemberName(String name) {
+
+        if(Objects.nonNull(this.members)) {
+            this.members.stream()
+                    .filter(member -> member.getName().equals(name))
+                    .findFirst()
+                    .ifPresent(
+                            member -> this.members.remove(member)
+                    );
         }
     }
 }

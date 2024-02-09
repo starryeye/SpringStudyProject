@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-class TeamRepositoryTest {
+class CascadeTest {
 
     @Autowired
     private TeamRepository teamRepository;
