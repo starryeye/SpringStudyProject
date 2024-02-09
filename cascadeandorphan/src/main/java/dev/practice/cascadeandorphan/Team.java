@@ -44,7 +44,7 @@ public class Team {
         if(Objects.nonNull(members)) {
             members.forEach(
                     member -> {
-                        this.members.add(member); // cascade 를 이용하려면 add 를 해줘야한다. (test2 코드 확인)
+                        this.members.add(member); // cascade 를 이용하려면 add 를 해줘야한다. (persist2 코드 확인)
                         member.setTeam(this);
                     }
             );

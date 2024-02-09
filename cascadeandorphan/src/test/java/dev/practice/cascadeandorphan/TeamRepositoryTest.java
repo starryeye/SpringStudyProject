@@ -1,5 +1,6 @@
 package dev.practice.cascadeandorphan;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 class TeamRepositoryTest {
 
@@ -29,7 +29,7 @@ class TeamRepositoryTest {
 
     @DisplayName("영속성 전이로 인해 team 을 영속화 시키면 member 도 함께 영속화 된다.")
     @Test
-    void test() {
+    void persist1() {
 
         // given
         Team team = Team.create("T1");
@@ -62,7 +62,7 @@ class TeamRepositoryTest {
 
     @DisplayName("영속성 전이는 collection add 메서드로 추가 하지 않으면 동작하지 않는다.")
     @Test
-    void test2() {
+    void persist2() {
 
         // given
         Team team = Team.create("T1");
@@ -82,5 +82,36 @@ class TeamRepositoryTest {
         List<Member> result = memberRepository.findAll();
 
         assertThat(result).isEmpty();
+    }
+
+    @DisplayName("영속성 전이로 인해 team 을 삭제 하면 member 도 함께 삭제 된다.")
+    @Test
+    void remove1() {
+
+        // given
+        Team team = Team.create("T1");
+
+        Member member1 = Member.create("Alice");
+        Member member2 = Member.create("Bob");
+        Member member3 = Member.create("Claire");
+
+        team.addMembers(List.of(member1, member2, member3));
+
+        teamRepository.save(team); // team, member 모두 저장
+
+        // when
+        log.info("-----------------------before when-----------------------------");
+        /**
+         * 영속성 전이로 인해 team 만 삭제시켜도 연관된 member 까지 삭제된다.
+         */
+        teamRepository.deleteById(team.getId());
+        log.info("-----------------------after when-----------------------------");
+
+        // then
+        List<Member> memberResult = memberRepository.findAll();
+        List<Team> teamResult = teamRepository.findAll();
+
+        assertThat(memberResult).isEmpty();
+        assertThat(teamResult).isEmpty();
     }
 }
