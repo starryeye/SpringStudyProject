@@ -3,6 +3,7 @@ package dev.practice.fetchjoin;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ class TeamRepositoryTest {
 
     @Autowired
     private EntityManager entityManager;
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAllInBatch();
+        teamRepository.deleteAllInBatch();
+    }
 
     @DisplayName("페치 조인을 사용하면, 팀을 조회 하면서 연관된 회원 컬렉션도 함께 조회할 수 있다.")
     @Test
