@@ -27,11 +27,14 @@ public class Member {
         this.team = team;
     }
 
-    public static Member create(String name, Team team) {
+    public static Member create(String name) {
         return Member.builder()
                 .id(null)
                 .name(name)
-                .team(team)
                 .build();
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
