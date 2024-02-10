@@ -9,7 +9,7 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
     /**
-     * 컬렉션 페치 조인
+     * 컬렉션 엔티티 페치 조인
      *
      * hibernate 6 부터 join fetch 사용하면 자동 distinct 적용 된다.
      *
