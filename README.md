@@ -107,3 +107,5 @@ subject
   - JPA 즉시로딩, 지연로딩
 - cascadeandorphan
   - JPA 영속성 전이, 고아 객체 삭제
+- fetchjoin
+  - JPA 페치 조인
