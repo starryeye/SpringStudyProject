@@ -60,4 +60,35 @@ class MemberRepositoryTest {
 
     }
 
+    @DisplayName("글로벌 페치 전략이 즉시 로딩이어도, JPQL 을 fetch join 을 사용하지 않고 그냥 join 을 사용하면 한방 쿼리가 아니다.")
+    @Test
+    void test2() {
+
+        // given
+        PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
+
+        Team team = Team.create("T1");
+
+        teamRepository.save(team);
+
+        Member member1 = Member.create("Alice", team);
+        Member member2 = Member.create("Bob", team);
+        Member member3 = Member.create("Claire", team);
+
+        memberRepository.saveAll(List.of(member1, member2, member3));
+
+        // when
+        /**
+         * 한방 쿼리는 아니지만, 글로벌 페치 전략이 즉시 로딩이므로..
+         * 쿼리가 한번더 나간다.
+         *
+         * 즉, 글로벌 페치 전략보다 우선하는게 JPQL 이다.
+         */
+        log.info("------------------------before when---------------------------");
+        Member result = memberRepository.findMemberByIdWithInnerJoin(member1.getId()).orElseThrow();
+        log.info("------------------------after when---------------------------");
+
+        // then
+        assertThat(persistenceUnitUtil.isLoaded(result.getTeam())).isTrue();
+    }
 }
