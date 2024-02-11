@@ -19,5 +19,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * Page 가 리턴 타입이면 기본적으로 전체 count 쿼리를 추가로 호출한다.
      */
 
-    List<Member> findByName(String name, Sort sort);
+    List<Member> findByName(String name, Sort sort); // MemberRepositoryTest::sort()
 }
