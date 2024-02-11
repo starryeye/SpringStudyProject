@@ -109,3 +109,5 @@ subject
   - JPA 영속성 전이, 고아 객체 삭제
 - fetchjoin
   - JPA 페치 조인
+- pagingandsorting
+  - Spring Data JPA, 페이징과 정렬
