@@ -1,5 +1,7 @@
 package dev.practice.pagingandsorting.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -22,4 +24,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      */
 
     List<Member> findByName(String name, Sort sort); // MemberRepositoryTest::sort()
+
+    List<Member> findListByName(String name, Pageable pageable); // MemberRepositoryTest::pageable()
+
+    Page<Member> findPageByName(String name, Pageable pageable); // MemberRepositoryTest::page()
 }
