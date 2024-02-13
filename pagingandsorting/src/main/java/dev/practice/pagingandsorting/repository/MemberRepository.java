@@ -21,6 +21,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * Page 가 리턴 타입이면 기본적으로 전체 count 쿼리를 추가로 호출한다.
      * - org.springframework.data.domain.Slice
      * Page 는 Slice 를 상속한다. Slice 는 전체 count 쿼리를 추가로 호출하지 않아서 전체 갯수나 전체 페이지에 대한 정보를 제공할 순 없다.
+     *
+     * todo, JPQL + Page or Slice
      */
 
     List<Member> findByName(String name, Sort sort); // MemberRepositoryTest::sort()
