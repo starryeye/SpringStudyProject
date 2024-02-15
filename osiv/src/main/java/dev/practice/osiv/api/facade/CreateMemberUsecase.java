@@ -31,7 +31,7 @@ public class CreateMemberUsecase {
 
         // 영속 상태의 엔티티를 변경했지만, 스프링 OSIV 는 트랜잭션(memberService.create)이 끝나면 더이상 flush 하지 않아서 DB 에 반영되지는 않는다.
         // -> 트랜잭션(memberService.create) 이 커밋 되는 시점에 flush 가 동작하며 변경감지가 이미 동작했고, interceptor 에서 영속성 컨텍스트가 종료될때는 flush 동작이 없다.
-        // 사용자가 직접 flush 하면 트랜잭션 외부에서 수정이므로 TransactionRequiredException 이 발생한다.
+        // 사용자가 직접 flush 하면 트랜잭션 외부에서 수정이므로 TransactionRequiredException 이 발생한다. (트랜잭션 외부에서 조회는 가능하다. - 지연 로딩도 가능)
         member.changeName("change name");
         String changed = member.getName();
         String message = Notice.generateCreateMemberMessage(changed);
