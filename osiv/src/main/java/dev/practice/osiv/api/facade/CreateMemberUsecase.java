@@ -57,5 +57,7 @@ public class CreateMemberUsecase {
      *
      * 그러면, memberService.create() 에서 반환된 member 는 준영속 상태가 된다.
      *
+     * 대신, 트랜잭션 범위(=영속성 컨텍스트 범위) 를 벗어난 상황에서 지연 로딩을 시도하면,
+     * LazyInitializationException 이 발생한다.
      */
 }
