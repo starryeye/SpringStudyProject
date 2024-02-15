@@ -25,7 +25,9 @@ public class CreateMemberUsecase {
          * 서로 다른 트랜잭션이다.
          */
 
-        Member member = memberService.create(name); // spring OSIV 로 인해 member 는 영속 상태이다.
+        // spring OSIV 로 인해 member 는 영속 상태이다.
+        // -> 인터셉터에서 영속성 컨텍스트를 생성하고 인터셉터 범위를 벗어날때까지 하나의 영속성 컨텍스트를 공유함
+        Member member = memberService.create(name);
 
         // 영속 상태의 엔티티를 변경했지만, 스프링 OSIV 는 트랜잭션(memberService.create)이 끝나면 더이상 flush 하지 않아서 DB 에 반영되지는 않는다.
         // -> 트랜잭션(memberService.create) 이 커밋 되는 시점에 flush 가 동작하며 변경감지가 이미 동작했고, interceptor 에서 영속성 컨텍스트가 종료될때는 flush 동작이 없다.
@@ -47,4 +49,13 @@ public class CreateMemberUsecase {
          */
         noticeService.create(message);
     }
+
+    /**
+     * 위와 같은 현상을 간단하게 해결하려면
+     * 스프링 OSIV 를 적용하지 않고.. 트랜잭션 범위와 영속성 컨텍스트 범위를 동일하게 맞추면 된다.
+     * spring.jpa.open-in-view: false 로 하자..
+     *
+     * 그러면, memberService.create() 에서 반환된 member 는 준영속 상태가 된다.
+     *
+     */
 }
