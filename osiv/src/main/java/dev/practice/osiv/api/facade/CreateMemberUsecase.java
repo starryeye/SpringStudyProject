@@ -5,8 +5,10 @@ import dev.practice.osiv.api.service.NoticeService;
 import dev.practice.osiv.domain.Member;
 import dev.practice.osiv.domain.Notice;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CreateMemberUsecase {
@@ -23,12 +25,26 @@ public class CreateMemberUsecase {
          * 서로 다른 트랜잭션이다.
          */
 
-        Member member = memberService.create(name);
+        Member member = memberService.create(name); // spring OSIV 로 인해 member 는 영속 상태이다.
 
+        // 영속 상태의 엔티티를 변경했지만, 스프링 OSIV 는 트랜잭션(memberService.create)이 끝나면 더이상 flush 하지 않아서 DB 에 반영되지는 않는다.
+        // -> 트랜잭션(memberService.create) 이 커밋 되는 시점에 flush 가 동작하며 변경감지가 이미 동작했고, interceptor 에서 영속성 컨텍스트가 종료될때는 flush 동작이 없다.
+        // 사용자가 직접 flush 하면 트랜잭션 외부에서 수정이므로 TransactionRequiredException 이 발생한다.
         member.changeName("change name");
         String changed = member.getName();
         String message = Notice.generateCreateMemberMessage(changed);
 
+        log.info("diff transaction");
+
+        /**
+         * 아래 noticeService.create() 에서는 memberService.create() 와 다른 transaction 이 시작되고 종료된다.
+         * 하지만, 영속성 컨텍스트는 동일하다. (DB connection 도 아마 동일..)
+         *
+         * 그래서, 전혀 다른 transaction 이 동작하지만,
+         * 영속성 컨텍스트에는 1차 캐시에 member 의 스냅샷과 엔티티가 저장되어 있다.
+         * 해당 transaction 이 종료되면서..
+         * 변경 감지가 동작해버려.. member 의 변경 사항이 DB 에 전달된다.
+         */
         noticeService.create(message);
     }
 }
