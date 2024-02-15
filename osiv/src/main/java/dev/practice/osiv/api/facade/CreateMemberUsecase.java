@@ -59,5 +59,8 @@ public class CreateMemberUsecase {
      *
      * 대신, 트랜잭션 범위(=영속성 컨텍스트 범위) 를 벗어난 상황에서 지연 로딩을 시도하면,
      * LazyInitializationException 이 발생한다.
+     *
+     * OSIV 와 성능
+     * https://www.baeldung.com/spring-open-session-in-view
      */
 }
