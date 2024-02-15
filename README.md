@@ -111,3 +111,5 @@ subject
   - JPA 페치 조인
 - pagingandsorting
   - Spring Data JPA, 페이징과 정렬
+- osiv
+  - Spring 과 JPA 그리고 OSIV
