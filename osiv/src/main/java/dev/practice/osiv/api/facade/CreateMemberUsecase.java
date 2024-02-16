@@ -5,6 +5,7 @@ import dev.practice.osiv.api.service.NoticeService;
 import dev.practice.osiv.domain.Member;
 import dev.practice.osiv.domain.Notice;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class CreateMemberUsecase {
     private final MemberService memberService;
     private final NoticeService noticeService;
 
+    @SneakyThrows
     public void run(String name) {
 
         /**
@@ -25,9 +27,15 @@ public class CreateMemberUsecase {
          * 서로 다른 트랜잭션이다.
          */
 
+        Thread.sleep(200);
+        log.info("before first transaction");
+
         // spring OSIV 로 인해 member 는 영속 상태이다.
         // -> 인터셉터에서 영속성 컨텍스트를 생성하고 인터셉터 범위를 벗어날때까지 하나의 영속성 컨텍스트를 공유함
         Member member = memberService.create(name);
+
+        Thread.sleep(200);
+        log.info("after first transaction");
 
         // 영속 상태의 엔티티를 변경했지만, 스프링 OSIV 는 트랜잭션(memberService.create)이 끝나면 더이상 flush 하지 않아서 DB 에 반영되지는 않는다.
         // -> 트랜잭션(memberService.create) 이 커밋 되는 시점에 flush 가 동작하며 변경감지가 이미 동작했고, interceptor 에서 영속성 컨텍스트가 종료될때는 flush 동작이 없다.
@@ -36,7 +44,8 @@ public class CreateMemberUsecase {
         String changed = member.getName();
         String message = Notice.generateCreateMemberMessage(changed);
 
-        log.info("diff transaction");
+        Thread.sleep(200);
+        log.info("before second transaction");
 
         /**
          * 아래 noticeService.create() 에서는 memberService.create() 와 다른 transaction 이 시작되고 종료된다.
@@ -48,6 +57,9 @@ public class CreateMemberUsecase {
          * 변경 감지가 동작해버려.. member 의 변경 사항이 DB 에 전달된다.
          */
         noticeService.create(message);
+
+        Thread.sleep(200);
+        log.info("after second transaction");
     }
 
     /**
@@ -62,5 +74,10 @@ public class CreateMemberUsecase {
      *
      * OSIV 와 성능
      * https://www.baeldung.com/spring-open-session-in-view
+     * -> OSIV 가 지연로딩을 잘 해결해주지만..
+     * DB connection 관점에서 보면, 첫번째 Transaction 시작 부터 영속성 컨텍스트 종료 까지 해당 스레드에 할당상태로 된다.
+     * 따라서, Transaction 종료부터 영속성 컨텍스트 종료 까지 불필요하게 DB Connection 이 낭비되는 상황이 생긴다.
+     * 이는 곧.. DB connection 고갈로 이어질 수 있음을 의미한다.
+     *
      */
 }

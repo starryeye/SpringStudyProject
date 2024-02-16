@@ -25,3 +25,10 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    com.zaxxer.hikari.pool.HikariPool: debug
+
+# VM Option
+# -Dcom.zaxxer.hikari.housekeeping.periodMs=100
