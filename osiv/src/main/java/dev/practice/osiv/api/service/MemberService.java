@@ -19,4 +19,18 @@ public class MemberService {
 
         return memberRepository.save(member);
     }
+
+
+    /// 아래는 test code 용
+
+    @Transactional
+    public Long join(Member member) {
+        memberRepository.save(member);
+        return member.getId();
+    }
+
+    @Transactional
+    public Member findOne(Long id) {
+        return memberRepository.findById(id).orElseThrow();
+    }
 }
