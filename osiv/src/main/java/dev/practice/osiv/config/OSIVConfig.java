@@ -44,6 +44,20 @@ public class OSIVConfig implements WebMvcConfigurer {
      *
      * OSIV 를 사용하지 않으면, 트랜잭션이 생성될 때, EntityManager 를 생성하게 되고
      * 서로 다른 트랜잭션이면 영속성 컨텍스트가 달라서 공유되지 못한다.
+     *
+     */
+
+    /**
+     * [디버깅으로 동일한 entityManager 를 사용하는지 확인해볼 수 있다.]
+     *
+     * 아래는 proxy 로 생성된 entityManager 가 가지는 실제 타겟 EntityManager 를 까보는 코드이다. Debugger 에서 사용해보자.
+     * ((EntityManagerProxy)entityManager).getTargetEntityManager()
+     *
+     * 아래 브레이킹 포인트 에서 entityManager, persistenceContext 의 주소 값을 확인해보자.
+     * 1. OpenEntityManagerInViewInterceptor::preHandle(WebRequest request) 의 EntityManager em = createEntityManager();
+     * 2. SimpleJpaRepository::save(S entity) 의 entityManager.persist(entity);
+     *
+     * persistenceContext : 1차 캐시 로 봐도 무방한듯
      */
 
 //    @Bean
