@@ -25,9 +25,25 @@ public class OSIVConfig implements WebMvcConfigurer {
      *
      * actuator 로 확인 시..
      * 기본적으로 OpenEntityManagerInViewInterceptor 가 등록된다.
-     * spring.jpa.open-in-view 속성을 false 로 하면 등록되지 않음
+     * -> spring.jpa.open-in-view 속성을 false 로 하면 등록되지 않음
      *
      * 트랜잭션 범위와 영속성 컨텍스트 범위가 동일하도록 맞추려면 spring.jpa.open-in-view 속성을 false 로 하자..
+     */
+
+
+    /**
+     * 스프링 OSIV 동작 방식
+     *
+     * OpenEntityManagerInViewInterceptor::preHandle() 내부 코드를 보면..
+     * interceptor 시작 시점에 EntityManager 를 하나 생성하는 것을 볼 수 있다. 끝날 시점엔 삭제
+     * 해당 EntityManager 를 현재 요청을 처리하는 스레드에 저장(binding)해놓는다. (TransactionSynchronizationManager 를 이용)
+     *
+     * JpaTransactionManager::doGetTransaction() 내부 코드를 보면.
+     * 그 이후, 트랜잭션이 시작될 때, EntityManager 를 생성하지 않고 현재 스레드에 저장되어있는 것을 재사용한다.
+     * 그래서 OSIV 에서는 트랜잭션이 다르더라도 현재 스레드에 저장되어있는 EntityManager 를 재사용하므로 영속성컨텍스트(1차 캐시)가 공유되는 것이다.
+     *
+     * OSIV 를 사용하지 않으면, 트랜잭션이 생성될 때, EntityManager 를 생성하게 되고
+     * 서로 다른 트랜잭션이면 영속성 컨텍스트가 달라서 공유되지 못한다.
      */
 
 //    @Bean
