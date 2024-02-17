@@ -24,7 +24,7 @@ class MemberEagerRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
-    @DisplayName("Eager 전략에서는 ManyToOne 관계에서 findAll 을 하여 조회 하면 조회 된 만큼 추가 쿼리가 안나간다.")
+    @DisplayName("Eager 전략에서는 ManyToOne 관계가 있는 엔티티를 조회 하면 연관관계에 있는 엔티티도 함께 조인으로 조회 되어 추가 쿼리가 안나간다.")
     @Test
     void findAll_And_N_Plus_One_Problem() {
 
