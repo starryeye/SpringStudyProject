@@ -14,7 +14,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ActiveProfiles("batch")
+@ActiveProfiles("batch") // default_batch_fetch_size 적용
 public class MemberRepositoryTestWithBatch {
 
     @Autowired
@@ -23,10 +23,10 @@ public class MemberRepositoryTestWithBatch {
     @Autowired
     private EntityManager entityManager;
 
-    @DisplayName("BatchSize 옵션을 통하여 ManyToOne N + 1 문제를 해결한다.")
+    @DisplayName("BatchSize 옵션을 통하여 ManyToOne 연관관계 컬렉션 엔티티를 지연 로딩시 BatchSize 만큼 하나의 쿼리로 수행한다. N + 1 문제를 해결한다. 1 + 1 쿼리이다.")
     @Test
     @Transactional
-    void findAllByIdIn_With_Batch_And_N_Plus_One_Problem() {
+    void findAllByIdIn() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
@@ -50,7 +50,7 @@ public class MemberRepositoryTestWithBatch {
          */
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
-                member -> member.getTeam().getName()
+                member -> member.getTeam().getName() // 프록시 초기화
         );
         System.out.println("===============then, 추가 쿼리 확인===============");
     }
