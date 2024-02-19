@@ -1,7 +1,5 @@
 package dev.practice.nplusone.eager;
 
-import dev.practice.nplusone.lazy.Member;
-import dev.practice.nplusone.lazy.Team;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceUnitUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +39,7 @@ class MemberEagerRepositoryTest {
 
         // then
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue() // Eager 전략으로 이미 초기화됨
         );
 
         /**
@@ -69,10 +67,13 @@ class MemberEagerRepositoryTest {
 
         // when
         /**
-         * 2 건의 쿼리가 나간다!! (N + 1 문제, Eager 전략이지만 fetch join 없는 JPQL)
+         * 3 건의 쿼리가 나간다!! (N + 1 문제, Eager 전략이지만 fetch join 없는 JPQL)
+         * member 조회 쿼리 1 건 (in 절, id = 1, 4, 5)
+         * + member 의 연관관계인 team 엔티티 조회 2 건 (member 가 3 개인데 4, 5 에 대해 동일한 team 엔티티 이므로 1차 캐시 이용됨)
          *
-         * "select m from MemberEager m where m.id = :id"
-         * 위 JPQL(그냥 해당 엔티티만 조회) 을 우선적으로 수행하고..
+         *
+         * "select m from MemberEager m where m.id in (:ids)"
+         * 위 JPQL(그냥 해당 엔티티들만 조회) 을 우선적으로 수행하고..
          * 이후 Eager 전략이므로 연관관계에 있는 엔티티에 대한 추가 쿼리가 수행된다.
          *
          * 결론
@@ -80,17 +81,20 @@ class MemberEagerRepositoryTest {
          * JPQL 에서 잊지 않고 fetch join 을 해줘야한다.
          */
         System.out.println("===============when, 쿼리===============");
-        MemberEager member = memberEagerRepository.findMemberEagerBy(1L).orElseThrow();
+        List<MemberEager> result = memberEagerRepository.findMemberEagerByIdIn(List.of(1L, 4L, 5L));
         System.out.println("===============when, 쿼리===============");
 
         // then
         /**
          * 여기서는 위에서 이미 조회가 다 이루어 져서 프록시 초기화가 되어있는 결과가 나옴
          */
-        assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue();
-
         System.out.println("===============then, 추가 쿼리 확인===============");
-        member.getTeamEager().getName();
+        result.forEach(
+                memberEager -> {
+                    assertThat(persistenceUnitUtil.isLoaded(memberEager.getTeamEager())).isTrue(); // Eager 전략으로 이미 초기화됨
+                    memberEager.getTeamEager().getName();
+                }
+        );
         System.out.println("===============then, 추가 쿼리 확인===============");
     }
 
@@ -103,7 +107,9 @@ class MemberEagerRepositoryTest {
 
         // when
         /**
-         * 쿼리 2 건 나감 (N + 1 문제)
+         * 쿼리 4 건 나감 (N + 1 문제)
+         * member 조회 쿼리 1 건 (in 절, id = 1, 4, 7)
+         * + member 의 연관관계인 team 엔티티 조회 3 건
          *
          * 메서드 이름 조회를 하면..
          * 그에 따른 JPQL 이 만들어져서 조회가 된다.
@@ -111,7 +117,7 @@ class MemberEagerRepositoryTest {
          * -> 메서드 이름 조회를 하면 철저하게 메서드 이름 조회에 맞게 JPQL 쿼리가 만들어져서 수행되는 것이다.
          */
         System.out.println("===============when, 쿼리===============");
-        List<MemberEager> result = memberEagerRepository.findByIdIn(List.of(1L, 2L, 3L));
+        List<MemberEager> result = memberEagerRepository.findByIdIn(List.of(1L, 4L, 7L));
         System.out.println("===============when, 쿼리===============");
 
         // then
@@ -119,7 +125,7 @@ class MemberEagerRepositoryTest {
          * 여기서는 위에서 이미 조회가 다 이루어 져서 프록시 초기화가 되어있는 결과가 나옴
          */
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue() // Eager 전략으로 이미 초기화됨
         );
 
         System.out.println("===============then, 추가 쿼리 확인===============");
@@ -152,7 +158,7 @@ class MemberEagerRepositoryTest {
          * 추가 쿼리 없음
          */
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeamEager())).isTrue() // EntityGraph(or 페치 조인) 로 이미 초기화됨 (Eager 전략으로 인한 초기화 보다 먼저이다.)
         );
 
         System.out.println("===============then, 추가 쿼리 확인===============");

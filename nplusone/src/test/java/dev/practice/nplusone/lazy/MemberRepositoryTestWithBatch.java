@@ -17,6 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("batch") // default_batch_fetch_size 적용
 public class MemberRepositoryTestWithBatch {
 
+    /**
+     * MemberRepositoryTest 에서 발생한 N + 1 문제를 Batch 옵션으로 해결해본다.
+     *
+     * Batch 옵션은 N 번의 추가 쿼리를 1 회로 줄여주는 효과를 발휘한다.
+     */
+
     @Autowired
     private MemberRepository memberRepository;
 
@@ -41,7 +47,7 @@ public class MemberRepositoryTestWithBatch {
 
         // then
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse() // Lazy 전략이라 초기화 안됨
         );
 
         /**

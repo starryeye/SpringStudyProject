@@ -41,7 +41,7 @@ class TeamEagerRepositoryTest {
         System.out.println("===============when, 쿼리===============");
 
         // then
-        assertThat(persistenceUnitUtil.isLoaded(result.getMemberEagers())).isTrue();
+        assertThat(persistenceUnitUtil.isLoaded(result.getMemberEagers())).isTrue(); // Eager 전략으로 이미 초기화됨
         /**
          * 추가 쿼리 없음 (N + 1 문제 해결, Eager 전략)
          */
@@ -77,7 +77,7 @@ class TeamEagerRepositoryTest {
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
                 teamEager -> {
-                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue();
+                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue(); // Eager 전략으로 이미 초기화됨
 
                     teamEager.getMemberEagers().forEach(
                             MemberEager::getName
@@ -112,7 +112,7 @@ class TeamEagerRepositoryTest {
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
                 teamEager -> {
-                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue();
+                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue(); // Eager 전략으로 이미 초기화됨
 
                     teamEager.getMemberEagers().forEach(
                             MemberEager::getName
@@ -145,7 +145,7 @@ class TeamEagerRepositoryTest {
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
                 teamEager -> {
-                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue();
+                    assertThat(persistenceUnitUtil.isLoaded(teamEager.getMemberEagers())).isTrue(); // EntityGraph(or 페치 조인) 로 이미 초기화됨 (Eager 전략으로 인한 초기화 보다 먼저이다.)
 
                     teamEager.getMemberEagers().forEach(
                             MemberEager::getName

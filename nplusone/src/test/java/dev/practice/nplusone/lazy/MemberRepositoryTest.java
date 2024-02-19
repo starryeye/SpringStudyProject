@@ -41,7 +41,7 @@ class MemberRepositoryTest {
 
         // then
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse() // Lazy 전략이라 초기화 안됨
         );
 
         /**
@@ -81,7 +81,7 @@ class MemberRepositoryTest {
 
         // then
         result.forEach(
-                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isTrue()
+                member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isTrue() // EntityGraph(or 페치 조인) 로 이미 초기화됨
         );
 
         /**
