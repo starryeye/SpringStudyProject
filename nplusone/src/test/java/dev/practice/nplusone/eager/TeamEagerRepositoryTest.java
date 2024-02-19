@@ -72,8 +72,7 @@ class TeamEagerRepositoryTest {
 
         // then
         /**
-         * todo
-         * Eager 전략이라서(??) when 단계에서 추가 쿼리를 수행하였으므로 then 에서는 추가 쿼리 없다.
+         * Eager 전략이라서 when 단계에서 추가 쿼리를 수행하였으므로 then 에서는 추가 쿼리 없다.
          */
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
