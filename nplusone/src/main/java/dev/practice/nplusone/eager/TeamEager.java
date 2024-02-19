@@ -21,7 +21,7 @@ public class TeamEager {
     private String name;
     private String introduction;
 
-    @OneToMany(mappedBy = "teamEager")
+    @OneToMany(mappedBy = "teamEager", fetch = FetchType.EAGER) // XXXToMany 에서는 Lazy 가 기본 값이긴 하다.
     private List<MemberEager> memberEagers = new ArrayList<>();
 
     @Builder

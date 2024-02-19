@@ -26,7 +26,7 @@ class MemberEagerRepositoryTest {
 
     @DisplayName("Eager 전략에서는 ManyToOne 관계가 있는 엔티티를 조회 하면 연관관계에 있는 엔티티도 함께 조인으로 조회 되어 추가 쿼리가 안나간다.")
     @Test
-    void findAll_And_N_Plus_One_Problem() {
+    void findAll() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
@@ -62,7 +62,7 @@ class MemberEagerRepositoryTest {
 
     @DisplayName("Eager 전략에서 JPQL 을 사용하여 엔티티를 조회하면 N + 1 추가 쿼리가 발생할 수 있다.")
     @Test
-    void findMemberEagerBy_And_N_Plus_One_Problem() {
+    void findMemberEagerBy() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
@@ -96,7 +96,7 @@ class MemberEagerRepositoryTest {
 
     @DisplayName("Eager 전략인데 메서드 이름 조회를 하면... N + 1 문제가 나타난다.")
     @Test
-    void findByIdIn_And_N_Plus_One_Problem() {
+    void findByIdIn() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
@@ -134,7 +134,7 @@ class MemberEagerRepositoryTest {
 
     @DisplayName("Eager 전략인데 메서드 이름 조회를 하면... N + 1 문제가 나타나지만 Entity Graph 로 해결했다.")
     @Test
-    void findEntityGraphByIdIn_And_N_Plus_One_Problem() {
+    void findEntityGraphByIdIn() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
