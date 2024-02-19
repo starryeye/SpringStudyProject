@@ -6,17 +6,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TeamRepositoryTest {
+@ActiveProfiles("batch")
+public class TeamRepositoryTestWithBatch {
 
-    //XXXToMany test
+    /**
+     * TeamRepositoryTest 에서 발생한 N + 1 문제를 Batch 옵션으로 해결해본다.
+     *
+     * Batch 옵션은 N 번의 추가 쿼리를 1 회로 줄여주는 효과를 발휘한다.
+     */
 
     @Autowired
     private TeamRepository teamRepository;
@@ -42,39 +47,30 @@ class TeamRepositoryTest {
 
         // then
         /**
-         * Lazy loading 으로 3 회 추가 쿼리 수행
+         * TeamRepositoryTest 에서는 총 4 건의 쿼리가 나갔다. (Lazy loading 으로 인한 추가 쿼리는 3 회)
+         *
+         * batch size 옵션을 통해 지연 로딩 추가 쿼리 3 회를 1 회로 줄였다.
          */
         System.out.println("===============then, 추가 쿼리 확인===============");
         result.forEach(
                 team -> {
-                    assertThat(persistenceUnitUtil.isLoaded(team.getMembers())).isFalse(); // Lazy 전략이라 초기화 안됨
+
+                    // 최초 1회는 false 이고 나머지는 true 이다.
+//                    assertThat(persistenceUnitUtil.isLoaded(team.getMembers())).isFalse(); // Lazy 전략이라 초기화 안됨
 
 
                     /**
                      * 주의 사항!
                      *
-                     * team 에서 member 는 XXXToMany 연관관계이다.
-                     * for loop 로 member 를 하나씩 초기화 하여 총 9 회의 추가쿼리가 나갈 것 같지만..
-                     * 컬렉션 엔티티를 초기화 할 땐 아직 접근하지 않은 엔티티도 함께 한번에 초기화한다.
-                     * 그래서 총 3 회의 추가 쿼리가 나간다.
+                     * teamRepository.findAll() 의 결과는 List<Team> 이다..
+                     * 여기서 하나의 team 에 연관된 컬렉션 엔티티중 하나의 member 만 초기화 해도..
+                     * List<Team> 에 담긴 모든 컬렉션 엔티티가 모두 초기화 된다.. (1 회의 쿼리로..)
                      */
                     team.getMembers().forEach(
                             Member::getName
                     );
                 }
         );
-
-        // todo, 아래 이유 파악 필요..
-//        for (Team team : result) {
-//            List<Member> members = team.getMembers();
-//            System.out.println("hello");
-//            for(int i = 0; i < 3; i++) {
-//                Member member = members.get(i); // <- 최초 여기서 프록시 초기화 함...
-//                System.out.println("spring");
-//                member.getName(); // <- 최초 여기서 프록시 초기화할 것으로 예상...
-//            }
-//        }
-
         System.out.println("===============then, 추가 쿼리 확인===============");
     }
 }

@@ -61,6 +61,7 @@ class TeamEagerRepositoryTest {
 
         // when
         /**
+         * todo, 왜 다른지 이유 파악 필요..
          * XXXToOne 관계와 다르게 XXXToMany 관계에서는 findAll 을 사용하면 N + 1 문제가 발생한다.
          *
          * N + 1 문제 발생..
