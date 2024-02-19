@@ -60,7 +60,7 @@ class MemberEagerRepositoryTest {
         System.out.println("===============then, 추가 쿼리 확인===============");
     }
 
-    @DisplayName("Eager 전략에서 JPQL 을 사용하여 조회 시 N + 1 추가 쿼리가 발생할 수 있다.")
+    @DisplayName("Eager 전략에서 JPQL 을 사용하여 엔티티를 조회하면 N + 1 추가 쿼리가 발생할 수 있다.")
     @Test
     void findMemberEagerBy_And_N_Plus_One_Problem() {
 
@@ -72,7 +72,8 @@ class MemberEagerRepositoryTest {
          * 2 건의 쿼리가 나간다!! (N + 1 문제, Eager 전략이지만 fetch join 없는 JPQL)
          *
          * "select m from MemberEager m where m.id = :id"
-         * 위 JPQL 을 우선적으로 수행하고.. 이후 Eager 전략이므로 추가 쿼리가 수행된다.
+         * 위 JPQL(그냥 해당 엔티티만 조회) 을 우선적으로 수행하고..
+         * 이후 Eager 전략이므로 연관관계에 있는 엔티티에 대한 추가 쿼리가 수행된다.
          *
          * 결론
          * Eager 전략을 Entity 에 선언 하였더라도 JPQL 을 사용할 경우, 의도 대로 한방 쿼리를 수행하기 위해서는..
@@ -107,6 +108,7 @@ class MemberEagerRepositoryTest {
          * 메서드 이름 조회를 하면..
          * 그에 따른 JPQL 이 만들어져서 조회가 된다.
          * Eager 전략이므로 추가 쿼리가 나간다. (한방 쿼리가 만들어지는것은 아닌것을 알 수 있다.)
+         * -> 메서드 이름 조회를 하면 철저하게 메서드 이름 조회에 맞게 JPQL 쿼리가 만들어져서 수행되는 것이다.
          */
         System.out.println("===============when, 쿼리===============");
         List<MemberEager> result = memberEagerRepository.findByIdIn(List.of(1L, 2L, 3L));
