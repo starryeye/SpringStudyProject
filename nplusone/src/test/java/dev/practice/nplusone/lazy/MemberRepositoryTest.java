@@ -23,29 +23,31 @@ class MemberRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
-    @DisplayName("ManyToOne 관계에서 findAll 을 하여 조회 하면 조회 된 만큼 추가 쿼리가 나갈 수 있다.")
+    @DisplayName("Lazy 전략에서는 ManyToOne 관계가 있는 엔티티를 조회 하면 연관관계에 있는 엔티티는 조회하지 않고 실제 사용할때 조회된다.")
     @Test
-    @Transactional
-    void findAll_And_N_Plus_One_Problem() {
+    @Transactional // 지연 로딩 사용하기 위함
+    void findAll() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
 
         // when
+        /**
+         * 1 건의 쿼리가 나감, member 전체 조회
+         */
         System.out.println("===============when, 쿼리===============");
         List<Member> result = memberRepository.findAll();
         System.out.println("===============when, 쿼리===============");
 
         // then
-        /**
-         * 1 건의 쿼리가 나감
-         */
         result.forEach(
                 member -> assertThat(persistenceUnitUtil.isLoaded(member.getTeam())).isFalse()
         );
 
         /**
-         * 3 건의 쿼리가 나감 (N + 1 문제, Lazy Loading)
+         * N + 1 문제 발생, Lazy Loading
+         * 3 건의 쿼리가 나감
+         * member 가 가지고 있는 FK(team pk) 만큼 수행
          */
         System.out.println("===============then, 추가 쿼리 확인===============");
 
@@ -64,7 +66,7 @@ class MemberRepositoryTest {
 
     @DisplayName("Entity Graph 를 사용하면 fetch join 으로.. N + 1 문제를 해결할 수 있다.")
     @Test
-    void findEntityGraphByIdIn_And_N_Plus_One_Problem_Solved() {
+    void findEntityGraphByIdIn() {
 
         // given
         PersistenceUnitUtil persistenceUnitUtil = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
