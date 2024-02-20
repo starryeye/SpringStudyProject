@@ -37,7 +37,7 @@ values (1, 'Team_A', 'Good Team A'),
        (2, 'Team_B', 'Best Team B'),
        (3, 'Team_C', 'Great Team C');
 
-insert into member_sub(id, name, age, team_eager_id)
+insert into member_sub(id, name, age, team_sub_id)
 values (1, 'Alice', 29, 1),
        (2, 'Benjamin', 25, 1),
        (3, 'Claire', 27, 1),

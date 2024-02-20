@@ -1,6 +1,5 @@
 package dev.practice.nplusone.subselect;
 
-import dev.practice.nplusone.lazy.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,14 +23,20 @@ public class TeamSub {
     private String name;
     private String introduction;
 
-    @Fetch(FetchMode.SUBSELECT) // hibernate 에서 제공
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER) // SubSelect 는 Eager 에서도 잘 동작한다. 쿼리 조회 시점에 N + 1 해결
-    private List<Member> members = new ArrayList<>();
+    /**
+     * SubSelect 는 Eager, Lazy 모두 잘 동작한다.
+     *
+     * Eager : 쿼리 조회 시점에 N + 1 해결
+     * Lazy : 프록시 초기화 시점에 N + 1 해결
+     */
+    @Fetch(value = FetchMode.SUBSELECT) // hibernate 에서 제공
+    @OneToMany(mappedBy = "teamSub", fetch = FetchType.EAGER)
+    private List<MemberSub> memberSubs = new ArrayList<>();
 
     @Builder
-    private TeamSub(String name, String introduction, List<Member> members) {
+    private TeamSub(String name, String introduction, List<MemberSub> memberSubs) {
         this.name = name;
         this.introduction = introduction;
-        this.members = members;
+        this.memberSubs = memberSubs;
     }
 }

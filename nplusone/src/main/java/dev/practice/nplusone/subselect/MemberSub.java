@@ -1,6 +1,5 @@
 package dev.practice.nplusone.subselect;
 
-import dev.practice.nplusone.lazy.Team;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,14 +20,14 @@ public class MemberSub {
     private String name;
     private Integer age;
 
-    @Fetch(FetchMode.SUBSELECT) // hibernate 에서 제공
-    @ManyToOne(fetch = FetchType.LAZY) // SubSelect 는 Lazy 에서도 잘 동작한다. 지연 로딩 시점에 N + 1 해결
-    private Team team;
+//    @Fetch(value = FetchMode.SUBSELECT) // Subselect 는 ManyToOne 관계에서는 사용할 수 없다. Join 은?
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TeamSub teamSub;
 
     @Builder
-    private MemberSub(String name, Integer age, Team team) {
+    public MemberSub(String name, Integer age, TeamSub teamSub) {
         this.name = name;
         this.age = age;
-        this.team = team;
+        this.teamSub = teamSub;
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TeamSubRepository extends JpaRepository<TeamSub, Long> {
 
-    List<TeamSub> findByIdIn(List<Long> ids);
+    List<TeamSub> findByIdGreaterThan(Long id);
 }
