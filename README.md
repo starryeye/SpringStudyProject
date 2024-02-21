@@ -91,7 +91,7 @@ subject
   - spring boot + log4j2
   - Pattern Layout, Json Layout, JsonTemplate Layout
 - nplusone
-  - JPA N+1 problem
+  - JPA N+1 Query problem
 - OpenFeign
   - openfeign client
 - restclients
