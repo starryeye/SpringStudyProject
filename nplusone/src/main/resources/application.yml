@@ -3,7 +3,8 @@ spring:
     default: local
 
   datasource:
-    url: jdbc:h2:file:./testdb;AUTO_SERVER=TRUE
+#    url: jdbc:h2:file:./testdb;AUTO_SERVER=TRUE;TRACE_LEVEL_FILE=4
+    url: jdbc:h2:mem::testdb;TRACE_LEVEL_FILE=4
     driver-class-name: org.h2.Driver
     username: sa
     password:
