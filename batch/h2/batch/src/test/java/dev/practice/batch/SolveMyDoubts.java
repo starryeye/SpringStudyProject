@@ -2,10 +2,12 @@ package dev.practice.batch;
 
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.util.StopWatch;
 
 import java.util.List;
@@ -21,8 +23,14 @@ class SolveMyDoubts {
     @Autowired
     private EntityManager entityManager;
 
+    @AfterEach
+    void tearDown() {
+        articleRepository.deleteAllInBatch();
+    }
+
     @DisplayName("sequence 전략에서는 persist 에 대하여 쓰기 지연이 지원된다.")
     @Test
+    @Rollback(value = false) // Test 에서의 Transactional rollback 을 없애고 commit 을 하도록 함
     void test() {
 
         // given
@@ -33,8 +41,6 @@ class SolveMyDoubts {
 
         // then
         log.info("saved id = {}", saved.getId()); // 쓰기 지연으로 인해 insert 쿼리 로그 보다 먼저 찍힌다.
-
-        // test 에서의 Transactional 로 인해 insert 쿼리가 보이진 않음
     }
 
     @DisplayName("10000 건의 데이터를 save")
