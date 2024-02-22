@@ -33,6 +33,8 @@ class SolveMyDoubts {
 
         // then
         log.info("saved id = {}", saved.getId()); // 쓰기 지연으로 인해 insert 쿼리 로그 보다 먼저 찍힌다.
+
+        // test 에서의 Transactional 로 인해 insert 쿼리가 보이진 않음
     }
 
     @DisplayName("10000 건의 데이터를 save")
