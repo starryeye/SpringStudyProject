@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    default: local
+
   h2:
     console:
       enabled: true
@@ -12,9 +15,33 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: true
+#    show-sql: true
     properties:
       hibernate:
         highlight_sql: true
         format_sql: true
         use_sql_comments: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+        orm:
+          jdbc:
+            bind: trace
+            extract: trace
+
+---
+spring:
+  config:
+    activate:
+      on-profile: batch
+
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 500
