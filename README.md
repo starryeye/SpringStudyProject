@@ -113,3 +113,5 @@ subject
   - Spring Data JPA, 페이징과 정렬
 - osiv
   - Spring 과 JPA 그리고 OSIV
+- batch
+  - H2, MySQL, sequence, identity
