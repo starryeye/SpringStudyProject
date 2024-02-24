@@ -1,6 +1,6 @@
 spring:
   profiles:
-    default: local
+    default: default
 
   h2:
     console:
