@@ -114,4 +114,4 @@ subject
 - osiv
   - Spring 과 JPA 그리고 OSIV
 - batch
-  - H2, MySQL, sequence, identity
+  - H2, MySQL, sequence, identity 
