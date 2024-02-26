@@ -114,5 +114,7 @@ subject
 - osiv
   - Spring 과 JPA 그리고 OSIV
 - batch (todo)
-  - H2
-  - MySQL
+  - H2(sequence)
+  - MySQL(identity)
+- valid (todo)
+  - Java and Spring Validation
