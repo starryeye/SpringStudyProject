@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info" monitorInterval="30">
+
+
+
+
     <!--변수 설정-->
     <Properties>
         <Property name="BASE_DIR">./logs</Property> <!--로그 파일 경로-->
@@ -7,16 +11,35 @@
         <Property name="SYSTEM_DATE">$${date:yyyy-MM-dd}</Property>
     </Properties>
 
+
+
+
+
+    
     <Appenders>
         <!--콘솔 로그, 특정 패턴으로 출력-->
 <!--        <Console name="console" target="SYSTEM_OUT" follow="true">-->
 <!--            <PatternLayout pattern="${LOG_FORMAT}"/>-->
 <!--        </Console>-->
 
+
+
+
+
+
+
         <!--콘솔 로그, custom json layout 으로 출력-->
         <Console name="console" target="SYSTEM_OUT" follow="true">
-            <JsonTemplateLayout eventTemplateUri="classpath:JsonTemplateLayoutForLog.json"/>
+            <JsonTemplateLayout eventTemplateUri="classpath:JsonTemplateLayoutForLog.json">
+                <EventTemplateAdditionalField key="test" value="$${ctx:test:-}"/>
+            </JsonTemplateLayout>
         </Console>
+
+
+
+
+
+
 
         <!--로그 파일, JsonLayout 으로 출력-->
         <RollingFile name="file" fileName="${BASE_DIR}/logs.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.logs.zip">
@@ -38,10 +61,18 @@
         </RollingFile>
     </Appenders>
 
+
+
+
+
+
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="console"/>
             <AppenderRef ref="file"/>
         </Root>
     </Loggers>
+
+
+
 </Configuration>

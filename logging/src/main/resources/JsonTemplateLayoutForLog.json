@@ -25,7 +25,7 @@
   "labels": {
     "$resolver": "mdc",
     "flatten": true,
-    "stringified": true
+    "stringified": false
   },
   "tags": {
     "$resolver": "ndc"

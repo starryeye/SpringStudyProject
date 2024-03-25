@@ -2,6 +2,7 @@ package dev.practice.logging;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,10 @@ public class TestController {
     @GetMapping("/test")
     public Response test() {
 
+        ThreadContext.put("test", "controller");
         log.info("hello world!");
+        ThreadContext.remove("test");
+
 
         return new Response("hello", 10);
     }
