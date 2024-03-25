@@ -15,7 +15,7 @@
 
 
 
-    
+
     <Appenders>
         <!--콘솔 로그, 특정 패턴으로 출력-->
 <!--        <Console name="console" target="SYSTEM_OUT" follow="true">-->
@@ -31,7 +31,8 @@
         <!--콘솔 로그, custom json layout 으로 출력-->
         <Console name="console" target="SYSTEM_OUT" follow="true">
             <JsonTemplateLayout eventTemplateUri="classpath:JsonTemplateLayoutForLog.json">
-                <EventTemplateAdditionalField key="test" value="$${ctx:test:-}"/>
+<!--                <EventTemplateAdditionalField key="test" value="$${ctx:test:-}"/>-->
+<!--                <EventTemplateAdditionalField key="test2" format="JSON" value='{"$resolver": "mdc", "flatten": true}'/>-->
             </JsonTemplateLayout>
         </Console>
 

@@ -17,6 +17,10 @@ public class TestController {
         log.info("hello world!");
         ThreadContext.remove("test");
 
+        MyThreadContext.putValue("test2", 2);
+        log.info("hello integer!");
+        MyThreadContext.remove("test2");
+
 
         return new Response("hello", 10);
     }
