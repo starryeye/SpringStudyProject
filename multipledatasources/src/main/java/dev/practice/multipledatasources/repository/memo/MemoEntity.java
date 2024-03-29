@@ -2,12 +2,10 @@ package dev.practice.multipledatasources.repository.memo;
 
 import dev.practice.multipledatasources.repository.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@ToString
 @Getter
 @Entity
 @Table(name = "my_memo")
@@ -33,5 +31,9 @@ public class MemoEntity extends BaseEntity {
                 .title(title)
                 .content(content)
                 .build();
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
     }
 }
