@@ -119,7 +119,7 @@ public class MultipleDataSourceDefaultRepositoryTest {
         MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
 
         // then
-        // em.clear 로 인해 두 엔티티는 동일성 보장이 안됨
+        // em.clear 로 인해 두 엔티티는 동일성 보장이 안됨 (두 엔티티는 준영속)
         assertThat(given.hashCode()).isNotEqualTo(result.hashCode());
     }
 
@@ -140,7 +140,7 @@ public class MultipleDataSourceDefaultRepositoryTest {
         MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
 
         // then
-        // 잘못된 em 을 사용하였기 때문에 영속성 컨텍스트가 유지 되어 동일성 보장이 되어버림
+        // 잘못된 em 을 사용하였기 때문에 영속성 컨텍스트가 유지 되어 동일성 보장이 되어버림 (하나의 영속엔티티)
         assertThat(given.hashCode()).isEqualTo(result.hashCode());
     }
 }
