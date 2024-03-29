@@ -1,4 +1,4 @@
-package dev.practice.multipledatasources;
+package dev.practice.multipledatasources.repository;
 
 import dev.practice.multipledatasources.repository.memo.MemoEntity;
 import dev.practice.multipledatasources.repository.memo.MemoRepository;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-public class MultipleDataSourceIntegrationTest {
+public class MultipleDataSourceDefaultRepositoryTest {
 
     @Autowired
     private MemoRepository memoRepository;
@@ -60,7 +60,10 @@ public class MultipleDataSourceIntegrationTest {
     void memoSave() {
 
         // given
-        MemoEntity memo = MemoEntity.create("memo title", "memo content");
+        MemoEntity memo = MemoEntity.builder()
+                .title("memo title")
+                .content("memo content")
+                .build();
 
         // when
         MemoEntity saved = memoRepository.save(memo);
@@ -80,7 +83,10 @@ public class MultipleDataSourceIntegrationTest {
     void todoSave() {
 
         // given
-        TodoEntity todo = TodoEntity.create("todo title", Boolean.TRUE);
+        TodoEntity todo = TodoEntity.builder()
+                .title("todo title")
+                .completed(Boolean.TRUE)
+                .build();
 
         // when
         TodoEntity saved = todoRepository.save(todo);

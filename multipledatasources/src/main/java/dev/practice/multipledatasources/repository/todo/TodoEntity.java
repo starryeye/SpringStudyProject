@@ -28,10 +28,10 @@ public class TodoEntity extends BaseEntity {
         this.completed = completed;
     }
 
-    public static TodoEntity create(String title, Boolean completed) {
+    public static TodoEntity create(String title) {
         return TodoEntity.builder()
                 .title(title)
-                .completed(completed)
+                .completed(Boolean.TRUE)
                 .build();
     }
 }

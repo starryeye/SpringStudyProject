@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class MultipledatasourcesApplication {
 
+	// 참고
+	//https://www.baeldung.com/spring-boot-configure-multiple-datasources
+
 	private final MemoRepository memoRepository;
 	private final TodoRepository todoRepository;
 
