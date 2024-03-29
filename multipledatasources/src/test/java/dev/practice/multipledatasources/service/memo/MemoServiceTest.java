@@ -64,8 +64,7 @@ class MemoServiceTest {
          * editContentWithWrongTransaction 에는 memoTransactionManager 가 아니라
          * todoTransactionManager 로 잘못 적용 되어있지만,
          * findById 는 정상 동작한다. (변경 감지는 동작하지 않음)
-         * -> memoRepository 를 사용하기 때문인 것 같다.
-         * -> 트랜잭션 전파가 이루어지지 않은듯?
+         * -> 이유는 WrongTransactionManagerTest 로 가서 보자
          */
         memoService.editContentWithWrongTransaction(given.getId(), "after change");
 

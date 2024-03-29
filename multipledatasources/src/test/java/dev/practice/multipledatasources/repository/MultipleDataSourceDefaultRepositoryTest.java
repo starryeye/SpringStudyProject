@@ -53,6 +53,8 @@ public class MultipleDataSourceDefaultRepositoryTest {
          */
         log.info("memosEntityManager = {}", memoEntityManager.toString());
         log.info("todosEntityManager = {}", todoEntityManager.toString());
+
+        assertThat(memoEntityManager).isNotEqualTo(todoEntityManager);
     }
 
     @DisplayName("memo 저장이 되어야한다.")
@@ -67,10 +69,9 @@ public class MultipleDataSourceDefaultRepositoryTest {
 
         // when
         MemoEntity saved = memoRepository.save(memo);
-        memoEntityManager.clear();
-        MemoEntity result = memoRepository.findById(saved.getId()).orElseThrow();
 
         // then
+        MemoEntity result = memoRepository.findById(saved.getId()).orElseThrow();
         assertThat(result.getId()).isEqualTo(saved.getId());
         assertThat(result.getTitle()).isEqualTo(saved.getTitle());
         assertThat(result.getContent()).isEqualTo(saved.getContent());
@@ -90,10 +91,9 @@ public class MultipleDataSourceDefaultRepositoryTest {
 
         // when
         TodoEntity saved = todoRepository.save(todo);
-        todoEntityManager.clear();
-        TodoEntity result = todoRepository.findById(saved.getId()).orElseThrow();
-
+        
         // then
+        TodoEntity result = todoRepository.findById(saved.getId()).orElseThrow();
         assertThat(result.getId()).isEqualTo(saved.getId());
         assertThat(result.getTitle()).isEqualTo(saved.getTitle());
         assertThat(result.getCompleted()).isEqualTo(saved.getCompleted());

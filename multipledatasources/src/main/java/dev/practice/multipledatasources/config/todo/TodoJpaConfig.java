@@ -43,12 +43,13 @@ public class TodoJpaConfig {
         emf.setPackagesToScan(targetpackages);
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-        // spring.jpa 가 안 먹혀서 직접 해줘야함..
+        // application.yml 에 spring.jpa 가 안 먹혀서 직접 해줘야함..
         emf.setJpaPropertyMap(
                 Map.of(
                         "hibernate.hbm2ddl.auto", "create",
                         "hibernate.format_sql", true,
-                        "hibernate.show_sql", true
+                        "hibernate.show_sql", true,
+                        "open-in-view", false
                 )
         );
 
