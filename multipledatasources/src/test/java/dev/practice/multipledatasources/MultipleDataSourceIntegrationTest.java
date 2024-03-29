@@ -40,7 +40,17 @@ public class MultipleDataSourceIntegrationTest {
     @Test
     void contextLoad() {
 
-        // todo, 왜 @DataJpaTest 로 하면 에러가 나지..
+        /**
+         * @DataJpaTest 로 하면 에러가 나는데, @DataJpaTest 는 기본적으로 H2 .. embedded db 를 기본값으로 한다고 함..
+         *
+         * 관련 코드
+         * @DataJpaTest
+         * @AutoConfigureTestDatabase
+         * TestDatabaseAutoConfiguration
+         *
+         * 해결 코드
+         * @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+         */
         log.info("memosEntityManager = {}", memoEntityManager.toString());
         log.info("todosEntityManager = {}", todoEntityManager.toString());
     }
