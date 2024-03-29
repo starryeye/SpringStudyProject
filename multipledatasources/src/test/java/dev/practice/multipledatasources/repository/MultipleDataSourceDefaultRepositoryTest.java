@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -91,7 +92,7 @@ public class MultipleDataSourceDefaultRepositoryTest {
 
         // when
         TodoEntity saved = todoRepository.save(todo);
-        
+
         // then
         TodoEntity result = todoRepository.findById(saved.getId()).orElseThrow();
         assertThat(result.getId()).isEqualTo(saved.getId());
@@ -99,5 +100,47 @@ public class MultipleDataSourceDefaultRepositoryTest {
         assertThat(result.getCompleted()).isEqualTo(saved.getCompleted());
         assertThat(result.getCreatedAt()).isEqualTo(saved.getCreatedAt());
         assertThat(result.getLastModifiedAt()).isEqualTo(saved.getLastModifiedAt());
+    }
+
+    @Transactional(transactionManager = "memoTransactionManager")
+    @DisplayName("entityManager 정상 동작 해야한다.")
+    @Test
+    void entityManager() {
+
+        // given
+        MemoEntity given = MemoEntity.builder()
+                .title("memo title")
+                .content("memo content")
+                .build();
+        memoRepository.save(given);
+
+        // when
+        memoEntityManager.clear();
+        MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
+
+        // then
+        // em.clear 로 인해 두 엔티티는 동일성 보장이 안됨
+        assertThat(given.hashCode()).isNotEqualTo(result.hashCode());
+    }
+
+    @Transactional(transactionManager = "memoTransactionManager")
+    @DisplayName("다른 entityManager 는 작동하지 않아야한다.")
+    @Test
+    void entityManager2() {
+
+        // given
+        MemoEntity given = MemoEntity.builder()
+                .title("memo title")
+                .content("memo content")
+                .build();
+        memoRepository.save(given);
+
+        // when
+        todoEntityManager.clear(); // todoEntityManager 는 memo Transaction 에서 동작하지 않음
+        MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
+
+        // then
+        // 잘못된 em 을 사용하였기 때문에 영속성 컨텍스트가 유지 되어 동일성 보장이 되어버림
+        assertThat(given.hashCode()).isEqualTo(result.hashCode());
     }
 }
