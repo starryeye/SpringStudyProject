@@ -34,8 +34,9 @@ public class WrongTransactionManagerTest {
          * findById 특징
          * - findById 는 기본적으로 @Transactional 이 적용 되어있지 않다.
          *  - @Transactional 없어도 동작한다는 말..
+         *      - findById 를 통해 조회된 엔티티도 영속성 컨텍스트의 관리를 받지만, 이 경우에는 메서드 실행이 완료되자마자 준영속이 된다.
          *  - findById 는 사용자 코드에서 @Transactional 이 걸려있어야 동일성 보장이 된다..
-         *      - 즉, 준영속 상태이므로 변경감지, 동일성 보장, 지연 로딩, 쓰기 지연 등등.. 영속성 컨텍스트의 지원을 받지 못하는듯
+         *      - 즉, 준영속 상태이므로 변경감지, 동일성 보장, 지연 로딩, 쓰기 지연 등등.. 영속성 컨텍스트의 지원을 받지 못하는
          */
         // DB에 쿼리가 2회 전달됨
         MemoEntity result1 = memoRepository.findById(given.getId()).orElseThrow();
