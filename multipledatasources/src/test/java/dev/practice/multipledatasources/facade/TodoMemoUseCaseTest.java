@@ -9,10 +9,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.UnexpectedRollbackException;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -52,7 +54,7 @@ class TodoMemoUseCaseTest {
 
     @DisplayName("when 주석 참고")
     @Test
-    void test() {
+    void changeStateTodoMemoWithMemoTransaction() {
 
         // given
         TodoEntity givenTodo = TodoEntity.builder()
@@ -87,5 +89,57 @@ class TodoMemoUseCaseTest {
 
         assertThat(resultTodo.getCompleted()).isTrue();
         assertThat(resultMemo.getContent()).isEqualTo("after change");
+    }
+
+    @DisplayName("when 주석 참고")
+    @Test
+    void changeStateMemoWithTodoException() {
+
+        // given
+        MemoEntity given = MemoEntity.builder()
+                .title("memo title")
+                .content("before content")
+                .build();
+        memoRepository.save(given);
+
+        // when
+        /**
+         * todoMemoUseCase::changeStateMemoWithTodoException 에는 memoTransactionManager 가 적용되어있고
+         * 내부 todoService 에서 exception 이 발생되었고 todoMemoUseCase 에서 예외를 처리했다.
+         * 원래라면(changeStateMemoWithMemoException 참고) 트랜잭션 전파(기본값)에 의해 롤백이 되어야하지만,
+         * 서로 다른 TransactionManager 로 작동하면 새로운 트랜잭션(PROPAGATION_REQUIRES_NEW) 처럼 동작하는 것 같다..
+         */
+        todoMemoUseCase.changeStateMemoWithTodoException(given.getId(), "after content");
+
+        // then
+        MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
+        assertThat(result.getContent()).isEqualTo("after content");
+    }
+
+    @DisplayName("when 주석 참고")
+    @Test
+    void changeStateMemoWithMemoException() {
+
+        // given
+        MemoEntity given = MemoEntity.builder()
+                .title("memo title")
+                .content("before content")
+                .build();
+        memoRepository.save(given);
+
+        // when
+        /**
+         * todoMemoUseCase::changeStateMemoWithTodoException 에는 memoTransactionManager 가 적용되어있고
+         * 내부 memoService 에서 exception 이 발생되었고 todoMemoUseCase 에서 예외를 처리했다.
+         * 트랜잭션 전파(기본값)에 의해 롤백이 되고.. UnexpectedRollbackException 이 발생함
+         */
+        assertThatThrownBy(
+                () -> todoMemoUseCase.changeStateMemoWithMemoException(given.getId(), "after content")
+        ).isInstanceOf(UnexpectedRollbackException.class);
+
+
+        // then
+        MemoEntity result = memoRepository.findById(given.getId()).orElseThrow();
+        assertThat(result.getContent()).isEqualTo("before content");
     }
 }

@@ -48,4 +48,8 @@ public class MemoService {
 
         memo.changeContent(content);
     }
+
+    public void throwException() {
+        throw new RuntimeException("memo exception!");
+    }
 }

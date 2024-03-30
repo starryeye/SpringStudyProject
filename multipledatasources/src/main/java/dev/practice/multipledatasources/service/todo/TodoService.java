@@ -26,4 +26,8 @@ public class TodoService {
 
         todo.changeCompleted(completion);
     }
+
+    public void throwException() {
+        throw new RuntimeException("todo exception!");
+    }
 }
