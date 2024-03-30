@@ -27,7 +27,7 @@ class MemoServiceTest {
 
     @DisplayName("memoTransactionManager 로 적용이 잘 되면, 변경 감지가 정상 동작한다.")
     @Test
-    void test() {
+    void editContent() {
 
         // given
         MemoEntity given = MemoEntity.builder()
@@ -50,7 +50,7 @@ class MemoServiceTest {
 
     @DisplayName("todoTransactionManager 로 잘못 적용 하면, 변경 감지가 정상 동작 하지 않는다.")
     @Test
-    void test2() {
+    void editContentWithWrongTransaction() {
 
         // given
         MemoEntity given = MemoEntity.builder()

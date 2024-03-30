@@ -31,7 +31,11 @@ public class TodoEntity extends BaseEntity {
     public static TodoEntity create(String title) {
         return TodoEntity.builder()
                 .title(title)
-                .completed(Boolean.TRUE)
+                .completed(Boolean.FALSE)
                 .build();
+    }
+
+    public void changeCompleted(Boolean completed) {
+        this.completed = completed;
     }
 }

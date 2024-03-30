@@ -36,7 +36,7 @@ public class MemoService {
         memo.changeContent(content);
     }
 
-    @Transactional(transactionManager = "todoTransactionManager")
+    @Transactional(transactionManager = "todoTransactionManager") // wrong transaction manager
     public void editContentWithWrongTransaction(Long id, String content) {
 
         log.info("transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());

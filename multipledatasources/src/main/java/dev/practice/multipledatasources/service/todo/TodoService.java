@@ -19,4 +19,11 @@ public class TodoService {
 
         todoRepository.save(todo);
     }
+
+    public void updateCompletion(Long id, Boolean completion) {
+
+        TodoEntity todo = todoRepository.findById(id).orElseThrow();
+
+        todo.changeCompleted(completion);
+    }
 }
