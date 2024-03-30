@@ -99,6 +99,7 @@ subject
     - Http interface, WebClient, RestTemplate, RestClient
 - multipledatasources
   - N 개의 DB 와 1 개의 application 간 connection
+  - JPA
 - xmlresponse
   - default 로, xml format 으로 응답하는 application
 - compositekey
