@@ -108,6 +108,8 @@ class TodoMemoUseCaseTest {
          * 내부 todoService 에서 exception 이 발생되었고 todoMemoUseCase 에서 예외를 처리했다.
          * 원래라면(changeStateMemoWithMemoException 참고) 트랜잭션 전파(기본값)에 의해 롤백이 되어야하지만,
          * 서로 다른 TransactionManager 로 작동하면 새로운 트랜잭션(PROPAGATION_REQUIRES_NEW) 처럼 동작하는 것 같다..
+         *
+         * -> 동작은 PROPAGATION_REQUIRES_NEW 처럼 동작하나.. 명시적으로 PROPAGATION_REQUIRES_NEW 해주는게 좋겠다!!
          */
         todoMemoUseCase.changeStateMemoWithTodoException(given.getId(), "after content");
 
