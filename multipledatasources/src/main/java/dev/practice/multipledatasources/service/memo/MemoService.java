@@ -2,6 +2,7 @@ package dev.practice.multipledatasources.service.memo;
 
 import dev.practice.multipledatasources.repository.memo.MemoEntity;
 import dev.practice.multipledatasources.repository.memo.MemoRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class MemoService {
 
     private final MemoRepository memoRepository;
+    private final EntityManager memoEntityManager;
 
     public void createMemo(String title, String content) {
 
@@ -29,6 +31,8 @@ public class MemoService {
 
         MemoEntity memo = memoRepository.findById(id).orElseThrow();
 
+        log.info("memo persistence state = {}", memoEntityManager.contains(memo)); // 영속 상태
+
         memo.changeContent(content);
     }
 
@@ -40,6 +44,7 @@ public class MemoService {
         MemoEntity memo = memoRepository.findById(id).orElseThrow();
 
         log.info("find memo = {}", memo);
+        log.info("memo persistence state = {}", memoEntityManager.contains(memo)); // 준영속 상태
 
         memo.changeContent(content);
     }

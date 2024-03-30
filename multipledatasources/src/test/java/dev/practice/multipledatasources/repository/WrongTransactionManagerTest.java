@@ -2,6 +2,7 @@ package dev.practice.multipledatasources.repository;
 
 import dev.practice.multipledatasources.repository.memo.MemoEntity;
 import dev.practice.multipledatasources.repository.memo.MemoRepository;
+import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,9 @@ public class WrongTransactionManagerTest {
 
     @Autowired
     private MemoRepository memoRepository;
+
+    @Autowired
+    private EntityManager memoEntityManager;
 
     @DisplayName("@Transactional 없이는 동일성 보장이 안된다.")
     @Test
@@ -45,7 +49,10 @@ public class WrongTransactionManagerTest {
         // then
         log.info("result1 = {}", result1.hashCode());
         log.info("result2 = {}", result2.hashCode());
-        assertThat(result1).isNotEqualTo(result2); // 두 엔티티 모두 준영속 상태인듯..
+        assertThat(result1).isNotEqualTo(result2);
+
+        assertThat(memoEntityManager.contains(result1)).isFalse(); // 두 엔티티 모두 준영속 상태이다.
+        assertThat(memoEntityManager.contains(result2)).isFalse();
     }
 
     @Transactional(transactionManager = "todoTransactionManager") // memo 가 아닌 todo 로 잘못 적용함
@@ -68,6 +75,9 @@ public class WrongTransactionManagerTest {
         // then
         log.info("result1 = {}", result1.hashCode());
         log.info("result2 = {}", result2.hashCode());
-        assertThat(result1).isNotEqualTo(result2); // 두 엔티티 모두 준영속 상태인듯..
+        assertThat(result1).isNotEqualTo(result2);
+
+        assertThat(memoEntityManager.contains(result1)).isFalse(); // 두 엔티티 모두 준영속 상태이다.
+        assertThat(memoEntityManager.contains(result2)).isFalse();
     }
 }
