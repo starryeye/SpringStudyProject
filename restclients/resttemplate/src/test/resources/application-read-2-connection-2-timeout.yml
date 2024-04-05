@@ -1,0 +1,4 @@
+rest:
+  template:
+    connection-timeout: 2000
+    read-timeout: 2000

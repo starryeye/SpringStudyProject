@@ -13,6 +13,9 @@ public class RestTemplateWithTimeoutConfig {
     /**
      * Spring 은 기본적으로 AutoConfiguration 에 의해
      * RestTemplateBuilder 를 빈으로 등록해두므로 RestTemplate 빈 등록시 이용하면 된다.
+     *
+     * RestTemplateProperties 는 Spring 이 제공하는 빈이 아니라
+     * @ConfigurationProperties 사용을 위한 클래스이다. (application.yml 값을 읽음)
      */
 
     /**
@@ -38,11 +41,14 @@ public class RestTemplateWithTimeoutConfig {
      */
 
     @Bean // with timeout
-    public RestTemplate restTemplateWithTimeout(RestTemplateBuilder restTemplateBuilder) {
+    public RestTemplate restTemplateWithTimeout(
+            RestTemplateBuilder restTemplateBuilder,
+            RestTemplateProperties restTemplateProperties
+    ) {
         // 일반적으로, "connection timeout"과 "read timeout"을 5초씩 잡아준다.
         return restTemplateBuilder
-                .setConnectTimeout(Duration.ofSeconds(5))
-                .setReadTimeout(Duration.ofSeconds(5))
+                .setConnectTimeout(Duration.ofMillis(restTemplateProperties.getConnectionTimeout()))
+                .setReadTimeout(Duration.ofMillis(restTemplateProperties.getReadTimeout()))
                 .build();
     }
 }

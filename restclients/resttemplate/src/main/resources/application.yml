@@ -3,3 +3,8 @@ management:
     web:
       exposure:
         include: "*"
+
+rest:
+  template:
+    connection-timeout: 5000
+    read-timeout: 5000
