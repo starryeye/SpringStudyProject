@@ -30,7 +30,7 @@ public class RestTemplateWithTimeoutTest {
     @BeforeEach
     void setUp() throws IOException {
         mockWebServer = new MockWebServer();
-        mockWebServer.start();
+        mockWebServer.start(8001); // port 없으면 랜덤
     }
 
     @AfterEach
@@ -46,7 +46,7 @@ public class RestTemplateWithTimeoutTest {
         mockWebServer.enqueue(
                 new MockResponse()
                         .setBody("Hello World")
-                        .setBodyDelay(3, TimeUnit.SECONDS)
+                        .setBodyDelay(3, TimeUnit.SECONDS) // 응답 딜레이
         );
         String url = mockWebServer.url("/").toString();
 
@@ -54,7 +54,8 @@ public class RestTemplateWithTimeoutTest {
         // then
         assertThatThrownBy(
                 () -> restTemplateWithTimeout.getForObject(url, String.class)
-        ).isInstanceOf(ResourceAccessException.class);
+        ).isInstanceOf(ResourceAccessException.class)
+                .hasMessage("I/O error on GET request for \"http://localhost:8001/\": Read timed out");
     }
 
     @DisplayName("read timeout 발생하지 않음")
@@ -73,5 +74,20 @@ public class RestTemplateWithTimeoutTest {
 
         // then
         assertThat(result).isEqualTo("Hello World");
+    }
+
+    @DisplayName("connection timeout 이 발생하면 ResourceAccessException 이 발생해야한다.")
+    @Test
+    void connectionTimeout() {
+
+        // given
+        String nonExistingUrl = "http://10.255.255.1:12345"; // 존재하지 않는 호스트
+
+        // when
+        // then
+        assertThatThrownBy(
+                () -> restTemplateWithTimeout.getForObject(nonExistingUrl, String.class)
+        ).isInstanceOf(ResourceAccessException.class)
+                .hasMessage("I/O error on GET request for \"http://10.255.255.1:12345\": Connect timed out");
     }
 }
