@@ -1,1 +1,5 @@
-spring.application.name=resttemplate
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
