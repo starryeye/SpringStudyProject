@@ -25,6 +25,8 @@ public class RestTemplateWithRetryConfig {
          *
          * spring-retry 의존성이 필요하다.
          * request interceptor 를 통해 retry 를 적용하였다.
+         * interceptor 에서 retry 를 하는 것은 400, 500 예외를 잡을 수 없다. (HttpServerErrorException, HttpClientErrorException)
+         * -> 따라서, interceptor 에서 직접 status code 를 까서 확인해보던가(?) 아래의 다른 방법을 통해 구현하도록 하자
          *
          * [다른 방법]
          * @Service 로직이나 restTemplate 을 사용하는 메서드에서 @Retryable 을 사용하자
@@ -44,17 +46,34 @@ public class RestTemplateWithRetryConfig {
 
         return (request, body, execution) -> {
 
+            System.out.println("Interceptor called. URL: " + request.getURI());
+
             // retry template
             RetryTemplate retryTemplate = RetryTemplate.builder()
                     .maxAttempts(restTemplateProperties.getRetryCount()) // 최대 3회
                     .fixedBackoff(restTemplateProperties.getBackoff().longValue()) // Backoff : 실패 후 다음 재시도까지 대기 시간
+                    .retryOn(Exception.class)
                     .build();
 
             // 아래와 같이 RetryPolicy 의 구현체(SimpleRetryPolicy, circuit breaker, max attempt 등) 을 직접 넣어줘도 된다.
 //            retryTemplate.setRetryPolicy(new SimpleRetryPolicy(3)); // 최대 3회 시도
 
-            // 여기서 사용자 정의 예외로 바꿔주거나 처리해도 될 것이다.
-            return retryTemplate.execute(context -> execution.execute(request, body));
+            /**
+             * 여기서의 exception 은 5xx, 4xx 응답 코드에 따른
+             * HttpServerErrorException, HttpClientErrorException 는 포함되지 않는다.
+             * interceptor 를 통과 하고 난 이후에 생성되는 예외기 때문이다....
+             */
+            return retryTemplate.execute(
+                    context -> {
+                        System.out.println("Attempting request. Attempt number: " + context.getRetryCount());
+                        try {
+                            return execution.execute(request, body);
+                        } catch (Exception e) {
+                            System.out.println("Exception during request execution: " + e.getMessage());
+                            throw e; // 예외를 다시 throw
+                        }
+                    }
+            );
         };
     }
 }

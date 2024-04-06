@@ -1,4 +1,4 @@
-package dev.practice.resttemplate;
+package dev.practice.resttemplate.service;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -8,21 +8,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 
-@ActiveProfiles("3-retry")
 @SpringBootTest
-public class RestTemplateWithLoggingTest {
+class RetryServiceTest {
 
     @Autowired
-    private RestTemplate restTemplateWithLogging;
+    private RetryService retryService;
 
     private MockWebServer mockWebServer;
 
@@ -37,26 +35,23 @@ public class RestTemplateWithLoggingTest {
         mockWebServer.shutdown();
     }
 
-    @DisplayName("logging 이 잘 찍히는지 보자")
+    @DisplayName("error code 4xx, 5xx 응답 시, retry 가 3 회 실행 되어야 한다.")
     @Test
-    void logging() {
+    void retry() {
 
         // given
         // 500 error 리턴하여 retry 하도록
-        mockWebServer.enqueue(new MockResponse().setBody("hello"));
-        mockWebServer.enqueue(new MockResponse().setBody("world"));
-        mockWebServer.enqueue(new MockResponse().setBody("logging"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(500));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(500));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(500));
         String url = mockWebServer.url("/test").toString();
 
         // when
         // then
-        String result1 = restTemplateWithLogging.getForObject(url, String.class);
-        String result2 = restTemplateWithLogging.getForObject(url, String.class);
-        String result3 = restTemplateWithLogging.getForObject(url, String.class);
-
-        assertThat(result1).isEqualTo("hello");
-        assertThat(result2).isEqualTo("world");
-        assertThat(result3).isEqualTo("logging");
+        assertThatThrownBy(
+                () -> retryService.execute(url)
+        ).isInstanceOf(HttpServerErrorException.class)
+                .hasMessage("500 Server Error: [no body]");
 
         assertThat(mockWebServer.getRequestCount()).isEqualTo(3); // retry 횟수 체크
     }
