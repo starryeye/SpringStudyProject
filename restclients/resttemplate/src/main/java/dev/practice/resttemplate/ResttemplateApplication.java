@@ -27,6 +27,14 @@ public class ResttemplateApplication {
 	 * 3. 요청/응답 로깅
 	 *
 	 * 4. 에러 핸들링
+	 * RestTemplate을 사용할 때는 다양한 유형의 예외가 발생할 수 있다.
+	 *
+	 * 이를 위해 ResponseErrorHandler 를 사용하여 HTTP 응답 오류를 처리하고,
+	 * try-catch 로 ResourceAccessException 과 같은 네트워크 수준의 오류를 처리하는 방법을 사용하자.
+	 * -> restTemplate.execute 호출을 try-catch 로 감싸고
+	 * catch 에는..
+	 * catch (ResourceAccessException e), catch (RestClientException e) 를 각각 IO 관련, 나머지 모든 error 로 잡는다.
+	 * Http 수준의 응답 오류는 ResponseErrorHandler 로 처리
 	 *
 	 * 5. HttpMessageConverter
 	 */
