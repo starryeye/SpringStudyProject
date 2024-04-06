@@ -27,6 +27,7 @@ public class RestTemplateWithRetryConfig {
          * request interceptor 를 통해 retry 를 적용하였다.
          * interceptor 에서 retry 를 하는 것은 400, 500 예외를 잡을 수 없다. (HttpServerErrorException, HttpClientErrorException)
          * -> 따라서, interceptor 에서 직접 status code 를 까서 확인해보던가(?) 아래의 다른 방법을 통해 구현하도록 하자
+         * -> 그러나, 사실 status code 가 400, 500 인 경우엔 retry 를 하면 안된다
          *
          * [다른 방법]
          * @Service 로직이나 restTemplate 을 사용하는 메서드에서 @Retryable 을 사용하자

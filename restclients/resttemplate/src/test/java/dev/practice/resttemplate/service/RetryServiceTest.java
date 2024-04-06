@@ -35,6 +35,10 @@ class RetryServiceTest {
         mockWebServer.shutdown();
     }
 
+    /**
+     * 사실 status code 가 400, 500 인 경우엔 retry 를 하면 안된다.
+     */
+
     @DisplayName("error code 4xx, 5xx 응답 시, retry 가 3 회 실행 되어야 한다.")
     @Test
     void retry() {
@@ -48,11 +52,8 @@ class RetryServiceTest {
 
         // when
         // then
-        assertThatThrownBy(
-                () -> retryService.execute(url)
-        ).isInstanceOf(HttpServerErrorException.class)
-                .hasMessage("500 Server Error: [no body]");
-
+        String result = retryService.execute(url);
+        assertThat(result).isEqualTo("All retry attempts are exhausted, recovery action");
         assertThat(mockWebServer.getRequestCount()).isEqualTo(3); // retry 횟수 체크
     }
 }
