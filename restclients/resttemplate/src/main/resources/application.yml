@@ -8,3 +8,5 @@ rest:
   template:
     connection-timeout: 5000
     read-timeout: 5000
+    retry-count: 3
+    backoff: 100

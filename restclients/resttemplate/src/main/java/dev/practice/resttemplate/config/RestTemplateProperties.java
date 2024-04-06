@@ -16,4 +16,7 @@ public class RestTemplateProperties {
     private Integer connectionTimeout;
     @NotNull
     private Integer readTimeout;
+
+    private Integer retryCount;
+    private Integer backoff;
 }

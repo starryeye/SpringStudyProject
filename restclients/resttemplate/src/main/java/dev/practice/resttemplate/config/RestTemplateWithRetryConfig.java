@@ -1,5 +1,6 @@
 package dev.practice.resttemplate.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +11,14 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 
+@RequiredArgsConstructor
 @Configuration
 public class RestTemplateWithRetryConfig {
 
+    private final RestTemplateProperties restTemplateProperties;
+
     @Bean
-    public RestTemplate restTemplateWithRetry(
-            RestTemplateBuilder restTemplateBuilder,
-            RestTemplateProperties restTemplateProperties
-    ) {
+    public RestTemplate restTemplateWithRetry(RestTemplateBuilder restTemplateBuilder) {
         /**
          * retry, timeout 설정
          *
@@ -42,10 +43,10 @@ public class RestTemplateWithRetryConfig {
 
         return (request, body, execution) -> {
 
-
+            // retry template
             RetryTemplate retryTemplate = RetryTemplate.builder()
-                    .maxAttempts(3) // 최대 3회
-                    .fixedBackoff(100) // Backoff : 실패 후 다음 재시도까지 대기 시간
+                    .maxAttempts(restTemplateProperties.getRetryCount()) // 최대 3회
+                    .fixedBackoff(restTemplateProperties.getBackoff().longValue()) // Backoff : 실패 후 다음 재시도까지 대기 시간
                     .build();
 
             // 아래와 같이 RetryPolicy 의 구현체(SimpleRetryPolicy, circuit breaker, max attempt 등) 을 직접 넣어줘도 된다.
