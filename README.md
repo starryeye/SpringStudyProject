@@ -95,8 +95,13 @@ subject
 - OpenFeign
   - openfeign client
 - restclients
-  - spring 6 Rest client 4가지
-    - Http interface, WebClient, RestTemplate, RestClient
+  - restclients/restclients
+    - spring 6 Rest client 4가지
+      - Http interface, WebClient, RestTemplate, RestClient
+  - restclients/resttemplate
+    - RestTemplate 심화
+      - timeout, retry, errorhandle, logging
+      - httpMessageConvertor (todo) 
 - multipledatasources
   - N 개의 DB 와 1 개의 application 간 connection
   - JPA
