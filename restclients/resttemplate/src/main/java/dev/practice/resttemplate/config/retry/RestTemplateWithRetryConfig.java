@@ -1,5 +1,6 @@
-package dev.practice.resttemplate.config;
+package dev.practice.resttemplate.config.retry;
 
+import dev.practice.resttemplate.config.RestTemplateProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,7 @@ public class RestTemplateWithRetryConfig {
          * @Service 로직이나 restTemplate 을 사용하는 메서드에서 @Retryable 을 사용하자
          * -> 이 경우엔 여기서 interceptor 에 retry 를 추가한 녀석을 쓰면 중복임
          * -> @Retryable 은 aop 로 동작한다.
-         * -> @Retryable 은 restTemplate 과 상관없는 기능임 그냥 "재시도" 그자체임
+         * -> @Retryable 은 restTemplate 과 상관없는 기능임 그냥 "재시도" 그자체
          */
 
         return restTemplateBuilder
@@ -39,7 +40,7 @@ public class RestTemplateWithRetryConfig {
                 .build();
     }
 
-    public ClientHttpRequestInterceptor clientHttpRequestInterceptor() {
+    private ClientHttpRequestInterceptor clientHttpRequestInterceptor() {
 
         return (request, body, execution) -> {
 
@@ -52,11 +53,8 @@ public class RestTemplateWithRetryConfig {
             // 아래와 같이 RetryPolicy 의 구현체(SimpleRetryPolicy, circuit breaker, max attempt 등) 을 직접 넣어줘도 된다.
 //            retryTemplate.setRetryPolicy(new SimpleRetryPolicy(3)); // 최대 3회 시도
 
-            try {
-                return retryTemplate.execute(context -> execution.execute(request, body));
-            } catch (Throwable throwable) {
-                throw new RuntimeException(throwable);
-            }
+            // 여기서 사용자 정의 예외로 바꿔주거나 처리해도 될 것이다.
+            return retryTemplate.execute(context -> execution.execute(request, body));
         };
     }
 }

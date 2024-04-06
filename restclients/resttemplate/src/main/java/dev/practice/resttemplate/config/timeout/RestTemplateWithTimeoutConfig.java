@@ -1,5 +1,6 @@
-package dev.practice.resttemplate.config;
+package dev.practice.resttemplate.config.timeout;
 
+import dev.practice.resttemplate.config.RestTemplateProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("3-retry")
 @SpringBootTest
-public class RestTemplateWithRetryTest {
+public class RestTemplateWithLoggingTest {
 
     @Autowired
-    private RestTemplate restTemplateWithRetry;
+    private RestTemplate restTemplateWithLogging;
 
     private MockWebServer mockWebServer;
 
@@ -37,9 +37,9 @@ public class RestTemplateWithRetryTest {
         mockWebServer.shutdown();
     }
 
-    @DisplayName("retry 가 3 회 실행 되어야 한다.")
+    @DisplayName("retry test 인데 logging 이 잘 찍히는지 보자")
     @Test
-    void retry() {
+    void logging() {
 
         // given
         // 500 error 리턴하여 retry 하도록
@@ -51,9 +51,10 @@ public class RestTemplateWithRetryTest {
         // when
         // then
         assertThatThrownBy(
-                () -> restTemplateWithRetry.getForObject(url, String.class)
+                () -> restTemplateWithLogging.getForObject(url, String.class)
         ).isInstanceOf(HttpServerErrorException.class)
-                        .hasMessage("500 Server Error: [no body]");
+                .hasMessage("500 Server Error: [no body]");
+//        restTemplateWithLogging.getForObject(url, String.class);
 
         assertThat(mockWebServer.getRequestCount()).isEqualTo(3); // retry 횟수 체크
     }
