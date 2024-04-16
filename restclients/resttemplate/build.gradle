@@ -28,7 +28,8 @@ dependencies {
 
 	// for @Retryable
 	implementation 'org.springframework.retry:spring-retry'
-	runtimeOnly 'org.aspectj:aspectjweaver:1.9.22'
+//	runtimeOnly 'org.aspectj:aspectjweaver:1.9.22' // aspectj 는 spring aop 보다 더 광범위한 aop 라이브러리이다.
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
