@@ -120,6 +120,8 @@ subject
   - Spring Data JPA, 페이징과 정렬
 - osiv
   - Spring 과 JPA 그리고 OSIV
+- eventandtransaction
+  - Spring event 와 transactional 처리
 - batch (todo)
   - H2(sequence)
   - MySQL(identity)
