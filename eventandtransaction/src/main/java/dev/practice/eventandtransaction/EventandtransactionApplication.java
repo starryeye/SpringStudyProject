@@ -16,4 +16,10 @@ public class EventandtransactionApplication {
 		SpringApplication.run(EventandtransactionApplication.class, args);
 	}
 
+//	@Bean
+//	public ApplicationRunner runner(MyApplicationEventPublisher publisher) {
+//		return args -> {
+//				publisher.publishMyEvent("hello, world");
+//		};
+//	}
 }
