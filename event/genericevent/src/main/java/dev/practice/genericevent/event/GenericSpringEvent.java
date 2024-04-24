@@ -1,5 +1,6 @@
 package dev.practice.genericevent.event;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -12,7 +13,8 @@ public class GenericSpringEvent<T> {
     private final T what;
     protected final boolean success;
 
-    public GenericSpringEvent(T what, boolean success) {
+    @Builder
+    private GenericSpringEvent(T what, boolean success) {
         this.what = what;
         this.success = success;
     }
