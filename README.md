@@ -120,8 +120,11 @@ subject
   - Spring Data JPA, 페이징과 정렬
 - osiv
   - Spring 과 JPA 그리고 OSIV
-- eventandtransaction (todo)
-  - Spring event 와 transactional 처리
+- event (in progress)
+  - event/applicationevent
+    - ApplicationEvent 방식의 sync, async
+  - event/genericevent
+    - 일반적인 이벤트 sync, async
 - batch (todo)
   - H2(sequence)
   - MySQL(identity)
