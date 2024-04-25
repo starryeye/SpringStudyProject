@@ -44,7 +44,7 @@ public class AnnotationDrivenEventListener {
     @EventListener(condition = "#event.success") // SpEL
     public void handleSuccessfulGenericStringSpringEvent(final GenericStringSpringEvent event) { // Generic"String"SpringEvent
 
-        log.info("Received GenericStringSpringEvent<T>.. what : {}, tx : {}", event.getWhat(), Thread.currentThread().getName());
+        log.info("Received GenericStringSpringEvent.. what : {}, tx : {}", event.getWhat(), Thread.currentThread().getName());
         hitSuccessfulEventHandler2 = true;
     }
 
