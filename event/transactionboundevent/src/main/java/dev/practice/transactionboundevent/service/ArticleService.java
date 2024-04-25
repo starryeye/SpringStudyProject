@@ -43,4 +43,18 @@ public class ArticleService {
 
         return article;
     }
+
+    @Transactional
+    public Article changeArticleContentFail(Long id, String content) {
+
+        Article article = articleRepository.findById(id).orElseThrow();
+
+        try {
+            article.changeContent(content);
+            throw new RuntimeException();
+        }catch (RuntimeException e) {
+            // 여기서 실패 이벤트 던지면.. 받나?
+            throw e;
+        }
+    }
 }

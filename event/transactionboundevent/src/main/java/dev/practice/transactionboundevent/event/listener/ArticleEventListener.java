@@ -18,25 +18,25 @@ public class ArticleEventListener {
     private boolean afterCompletionListenerCalled = false;
     private boolean afterRollbackListenerCalled = false;
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT, condition = "#event.success")
     public void articleCreatedEventHandleBeforeCommit(ArticleCreatedEvent event) {
         log.info("[Before Commit] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         beforeCommitListenerCalled = true;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, condition = "#event.success")
     public void articleCreatedEventHandleAfterCommit(ArticleCreatedEvent event) {
         log.info("[After Commit] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterCommitListenerCalled = true;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION, condition = "#event.success")
     public void articleCreatedEventHandleAfterCompletion(ArticleCreatedEvent event) {
         log.info("[After Completion] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterCompletionListenerCalled = true;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK, condition = "#event.success") // todo, ???
     public void articleCreatedEventHandleAfterRollback(ArticleCreatedEvent event) {
         log.info("[After Rollback] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterRollbackListenerCalled = true;
