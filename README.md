@@ -125,6 +125,8 @@ subject
     - ApplicationEvent 방식의 sync, async
   - event/genericevent
     - 일반적인 이벤트 sync, async
+  - event/transactionboundevent
+    - transaction 과 event
 - batch (todo)
   - H2(sequence)
   - MySQL(identity)
