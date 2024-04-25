@@ -1,5 +1,7 @@
-package dev.practice.transactionboundevent;
+package dev.practice.transactionboundevent.service;
 
+import dev.practice.transactionboundevent.repository.Article;
+import dev.practice.transactionboundevent.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

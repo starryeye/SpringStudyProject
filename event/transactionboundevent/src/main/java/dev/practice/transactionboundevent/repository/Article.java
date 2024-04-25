@@ -1,4 +1,4 @@
-package dev.practice.transactionboundevent;
+package dev.practice.transactionboundevent.repository;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
