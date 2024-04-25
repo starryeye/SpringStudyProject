@@ -1,5 +1,6 @@
 package dev.practice.transactionboundevent.service;
 
+import dev.practice.transactionboundevent.event.publisher.ArticleEventPublisher;
 import dev.practice.transactionboundevent.repository.Article;
 import dev.practice.transactionboundevent.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final ArticleEventPublisher articleEventPublisher;
 
     @Transactional
     public Article save(String title, String author, String content) {
 
         Article article = Article.create(title, author, content);
 
-        articleRepository.save(article);
+        articleRepository.save(article); // 실패하면 다양한 exception 발생함, 여기서는 예제 코드이므로 실패 이벤트는 발행안함
+        articleEventPublisher.articleCreatedEventPublish(article.getId()); // 발행 코드의 위치와 관계 없이.. Listener 는 TransactionalEventListener phase 처리 순서에 따라 동작한다.
 
-        log.info("Article saved: {}", article);
+        log.info("[ArticleService] Article saved : {}", article);
 
         return article;
     }
