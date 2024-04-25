@@ -22,7 +22,7 @@ class GenericSpringEventPublisherTest {
     private AnnotationDrivenEventListener annotationDrivenEventListener;
 
 
-    @DisplayName("1")
+    @DisplayName("success 가 true 인 이벤트를 발행하면 해당 리스너가 비동기로 동작한다. @EventListener 의 컨디션을 보면 success 조건 있음")
     @Test
     void success_true() {
 
