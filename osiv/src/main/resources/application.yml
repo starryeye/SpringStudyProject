@@ -30,5 +30,8 @@ logging:
   level:
     com.zaxxer.hikari.pool.HikariPool: debug
 
+logging.level.org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+logging.level.org.hibernate.resource.transaction: DEBUG
+
 # VM Option
 # -Dcom.zaxxer.hikari.housekeeping.periodMs=100
