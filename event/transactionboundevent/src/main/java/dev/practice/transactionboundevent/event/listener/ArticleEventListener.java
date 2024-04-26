@@ -12,6 +12,14 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 public class ArticleEventListener {
 
+    /**
+     * @TransactionalEventListener
+     * - before commit : commit DB 로 전송 이전
+     * - after commit : commit DB 로 전송 이후
+     * - after completion : commit or rollback 전송 이후
+     * - after rollback : rollback DB 로 전송 이후
+     */
+
     // for test
     private boolean beforeCommitListenerCalled = false;
     private boolean afterCommitListenerCalled = false;
@@ -30,13 +38,13 @@ public class ArticleEventListener {
         afterCommitListenerCalled = true;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION, condition = "#event.success")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
     public void articleCreatedEventHandleAfterCompletion(ArticleCreatedEvent event) {
         log.info("[After Completion] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterCompletionListenerCalled = true;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK, condition = "#event.success") // todo, ???
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK, condition = "#event.success == false")
     public void articleCreatedEventHandleAfterRollback(ArticleCreatedEvent event) {
         log.info("[After Rollback] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterRollbackListenerCalled = true;

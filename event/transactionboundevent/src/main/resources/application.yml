@@ -19,3 +19,6 @@ spring:
         format_sql: true
         use_sql_comments: true
     open-in-view: false
+
+logging.level.org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+logging.level.org.hibernate.resource.transaction: DEBUG

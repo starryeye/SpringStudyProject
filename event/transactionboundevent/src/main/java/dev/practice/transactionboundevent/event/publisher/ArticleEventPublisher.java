@@ -13,11 +13,11 @@ public class ArticleEventPublisher {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public void articleCreatedEventPublish(Long articleId) {
+    public void articleCreatedEventPublish(Long articleId, boolean isSuccess) {
 
         log.info("articleCreatedEvent Publishing.. id: {}", articleId);
 
-        ArticleCreatedEvent event = new ArticleCreatedEvent(String.valueOf(articleId), true);
+        ArticleCreatedEvent event = new ArticleCreatedEvent(String.valueOf(articleId), isSuccess);
 
         eventPublisher.publishEvent(event);
     }

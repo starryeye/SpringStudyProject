@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.NoSuchElementException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -57,6 +60,35 @@ class ArticleServiceTest {
         assertThat(articleEventListener.isAfterCommitListenerCalled()).isTrue();
         assertThat(articleEventListener.isAfterCompletionListenerCalled()).isTrue();
         assertThat(articleEventListener.isAfterRollbackListenerCalled()).isFalse();
+    }
+
+    @DisplayName("@TransactionalEventListener 의 로그가 예상한 순서에 맞게 출력되었는가..")
+    @Test
+    void saveFail() {
+
+        /**
+         * Rollback
+         */
+
+        // given
+        String title = "title";
+        String author = "author";
+        String content = "content";
+
+        // when
+        // then
+        assertThatThrownBy(
+                () -> articleService.saveFail(title, author, content)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(
+                () -> articleService.getArticle(title)
+        ).isInstanceOf(NoSuchElementException.class);
+
+        assertThat(articleEventListener.isBeforeCommitListenerCalled()).isFalse();
+        assertThat(articleEventListener.isAfterCommitListenerCalled()).isFalse();
+        assertThat(articleEventListener.isAfterCompletionListenerCalled()).isTrue();
+        assertThat(articleEventListener.isAfterRollbackListenerCalled()).isTrue();
     }
 
 }
