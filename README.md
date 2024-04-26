@@ -124,9 +124,11 @@ subject
   - event/applicationevent
     - ApplicationEvent 방식의 sync, async
   - event/genericevent
-    - 일반적인 이벤트 sync, async
+    - 제네릭 이벤트 sync, async
   - event/transactionboundevent
-    - transaction 과 event
+    - transaction bound event
+  - event/coupling
+    - 회원 가입과 메일 전송간의 의존성을 강 결합에서 느슨한 결합으로 만들어보기
 - batch (todo)
   - H2(sequence)
   - MySQL(identity)
