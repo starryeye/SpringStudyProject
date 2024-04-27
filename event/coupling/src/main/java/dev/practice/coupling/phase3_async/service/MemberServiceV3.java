@@ -51,7 +51,7 @@ public class MemberServiceV3 {
      * 3. 동기적인 방식
      * 해결됨
      * MemberService 로직에서 EmailService 를 호출하지만, @Async 로 인해 서로 다른 스레드로 동작하며 (non-blocking)
-     * MemberService 은 EmailService 완료 시점 및 결과에 아무런 관심이 없어졌으므로 비동기이다.
+     * 코드상 MemberService 은 EmailService 완료 시점 및 결과에 아무런 관심이 없어졌으므로 비동기이다.
      * -> EmailService 처리 시간은 API 응답 시간에 영향을 주지 않게 되었다.
      *
      * 4. commit 시점과 메일 발송 시점
