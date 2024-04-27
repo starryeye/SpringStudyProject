@@ -16,6 +16,8 @@ public class CouplingApplication {
 	 * 회원 가입 비즈니스를 가지고 하나의 모듈 내에서
 	 * tight coupling 된 상황을 알아보고 loose coupling 해본다.
 	 *
+	 * 코드
+	 * phaseXXX 제외 나머지 패키지는 각 phase 패키지에서 공통으로 사용한다.
 	 *
 	 *
 	 * 각 단계에 대한 부가 설명은 아래를 참조
