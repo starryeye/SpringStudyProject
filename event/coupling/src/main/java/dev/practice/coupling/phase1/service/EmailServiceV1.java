@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailServiceV1 {
 
     private final EmailSender emailSender;
     private final EmailSendHistoryRepository emailSendHistoryRepository;

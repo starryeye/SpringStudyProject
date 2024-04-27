@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberServiceV1 {
 
     private final MemberRepository memberRepository;
-    private final EmailService emailService;
+    private final EmailServiceV1 emailServiceV1;
 
     @Transactional
     public RegisterMemberResponse registerProcess(RegisterMemberRequest request) {
@@ -22,7 +22,7 @@ public class MemberService {
         Member registered = register(request);
 
         // 회원 등록 감사 메일 발송
-        emailService.sendThankYouEmailForRegistered(registered.getId(), registered.getName(), registered.getEmail());
+        emailServiceV1.sendThankYouEmailForRegistered(registered.getId(), registered.getName(), registered.getEmail());
 
         // other logic..
 
