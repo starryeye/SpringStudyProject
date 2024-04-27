@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -81,9 +81,8 @@ class ArticleServiceTest {
                 () -> articleService.saveFail(title, author, content)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        assertThatThrownBy(
-                () -> articleService.getArticle(title)
-        ).isInstanceOf(NoSuchElementException.class);
+        List<Article> result = articleService.getArticles(title);
+        assertThat(result).isEmpty();
 
         assertThat(articleEventListener.isBeforeCommitListenerCalled()).isFalse();
         assertThat(articleEventListener.isAfterCommitListenerCalled()).isFalse();

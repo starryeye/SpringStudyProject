@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -49,8 +49,8 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public Article getArticle(String title) {
-        return articleRepository.findByTitle(title).orElseThrow(NoSuchElementException::new);
+    public List<Article> getArticles(String title) {
+        return articleRepository.findByTitle(title);
     }
 
     @Transactional
