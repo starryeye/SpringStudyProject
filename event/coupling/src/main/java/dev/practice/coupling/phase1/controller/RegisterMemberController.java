@@ -15,7 +15,7 @@ public class RegisterMemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/api/v1/new")
+    @PostMapping("/api/v1/phase1/new")
     public ResponseEntity<RegisterMemberResponse> registerMember(@RequestBody RegisterMemberRequest request) {
 
         return ResponseEntity.ok(memberService.registerProcess(request));
