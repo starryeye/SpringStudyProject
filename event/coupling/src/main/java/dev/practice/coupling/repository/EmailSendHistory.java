@@ -19,7 +19,7 @@ public class EmailSendHistory {
     private Long id;
 
     private String message;
-    private String targetMemberId;
+    private Long targetMemberId;
 
     private LocalDateTime sendAt;
 
@@ -27,7 +27,7 @@ public class EmailSendHistory {
     private EmailType emailType;
 
     @Builder
-    private EmailSendHistory(Long id, String message, String targetMemberId, LocalDateTime sendAt, EmailType emailType) {
+    private EmailSendHistory(Long id, String message, Long targetMemberId, LocalDateTime sendAt, EmailType emailType) {
         this.id = id;
         this.message = message;
         this.targetMemberId = targetMemberId;
@@ -35,7 +35,7 @@ public class EmailSendHistory {
         this.emailType = emailType;
     }
 
-    public static EmailSendHistory create(String message, String targetMemberId, LocalDateTime sendAt, EmailType emailType) {
+    public static EmailSendHistory create(String message, Long targetMemberId, LocalDateTime sendAt, EmailType emailType) {
         return EmailSendHistory.builder()
                 .id(null)
                 .message(message)
