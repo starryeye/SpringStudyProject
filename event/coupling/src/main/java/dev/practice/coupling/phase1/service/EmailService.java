@@ -6,6 +6,7 @@ import dev.practice.coupling.repository.EmailSendHistoryRepository;
 import dev.practice.coupling.repository.enums.EmailType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ public class EmailService {
 
     private static final String THANK_YOU = "%s, Thank you for using our service!";
 
+    @Transactional
     public void sendThankYouEmailForRegistered(Long memberId, String memberName, String emailAddress) {
 
         // 감사 메일 발송
