@@ -30,6 +30,7 @@ class ArticleServiceTest {
     @AfterEach
     void tearDown() {
         articleRepository.deleteAllInBatch();
+        articleEventListener.calledStatusInit();
     }
 
     @DisplayName("@TransactionalEventListener 의 로그가 예상한 순서에 맞게 출력되었는가..")

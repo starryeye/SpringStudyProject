@@ -49,4 +49,12 @@ public class ArticleEventListener {
         log.info("[After Rollback] Received ArticleCreated.. event: {}, isSuccess : {}", event.getWhat(), event.isSuccess());
         afterRollbackListenerCalled = true;
     }
+
+    // for test
+    public void calledStatusInit() {
+        this.beforeCommitListenerCalled = false;
+        this.afterCommitListenerCalled = false;
+        this.afterCompletionListenerCalled = false;
+        this.afterRollbackListenerCalled = false;
+    }
 }
