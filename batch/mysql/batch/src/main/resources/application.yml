@@ -2,10 +2,6 @@ spring:
   profiles:
     default: default
 
-  h2:
-    console:
-      enabled: true
-
   datasource:
     url: jdbc:mysql://localhost:3306/article
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    #    show-sql: true
+    show-sql: true
     properties:
       hibernate:
         highlight_sql: true
@@ -34,6 +30,9 @@ logging:
           jdbc:
             bind: trace
             extract: trace
+
+logging.level.org.springframework.orm.jpa.JpaTransactionManager: debug
+logging.level.org.hibernate.resource.transaction: debug
 
 ---
 spring:
