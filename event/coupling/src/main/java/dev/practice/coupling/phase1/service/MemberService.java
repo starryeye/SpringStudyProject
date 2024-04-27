@@ -56,7 +56,8 @@ public class MemberService {
      * MemberService::registerProcess 메서드 범위에 transaction 을 걸고 있기 때문에
      * registerProcess 가 모두 완료되고 예외가 없을 때, commit 명령어를 날린다.
      * 메인 로직인 회원 가입 save 명령어를 호출하는 시점에는 별 문제가 없었고 메일 발송도 문제가 없었는데
-     * 모종의 이유로 commit 시점에 문제가 발생하면.. 회원 가입은 롤백이 되겠지만, 메일 발송은 이미 성공적으로 처리가 된 이후이다..
+     * 모종의 이유로 메일 발송 이후와 registerProcess 메서드 완료 사이 시점에 문제가 발생하면..
+     * 회원 가입, 메일 히스토리 저장은 롤백 되겠지만, 메일 발송은 이미 성공적으로 처리가 된 이후이다..
      * -> 메일 발송을 commit 이 성공한 뒤로 미뤄야하는 필요성 대두
      *
      */
