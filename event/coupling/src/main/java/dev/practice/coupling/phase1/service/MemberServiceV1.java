@@ -64,7 +64,8 @@ public class MemberServiceV1 {
      *
      * 참고
      * // other logic.. 은 제 3의 로직일 수 도 있지만,
-     * member 기본 키 생성 전략을 sequence 로 하여 insert 쿼리의 쓰기 지연이라 생각해도 된다.
+     * member 기본 키 생성 전략을 sequence 로 하여 insert 쿼리의 쓰기 지연이라 생각하자..
      * -> 쓰기지연 적용된 insert 쿼리를 날렸는데 DB 에서 어떤 컬럼의 유니크 제약이라던지.. 등으로 인해 exception 발생가능성 존재
+     * 제 3의 로직이라 생각하면, 회원 가입(저장)은 성공했는데 제 3의 로직이 실패하여 회원 가입(저장) 까지 롤백되는 문제로.. 즉, 2번 문제이다.
      */
 }
