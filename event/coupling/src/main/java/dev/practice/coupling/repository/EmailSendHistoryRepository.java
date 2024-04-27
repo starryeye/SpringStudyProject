@@ -1,4 +1,6 @@
 package dev.practice.coupling.repository;
 
-public interface EmailSendHistoryRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmailSendHistoryRepository extends JpaRepository<EmailSendHistory, Long> {
 }
