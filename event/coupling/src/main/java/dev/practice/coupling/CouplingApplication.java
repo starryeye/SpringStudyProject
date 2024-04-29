@@ -24,7 +24,7 @@ public class CouplingApplication {
 	 * phase1 -> MemberServiceV1
 	 * phase2 -> RegisterMemberFacadeV2
 	 * phase3 -> MemberServiceV3
-	 * phase4 -> MemberServiceV4, EmailServiceV4
+	 * phase4 -> MemberServiceV4, EmailServiceV4, RegisteredMemberEventListenerV4
 	 *
 	 * 참고해보면 좋음
 	 * https://youtu.be/b65zIH7sDug?si=rvxZui-mR8-a3k_S
