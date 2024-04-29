@@ -1,1 +1,28 @@
-spring.application.name=coupling
+spring:
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        highlight_sql: true
+        format_sql: true
+        use_sql_comments: true
+    open-in-view: false
+
+logging.level.org.hibernate.sql: debug
+logging.level.org.hibernate.type.descriptor.sql: trace
+logging.level.org.hibernate.orm.jdbc.bind: trace
+logging.level.org.hibernate.orm.jdbc.extract: trace
+logging.level.org.springframework.orm.jpa.JpaTransactionManager: debug
+logging.level.org.hibernate.resource.transaction: debug
