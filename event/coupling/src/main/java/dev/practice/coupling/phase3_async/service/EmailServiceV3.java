@@ -18,7 +18,7 @@ public class EmailServiceV3 {
     private final EmailSender emailSender;
     private final EmailSendHistoryRepository emailSendHistoryRepository;
 
-    private static final String THANK_YOU = "%s, Thank you for using our service!";
+    private static final String THANK_YOU = "%s, Thank you for using our service! (phase 3)";
 
     @Async
     @Transactional
