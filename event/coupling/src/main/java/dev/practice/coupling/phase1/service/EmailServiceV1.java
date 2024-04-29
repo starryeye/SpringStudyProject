@@ -17,7 +17,7 @@ public class EmailServiceV1 {
     private final EmailSender emailSender;
     private final EmailSendHistoryRepository emailSendHistoryRepository;
 
-    private static final String THANK_YOU = "%s, Thank you for using our service!";
+    private static final String THANK_YOU = "%s, Thank you for using our service! (phase 1)";
 
     @Transactional
     public void sendThankYouEmailForRegistered(Long memberId, String memberName, String emailAddress) {

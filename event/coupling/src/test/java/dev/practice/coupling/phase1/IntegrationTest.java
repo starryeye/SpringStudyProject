@@ -85,7 +85,7 @@ public class IntegrationTest {
         List<EmailSendHistory> savedEmailHistory = emailSendHistoryRepository.findByTargetMemberId(memberId);
 
         assertThat(savedEmailHistory).hasSize(1);
-        assertThat(savedEmailHistory.get(0).getMessage()).isEqualTo(name + ", Thank you for using our service!");
+        assertThat(savedEmailHistory.get(0).getMessage()).isEqualTo(name + ", Thank you for using our service! (phase 1)");
         assertThat(savedEmailHistory.get(0).getEmailType()).isEqualTo(EmailType.MEMBER_REGISTER_SUCCESS);
     }
 }
