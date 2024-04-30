@@ -18,6 +18,10 @@ public class ArticleEventListener {
      * - after commit : commit DB 로 전송 이후
      * - after completion : commit or rollback 전송 이후
      * - after rollback : rollback DB 로 전송 이후
+     *
+     * Listener 에서는 기존 @Transactional 에 참여를 못하는 듯하다.. (다시 서치해보기)
+     * 명시적으로 @Transactional(REQUIRED_NEW) 로 해주자..
+     * phase BEFORE_COMMIT 에서는..?
      */
 
     // for test
