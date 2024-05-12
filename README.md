@@ -120,7 +120,7 @@ subject
   - Spring Data JPA, 페이징과 정렬
 - osiv
   - Spring 과 JPA 그리고 OSIV
-- event (in progress)
+- event
   - event/applicationevent
     - ApplicationEvent 방식의 sync, async
   - event/genericevent
@@ -129,6 +129,7 @@ subject
     - transaction bound event
   - event/coupling
     - 회원 가입과 메일 전송간의 의존성을 강 결합에서 느슨한 결합으로 만들어보기
+  - to be continue.. (after study DDD)
 - batch (todo)
   - H2(sequence)
   - MySQL(identity)
