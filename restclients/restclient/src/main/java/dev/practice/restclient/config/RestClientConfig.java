@@ -56,7 +56,7 @@ public class RestClientConfig {
     public ClientHttpRequestFactory httpComponentsClientHttpRequestFactory() {
 
         // 커넥션 풀 매니저 설정
-        // todo, response CompletableFuture?
+        // todo, idle connection evict 설정 필요.. 유휴 커넥션 관리
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(100); // 최대 커넥션 수
         connectionManager.setDefaultMaxPerRoute(20); // 라우트당 최대 커넥션 수
