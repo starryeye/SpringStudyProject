@@ -18,15 +18,14 @@ public class RestclientApplication {
 
 	/**
 	 * todo,
-	 * 	@RestClientTest
 	 *  Error Handling..
 	 */
 
-	@Bean
-	public ApplicationRunner applicationRunner(MyPostClient myPostClient) {
-		return args -> {
-			String posts = myPostClient.findAll();
-			System.out.println(posts);
-		};
-	}
+//	@Bean
+//	public ApplicationRunner applicationRunner(MyPostClient myPostClient) {
+//		return args -> {
+//			String posts = myPostClient.findAll();
+//			System.out.println(posts);
+//		};
+//	}
 }

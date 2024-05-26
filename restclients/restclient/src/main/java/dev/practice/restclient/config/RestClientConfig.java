@@ -54,7 +54,9 @@ public class RestClientConfig {
 
     @Bean
     public ClientHttpRequestFactory httpComponentsClientHttpRequestFactory() {
+
         // 커넥션 풀 매니저 설정
+        // todo, response CompletableFuture?
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(100); // 최대 커넥션 수
         connectionManager.setDefaultMaxPerRoute(20); // 라우트당 최대 커넥션 수
