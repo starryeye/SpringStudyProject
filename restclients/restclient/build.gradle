@@ -26,6 +26,9 @@ dependencies {
 
 	implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
 
+	// https://github.com/making/retryable-client-http-request-interceptor
+	implementation 'am.ik.spring:retryable-client-http-request-interceptor:0.4.2'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 

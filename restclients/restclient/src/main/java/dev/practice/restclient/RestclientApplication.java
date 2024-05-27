@@ -17,6 +17,12 @@ public class RestclientApplication {
 	}
 
 	/**
+	 * Spring boot 3.2.X
+	 * Spring 6.1.X
+	 * RestClient
+	 *
+	 * https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-restclient
+	 *
 	 * todo,
 	 *  Error Handling..
 	 */
