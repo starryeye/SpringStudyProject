@@ -12,6 +12,7 @@ public class HttpinterfacesApplication {
 	 * https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface
 	 *
 	 * todo, error handling..
+	 * 	https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface-exceptions
 	 *
 	 *
 	 * project 설명

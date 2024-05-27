@@ -25,6 +25,7 @@ public class RestclientApplication {
 	 *
 	 * todo,
 	 *  Error Handling..
+	 *  https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface-exceptions
 	 */
 
 //	@Bean
