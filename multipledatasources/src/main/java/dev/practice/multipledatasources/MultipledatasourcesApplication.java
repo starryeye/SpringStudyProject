@@ -24,6 +24,10 @@ public class MultipledatasourcesApplication {
 		SpringApplication.run(MultipledatasourcesApplication.class, args);
 	}
 
+	/**
+	 * todo, 글로벌 트랜잭션, JtaTransactionManager..
+	 */
+
 //	@Bean
 //	public ApplicationRunner runner() {
 //		return args -> {
