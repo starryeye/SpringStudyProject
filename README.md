@@ -104,6 +104,7 @@ subject
       - httpMessageConvertor (todo) 
 - multipledatasources
   - N 개의 DB 와 1 개의 application 간 connection
+    - todo, JtaTransactionManager
   - JPA
   - Transaction, EntityManager 등 각종 주의사항
 - xmlresponse
