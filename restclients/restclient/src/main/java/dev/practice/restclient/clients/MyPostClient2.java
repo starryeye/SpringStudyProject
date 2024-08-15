@@ -2,32 +2,22 @@ package dev.practice.restclient.clients;
 
 import dev.practice.restclient.clients.request.Post;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Component
-public class MyPostClient {
+public class MyPostClient2 {
     /**
-     * Spring 에서 생성해준 RestClient.Builder 를 주입 받는다.
-     *
-     * RestClientConfig 와는 관련이 없다. RestClientConfig 는 참고용임
+     * RestClientConfig2 에서 생성된 RestClient 빈을 주입받는다.
+     * JdkClientHttpRequestFactory 전략을 사용하였다.
      */
 
     private final RestClient restClient;
 
-    public MyPostClient(
-            RestClient.Builder builder
-//            ClientHttpRequestFactory jdkClientHttpRequestFactory
-    ) {
-
-        this.restClient = builder
-                .baseUrl("https://jsonplaceholder.typicode.com")
-//                .requestFactory(jdkClientHttpRequestFactory)
-                .build();
+    public MyPostClient2(RestClient restClient) {
+        this.restClient = restClient;
     }
 
     public String findAll() {

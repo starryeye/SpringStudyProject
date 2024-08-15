@@ -13,21 +13,22 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@RestClientTest(MyPostClient.class)
-class MyPostClientTest {
+@RestClientTest(MyPostClient2.class)
+class MyPostClientTest2 {
 
     @Autowired
-    MyPostClient myPostClient;
+    MyPostClient2 myPostClient2;
 
     /**
-     * 참고
-     * 현재 테스트는 requestFactory 를 설정하지 않은 RestClient 로 테스트 중이다.
-     * RestClient 를 jdkClientHttpRequestFactory 를 사용할 경우..
-     * MockRestServiceServer 의 Stubbing 이 동작하지 않는 듯 하다.. (실제 서버에 요청해버리고 100 개가 응답되어, 2 개를 예상한 테스트가 실패됨)
+     * MyPostClient2 는 JdkClientHttpRequestFactory 전략으로 생성된 RestClient 를 사용한다.
+     * MyPostClientTest 에서 설명한 것처럼 JdkClientHttpRequestFactory 로 생성된 RestClient 는 MockRestServiceServer 가 동작하지 않는다.
+     *
+     * 하지만, RestClientConfig2 와 같이 RestClientCustomizer 로 생성하면 MockRestServiceServer 정상 동작함..
+     *
+     * //todo 원래는 되어야하나.. 테스트 실패..
      */
 
     @Autowired
@@ -54,7 +55,7 @@ class MyPostClientTest {
                 ));
 
         // when
-        List<Post> result = myPostClient.getAll();
+        List<Post> result = myPostClient2.getAll();
 
         // then
         assertThat(result).hasSize(2);
