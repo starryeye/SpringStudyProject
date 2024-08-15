@@ -3,11 +3,13 @@ package dev.practice.restclient.clients;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.practice.restclient.clients.request.Post;
+import dev.practice.restclient.config.RestClientConfig2ForTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.util.List;
@@ -16,8 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+@ContextConfiguration(classes = RestClientConfig2ForTest.class)
 @RestClientTest(MyPostClient2.class)
-class MyPostClientTest2 {
+class MyPostClient2Test {
 
     @Autowired
     MyPostClient2 myPostClient2;
@@ -26,9 +29,8 @@ class MyPostClientTest2 {
      * MyPostClient2 는 JdkClientHttpRequestFactory 전략으로 생성된 RestClient 를 사용한다.
      * MyPostClientTest 에서 설명한 것처럼 JdkClientHttpRequestFactory 로 생성된 RestClient 는 MockRestServiceServer 가 동작하지 않는다.
      *
-     * 하지만, RestClientConfig2 와 같이 RestClientCustomizer 로 생성하면 MockRestServiceServer 정상 동작함..
-     *
-     * //todo 원래는 되어야하나.. 테스트 실패..
+     * 하지만, RestClientConfig2 와 같이 RestClientCustomizer 로 RestClient 를 생성하면 MockRestServiceServer 정상 동작함..
+     * -> RestClientTest 는 SpringBootTest 와 같이 전체 빈 테스트가 아닌 Slice Test 이므로 RestClientConfig2ForTest 에서 RestClient 빈을 생성하도록함
      */
 
     @Autowired
