@@ -25,7 +25,8 @@ public class MultipledatasourcesApplication {
 	}
 
 	/**
-	 * todo, 글로벌 트랜잭션, JtaTransactionManager..
+	 * 글로벌 트랜잭션, JtaTransactionManager.. 은
+	 * globaltransaction 프로젝트 참조
 	 */
 
 //	@Bean
