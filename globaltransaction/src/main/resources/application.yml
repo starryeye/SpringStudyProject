@@ -1,1 +1,18 @@
-spring.application.name=globaltransaction
+
+spring:
+  datasource:
+    memo-datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/memo
+      username: root
+      password: 1234
+    todo-datasource:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:mem:testdb
+      username: sa
+      password:
+  jta:
+    enabled: true
+    atomikos:
+      properties:
+        log-base-dir: logs/jta-logs

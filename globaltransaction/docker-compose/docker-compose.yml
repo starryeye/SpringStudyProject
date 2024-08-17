@@ -1,0 +1,11 @@
+# docker-compose -p globaltransaction up -d
+
+version: '3.8'
+services:
+  mysql-1:
+    image: mysql:8.0.31
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: memo
+      MYSQL_ROOT_PASSWORD: 1234
