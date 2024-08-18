@@ -16,3 +16,7 @@ spring:
     atomikos:
       properties:
         log-base-dir: logs/jta-logs
+
+logging:
+  level:
+    root: debug
