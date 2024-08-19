@@ -1,4 +1,4 @@
-package dev.starryeye.globaltransaction.domain;
+package dev.starryeye.globaltransaction.domain.memo;
 
 import dev.starryeye.globaltransaction.common.BaseEntity;
 import jakarta.persistence.*;

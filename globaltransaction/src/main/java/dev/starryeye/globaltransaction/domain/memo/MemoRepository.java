@@ -1,4 +1,4 @@
-package dev.starryeye.globaltransaction.domain;
+package dev.starryeye.globaltransaction.domain.memo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

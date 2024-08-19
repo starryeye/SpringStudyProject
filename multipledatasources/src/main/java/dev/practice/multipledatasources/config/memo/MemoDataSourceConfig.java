@@ -14,6 +14,7 @@ public class MemoDataSourceConfig {
     @Bean
     @ConfigurationProperties("spring.datasource.memo-datasource")
     public DataSourceProperties memoDataSourceProperties() {
+        // spring.datasource.memo-datasource 로 시작하는 모든 속성이 DataSourceProperties 로 바인딩된다.
         return new DataSourceProperties();
     }
 

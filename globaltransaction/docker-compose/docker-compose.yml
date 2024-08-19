@@ -9,3 +9,10 @@ services:
     environment:
       MYSQL_DATABASE: memo
       MYSQL_ROOT_PASSWORD: 1234
+  mysql-2:
+    image: mysql:8.0.31
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_ROOT_PASSWORD: 1234

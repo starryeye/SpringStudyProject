@@ -1,7 +1,7 @@
 package dev.starryeye.globaltransaction.service;
 
-import dev.starryeye.globaltransaction.domain.MemoRepository;
-import dev.starryeye.globaltransaction.domain.TodoRepository;
+import dev.starryeye.globaltransaction.domain.memo.MemoRepository;
+import dev.starryeye.globaltransaction.domain.todo.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

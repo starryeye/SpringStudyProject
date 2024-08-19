@@ -17,32 +17,6 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.memo-datasource")
-    public DataSourceProperties memoDataSourceProperties() {
-        return new DataSourceProperties();
-    }
-
-    @Bean
-    public DataSource memoDataSource() {
-        return memoDataSourceProperties()
-                .initializeDataSourceBuilder()
-                .build();
-    }
-
-    @Bean
-    @ConfigurationProperties("spring.datasource.todo-datasource")
-    public DataSourceProperties todoDataSourceProperties() {
-        return new DataSourceProperties();
-    }
-
-    @Bean
-    public DataSource todoDataSource() {
-        return todoDataSourceProperties()
-                .initializeDataSourceBuilder()
-                .build();
-    }
-
-    @Bean
     public PlatformTransactionManager jtaTransactionManager() {
         return new JtaTransactionManager();
     }

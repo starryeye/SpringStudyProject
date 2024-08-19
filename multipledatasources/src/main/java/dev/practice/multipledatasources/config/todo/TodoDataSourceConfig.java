@@ -14,6 +14,7 @@ public class TodoDataSourceConfig {
     @Bean
     @ConfigurationProperties("spring.datasource.todo-datasource")
     public DataSourceProperties todoDataSourceProperties() {
+        // spring.datasource.todo-datasource 로 시작하는 모든 속성이 DataSourceProperties 로 바인딩된다.
         return new DataSourceProperties();
     }
 

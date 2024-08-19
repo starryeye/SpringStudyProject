@@ -1,16 +1,29 @@
 
 spring:
   datasource:
-    memo-datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/memo
-      username: root
-      password: 1234
-    todo-datasource:
-      driver-class-name: org.h2.Driver
-      url: jdbc:h2:mem:testdb
-      username: sa
-      password:
+    xa:
+      memo:
+        xa-properties:
+          url: jdbc:mysql://localhost:3306/memo
+          username: root
+          password: 1234
+        xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+        resource-name: memo
+        borrow-connection-timeout: 3000
+        max-lifetime: 180000
+#        keepalive-time: 90000
+        maximum-pool-size: 20
+      todo:
+        xa-properties:
+          url: jdbc:mysql://localhost:3307/todo
+          username: root
+          password: 1234
+        xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+        resource-name: memo
+        borrow-connection-timeout: 3000
+        max-lifetime: 180000
+#        keepalive-time: 90000
+        maximum-pool-size: 20
   jta:
     enabled: true
     atomikos:
