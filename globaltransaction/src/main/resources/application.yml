@@ -19,7 +19,7 @@ spring:
           username: root
           password: 1234
         xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
-        resource-name: memo
+        resource-name: todo
         borrow-connection-timeout: 3000
         max-lifetime: 180000
 #        keepalive-time: 90000
@@ -32,4 +32,4 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: info

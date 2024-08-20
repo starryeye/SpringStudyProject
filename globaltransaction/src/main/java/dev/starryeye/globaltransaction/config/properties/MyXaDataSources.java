@@ -1,11 +1,10 @@
 package dev.starryeye.globaltransaction.config.properties;
 
+import com.atomikos.spring.AtomikosDataSourceBean;
 import dev.starryeye.globaltransaction.config.properties.sub.MyAtomikosDataSourceBean;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
-@Getter
 @ConfigurationProperties("spring.datasource.xa")
 public class MyXaDataSources {
 
@@ -17,11 +16,13 @@ public class MyXaDataSources {
         this.memo = memo;
         this.todo = todo;
 
-        initialize();
     }
 
-    private void initialize() {
-        memo.mysqlInitialize();
-        todo.mysqlInitialize();
+    public AtomikosDataSourceBean getMemo() {
+        return memo.createAtomikosDataSource();
+    }
+
+    public AtomikosDataSourceBean getTodo() {
+        return todo.createAtomikosDataSource();
     }
 }

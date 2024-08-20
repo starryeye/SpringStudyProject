@@ -5,8 +5,6 @@ import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
-import java.sql.SQLException;
-
 public class MyAtomikosDataSourceBean extends AtomikosDataSourceBean {
 
     private final DataSourceProperties xaProperties;
@@ -28,13 +26,29 @@ public class MyAtomikosDataSourceBean extends AtomikosDataSourceBean {
         this.setMaxPoolSize(maximumPoolSize);
     }
 
-    public void mysqlInitialize() {
+    public AtomikosDataSourceBean createAtomikosDataSource() {
+
+        /**
+         * 해당 인스턴스(this) 에 설정을 완료하여 직접 리턴해주면 좋겠지만.. application 부팅 순서상 오류가 나는듯 하여..
+         * 새로 만들어서 리턴해준다.
+         */
 
         MysqlXADataSource xaDataSource = new MysqlXADataSource();
         xaDataSource.setUrl(this.xaProperties.getUrl());
         xaDataSource.setUser(this.xaProperties.getUsername());
         xaDataSource.setPassword(this.xaProperties.getPassword());
 
-        this.setXaDataSource(xaDataSource);
+        return getAtomikosDataSourceBean(xaDataSource);
+    }
+
+    private AtomikosDataSourceBean getAtomikosDataSourceBean(MysqlXADataSource xaDataSource) {
+        AtomikosDataSourceBean atomikosDataSourceBean = new AtomikosDataSourceBean();
+        atomikosDataSourceBean.setXaDataSource(xaDataSource);
+        atomikosDataSourceBean.setXaDataSourceClassName(this.getXaDataSourceClassName());
+        atomikosDataSourceBean.setUniqueResourceName(this.getUniqueResourceName());
+        atomikosDataSourceBean.setBorrowConnectionTimeout(this.getBorrowConnectionTimeout());
+        atomikosDataSourceBean.setMaxLifetime(this.getMaxLifetime());
+        atomikosDataSourceBean.setMaxPoolSize(this.getMaxPoolSize());
+        return atomikosDataSourceBean;
     }
 }
