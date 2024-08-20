@@ -16,5 +16,12 @@ public class MyXaDataSources {
     public MyXaDataSources(MyAtomikosDataSourceBean memo, MyAtomikosDataSourceBean todo) {
         this.memo = memo;
         this.todo = todo;
+
+        initialize();
+    }
+
+    private void initialize() {
+        memo.mysqlInitialize();
+        todo.mysqlInitialize();
     }
 }

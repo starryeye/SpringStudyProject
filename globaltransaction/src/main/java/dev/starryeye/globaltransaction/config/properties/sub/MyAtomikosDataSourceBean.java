@@ -1,15 +1,19 @@
 package dev.starryeye.globaltransaction.config.properties.sub;
 
 import com.atomikos.spring.AtomikosDataSourceBean;
+import com.mysql.cj.jdbc.MysqlXADataSource;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
+
+import java.sql.SQLException;
 
 public class MyAtomikosDataSourceBean extends AtomikosDataSourceBean {
 
-    private final XaProperties xaProperties;
+    private final DataSourceProperties xaProperties;
 
     @ConstructorBinding
     public MyAtomikosDataSourceBean(
-            XaProperties xaProperties,
+            DataSourceProperties xaProperties,
             String xaDataSourceClassName,
             String resourceName,
             int borrowConnectionTimeout,
@@ -22,11 +26,15 @@ public class MyAtomikosDataSourceBean extends AtomikosDataSourceBean {
         this.setBorrowConnectionTimeout(borrowConnectionTimeout);
         this.setMaxLifetime(maxLifetime);
         this.setMaxPoolSize(maximumPoolSize);
-
-        initialize();
     }
 
-    private void initialize() {
-        setXaProperties(xaProperties.toProperties());
+    public void mysqlInitialize() {
+
+        MysqlXADataSource xaDataSource = new MysqlXADataSource();
+        xaDataSource.setUrl(this.xaProperties.getUrl());
+        xaDataSource.setUser(this.xaProperties.getUsername());
+        xaDataSource.setPassword(this.xaProperties.getPassword());
+
+        this.setXaDataSource(xaDataSource);
     }
 }
