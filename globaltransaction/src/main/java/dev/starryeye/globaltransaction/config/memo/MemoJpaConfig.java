@@ -1,5 +1,6 @@
 package dev.starryeye.globaltransaction.config.memo;
 
+import dev.starryeye.globaltransaction.config.AtomikosConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,7 @@ import java.util.Map;
 @Configuration
 @EnableJpaRepositories(
         entityManagerFactoryRef = "memoEntityManagerFactory",
-        transactionManagerRef = "transactionManager",
+        transactionManagerRef = AtomikosConfiguration.TRANSACTION_MANAGER_BEAN_NAME,
         basePackages = "dev.starryeye.globaltransaction.domain.memo"
 )
 public class MemoJpaConfig {

@@ -20,11 +20,15 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 @EnableTransactionManagement
 public class AtomikosConfiguration {
 
+    public static final String TRANSACTION_MANAGER_BEAN_NAME = "jtaTransactionManager";
+
+    // 필수인가..?
     @Bean
     public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    // 필수인가..?
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
@@ -34,14 +38,14 @@ public class AtomikosConfiguration {
         return hibernateJpaVendorAdapter;
     }
 
-    @Bean(name = "userTransaction")
+    @Bean
     public UserTransaction userTransaction() throws SystemException {
         UserTransactionImp userTransactionImp = new UserTransactionImp();
         userTransactionImp.setTransactionTimeout(10000);
         return userTransactionImp;
     }
 
-    @Bean(name = "atomikosTransactionManager")
+    @Bean
     public TransactionManager atomikosTransactionManager() {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setForceShutdown(false);
@@ -51,14 +55,15 @@ public class AtomikosConfiguration {
         return userTransactionManager;
     }
 
-    @Bean(name = "transactionManager")
+    @Bean(name = TRANSACTION_MANAGER_BEAN_NAME)
     @DependsOn({"userTransaction", "atomikosTransactionManager"})
     public PlatformTransactionManager transactionManager() throws SystemException {
-        UserTransaction userTransaction = userTransaction();
 
+        UserTransaction userTransaction = userTransaction();
         AtomikosJtaPlatform.transaction = userTransaction;
 
         TransactionManager atomikosTransactionManager = atomikosTransactionManager();
+
         return new JtaTransactionManager(userTransaction, atomikosTransactionManager);
     }
 
