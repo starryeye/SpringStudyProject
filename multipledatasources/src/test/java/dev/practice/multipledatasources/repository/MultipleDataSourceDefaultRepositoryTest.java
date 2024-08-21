@@ -26,10 +26,10 @@ public class MultipleDataSourceDefaultRepositoryTest {
     @Autowired
     private TodoRepository todoRepository;
 
-    @PersistenceContext(unitName = "memoEntityManager")
+    @PersistenceContext(unitName = "memoPersistenceUnit")
     private EntityManager memoEntityManager;
 
-    @PersistenceContext(unitName = "todoEntityManager")
+    @PersistenceContext(unitName = "todoPersistenceUnit")
     private EntityManager todoEntityManager;
 
     @AfterEach
