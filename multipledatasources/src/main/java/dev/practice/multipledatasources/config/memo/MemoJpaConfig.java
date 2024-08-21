@@ -40,7 +40,7 @@ public class MemoJpaConfig {
 //                .packages(targetpackages)
 //                .build();
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setPersistenceUnitName("memoEntityManager"); // em 이름 설정
+        emf.setPersistenceUnitName("memoPersistenceUnit"); // em 주입에 관련됨
         emf.setDataSource(dataSource);
         emf.setPackagesToScan(targetpackages);
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

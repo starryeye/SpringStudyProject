@@ -38,7 +38,7 @@ public class TodoJpaConfig {
 //                .packages(targetpackages)
 //                .build();
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setPersistenceUnitName("todoEntityManager"); // em 이름 설정
+        emf.setPersistenceUnitName("todoPersistenceUnit"); // em 주입에 관련됨
         emf.setDataSource(dataSource);
         emf.setPackagesToScan(targetpackages);
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

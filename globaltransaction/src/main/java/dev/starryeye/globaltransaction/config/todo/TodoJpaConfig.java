@@ -48,7 +48,7 @@ public class TodoJpaConfig {
         return entityManagerFactoryBuilder
                 .dataSource(dataSource)
                 .packages("dev.starryeye.globaltransaction.domain.todo")
-                .persistenceUnit("mysql")
+                .persistenceUnit("todoPersistenceUnit") // PersistenceUnitName
                 .properties(jpaProperties())
                 .jta(true)
                 .build();

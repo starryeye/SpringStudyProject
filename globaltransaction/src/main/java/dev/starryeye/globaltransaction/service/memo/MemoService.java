@@ -3,6 +3,7 @@ package dev.starryeye.globaltransaction.service.memo;
 import dev.starryeye.globaltransaction.domain.memo.MemoEntity;
 import dev.starryeye.globaltransaction.domain.memo.MemoRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class MemoService {
 
     private final MemoRepository memoRepository;
+
+    @PersistenceContext(unitName = "memoPersistenceUnit") // @Autowired 로 할 경우 Primary entityManager 가 주입되므로 주의!
     private final EntityManager memoEntityManager;
 
     public void createMemo(String title, String content) {

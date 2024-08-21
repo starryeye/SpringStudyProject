@@ -50,7 +50,7 @@ public class MemoJpaConfig {
         return entityManagerFactoryBuilder
                 .dataSource(dataSource)
                 .packages("dev.starryeye.globaltransaction.domain.memo")
-                .persistenceUnit("mysql")
+                .persistenceUnit("memoPersistenceUnit") // PersistenceUnitName
                 .properties(jpaProperties())
                 .jta(true)
                 .build();

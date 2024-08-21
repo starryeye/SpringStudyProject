@@ -3,6 +3,7 @@ package dev.practice.multipledatasources.service.memo;
 import dev.practice.multipledatasources.repository.memo.MemoEntity;
 import dev.practice.multipledatasources.repository.memo.MemoRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,17 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class MemoService {
 
     private final MemoRepository memoRepository;
+
+    @PersistenceContext(unitName = "memoPersistenceUnit") // @Autowired 로 할 경우 Primary entityManager 가 주입되므로 주의!
     private final EntityManager memoEntityManager;
 
     public void createMemo(String title, String content) {
+
+        log.info("transaction active = {}, name = {}",
+                TransactionSynchronizationManager.isActualTransactionActive(),
+                TransactionSynchronizationManager.getCurrentTransactionName()
+        );
+        log.info("entity manager = {}", memoEntityManager);
 
         MemoEntity memo = MemoEntity.create(title, content);
 
@@ -27,7 +36,11 @@ public class MemoService {
 
     public void editContent(Long id, String content) {
 
-        log.info("transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+        log.info("transaction active = {}, name = {}",
+                TransactionSynchronizationManager.isActualTransactionActive(),
+                TransactionSynchronizationManager.getCurrentTransactionName()
+        );
+        log.info("entity manager = {}", memoEntityManager);
 
         MemoEntity memo = memoRepository.findById(id).orElseThrow();
 
@@ -39,7 +52,11 @@ public class MemoService {
     @Transactional(transactionManager = "todoTransactionManager") // wrong transaction manager
     public void editContentWithWrongTransaction(Long id, String content) {
 
-        log.info("transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+        log.info("transaction active = {}, name = {}",
+                TransactionSynchronizationManager.isActualTransactionActive(),
+                TransactionSynchronizationManager.getCurrentTransactionName()
+        );
+        log.info("entity manager = {}", memoEntityManager);
 
         MemoEntity memo = memoRepository.findById(id).orElseThrow();
 
