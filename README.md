@@ -112,6 +112,7 @@ subject
   - Transaction, EntityManager 등 각종 주의사항
 - globaltransaction
   - N 개의 DB 와 연동된 1 개의 application 에서 분산(글로벌) 트랜잭션 처리
+  - Two phase commit
   - JtaTransactionManager, Atomikos
   - with JPA
 - xmlresponse
