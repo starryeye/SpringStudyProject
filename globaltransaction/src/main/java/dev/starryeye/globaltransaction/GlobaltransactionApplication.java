@@ -11,6 +11,9 @@ public class GlobaltransactionApplication {
      * 이종의 여러 자원에 걸친 분산 트랜잭션을 global transaction 으로 처리하기 위한 Java EE 기술로, XA 아키텍처를 기반으로 분산 트랜잭션을 수행한다.
      * (혹은 데이터베이스 샤딩이 적용된 분산 데이터베이스도 포함)
      * Atomikos 와 Bitronix 가 구현체의 대표로 존재한다. (javax(jakarta).transaction-api 를 구현)
+     *
+     * 내부적으로 Two phase commit (2PC) 프로토콜을 통해 분산 트랜잭션을 관리한다.
+     *
      * <p>
      * XA (eXtended Architecture)
      * 분산 트랜잭션 처리를 위한 사양인 eXtended Architecture 를 의미한다.
