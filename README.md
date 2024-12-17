@@ -144,3 +144,6 @@ subject
   - MySQL(identity)
 - valid (todo)
   - Java and Spring Validation
+
+## 기타
+- [spring boot 2.x -> 3.x](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide)
