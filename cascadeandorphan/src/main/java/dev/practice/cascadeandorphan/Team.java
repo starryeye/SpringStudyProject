@@ -41,6 +41,9 @@ public class Team {
     // 편의 메서드
     public void addMembers(List<Member> members) {
 
+        // this.members = members; 로 collection 자체를 바꿔치기 하면,
+        // orphanRemove 관련 예외가 발생한다. (ORM 에서 기존의 collection 을 추적하지 못함)
+        // 따라서 전체를 한꺼번에 바꿔치려면, this.members.clear(), this.members.addAll(members) 로 적용해보자.
         if(Objects.nonNull(members)) {
             members.forEach(
                     member -> {
